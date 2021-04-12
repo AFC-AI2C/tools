@@ -1,9 +1,10 @@
-ARG BASE_REGISTRY=registry1.dso.mil
-ARG BASE_IMAGE=ironbank/opensource/python/python38
-ARG BASE_TAG=latest
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
+# IronBank Repo
+#ARG BASE_REGISTRY=registry1.dso.mil
+#ARG BASE_IMAGE=ironbank/opensource/python/python38
+#ARG BASE_TAG=latest
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
-#FROM python38:latest
+FROM high101bro/python38:latest
 
 # need to be root to install rpm files
 USER root
