@@ -53,6 +53,4 @@ USER default
 
 CMD '/bin/bash'
 
-WORKDIR $HOME
-
 HEALTHCHECK --interval=10s --timeout=1s CMD python.3.8 -c 'print("up")' || exit 1
