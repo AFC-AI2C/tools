@@ -3,7 +3,7 @@
 # ARG BASE_TAG=3.6
 # FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
-FROM dmedina7301/python36:latest
+FROM high101bro/python36-ai:latest
 
 ARG NB_USER="jovyan"
 # NB_UID == 1001 b/c the default user in the ironbank python36 image is uid 1001
