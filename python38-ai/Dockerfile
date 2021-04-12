@@ -49,4 +49,4 @@ CMD '/bin/bash'
 
 WORKDIR $HOME
 
-HEALTHCHECK --interval=10s --timeout=1s CMD python.3.6 -c 'print("up")' || exit 1
+HEALTHCHECK --interval=10s --timeout=1s CMD python.3.8 -c 'print("up")' || exit 1
