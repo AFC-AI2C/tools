@@ -33,4 +33,3 @@ EXPOSE 8888
 
 HEALTHCHECK --interval=10s --timeout=1s CMD python.3.6 -c 'print("up")' || exit 1
 
-
