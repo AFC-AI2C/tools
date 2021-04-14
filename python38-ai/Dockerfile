@@ -49,8 +49,6 @@ RUN python3.8 -m pip install --upgrade pip && \
     #prophet is the newer version of fbprophet
     prophet
 
-USER default
-
 CMD '/bin/bash'
 
 HEALTHCHECK --interval=10s --timeout=1s CMD python.3.8 -c 'print("up")' || exit 1
