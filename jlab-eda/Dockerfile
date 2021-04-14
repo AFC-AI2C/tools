@@ -36,7 +36,7 @@ ENV HOME=/home/$NB_USER
 
 # Copy a script that we will use to correct permissions after running certain commands
 # fix-permissions: https://repo1.dsop.io/dsop/redhat/python/python36/-/blob/development/scripts/usr/bin/fix-permissions
-COPY /scripts/fix-permissions /usr/local/bin/fix-permissions
+COPY scripts/fix-permissions /usr/local/bin/fix-permissions
 RUN chmod a+rx /usr/local/bin/fix-permissions
 
 # Enable prompt color in the skeleton .bashrc before creating the default NB_USER
