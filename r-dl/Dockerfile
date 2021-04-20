@@ -7,37 +7,25 @@ FROM rstudio:latest
 
 USER root
 
-# RUN yum update -y && \ 
-#     yum upgrade -y && \
-#     yum clean all -y
 
+# RUN python3.6 -m pip install --no-index --find-links . \
+#     tensorflow                                         \
+#     cuDNN                                              \
+#     CUDA                                               \
+#     keras
 
-RUN python3.6 -m pip install --no-index --find-links . \
-    tensorflow                                         \
-    cuDNN                                              \
-    CUDA                                               \
-    keras
-
-RUN R -e "install.packages('reticulate')"
+# RUN R -e "install.packages('reticulate')"
        
 
-# These pacakges were removed from the-r-project to mitigate vulnerabilities, but are required for shiny and rmarkdown
-# RUN yum install -y \
-#     tensorflow     \
-#     cuDNN          \
-#     CUDA           \
-#     keras         
-    
-
-RUN mkdir -p /tmp/repo/
-COPY *.tar.gz /tmp/repo/
+#RUN mkdir -p /tmp/repo/
+#COPY *.tar.gz /tmp/repo/
 
 # Creates local R repository from the /tmp/repo directory
-RUN R -e "tools::write_PACKAGES('/tmp/repo/')"
+#RUN R -e "tools::write_PACKAGES('/tmp/repo/')"
 
 # Requested packages
 #RUN R -e "install.packages(c('tidyverse', 'shiny', 'plotly', 'shinydashboard', 'DT', 'rmarkdown', 'flexdashboard'), repos='http://cran.r-project.org', INSTALL_opts='--no-html')"
-RUN R -e "install.packages(c('tensorflow', 'cuDNN', 'CUDA', 'keras'), dependencies=TRUE, repos=NULL, recursive=TRUE, contriburl='file://tmp/repo/')"
+#RUN R -e "install.packages(c('tensorflow', 'cuDNN', 'CUDA', 'keras','reticulate'), dependencies=TRUE, repos=NULL, recursive=TRUE, contriburl='file://tmp/repo/')"
 
 # # curl -O https://download3.rstudio.org/centos7/x86_64/shiny-server-1.5.16.958-x86_64.rpm
 # COPY shiny-server-1.5.16.958-x86_64.rpm .
