@@ -1,4 +1,4 @@
 # Data Science and Machine Learning Tools
-## Coeus Tool Tree for Data Science Images
+## Coeus Tool Tree
 ![Tool Tree](./tooltree.svg)
 <img src="./tooltree.svg">
