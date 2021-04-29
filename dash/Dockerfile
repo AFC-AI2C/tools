@@ -16,7 +16,8 @@ COPY scripts/app.py /opt/app-root/default/app.py
 USER root
 
 RUN python3.8 -m pip install \
-    dash
+    dash                     \
+    gunicorn
 
 # cleanup downloaded packages
 RUN rm -rf /opt/app-root/repo
