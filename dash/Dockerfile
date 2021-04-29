@@ -5,6 +5,8 @@
 
 FROM high101bro/python38-ai:latest
 
+USER root
+
 WORKDIR /opt/app-root
 RUN mkdir /tmp/repo apps scripts default
 
@@ -13,7 +15,6 @@ RUN mkdir /tmp/repo apps scripts default
 
 COPY scripts/app.py /opt/app-root/default/app.py 
 
-USER root
 
 RUN python3.8 -m pip install \
     dash                     \
