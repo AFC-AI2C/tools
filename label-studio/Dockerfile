@@ -1,8 +1,3 @@
-#ARG BASE_REGISTRY=registry1.dso.mil
-#ARG BASE_IMAGE=ironbank/redhat/python/python36
-#ARG BASE_TAG=3.6
-#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
-
 FROM afcai2c/python38-ai:latest
 
 # changing from root to default user 
