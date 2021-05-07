@@ -1,9 +1,3 @@
-# IronBank Image Location
-#ARG BASE_REGISTRY=registry1.dso.mil
-#ARG BASE_IMAGE=ironbank/carnegie-mellon/jlab-eda
-#ARG BASE_TAG=3.6
-#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
-
 # Docker Hub Image Location
 FROM afcai2c/jlab-eda:latest
 
