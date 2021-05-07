@@ -1,8 +1,3 @@
-# ARG BASE_REGISTRY=registry1.dsop.io
-# ARG BASE_IMAGE=ironbank/opensource/python/python38
-# ARG BASE_TAG=3.8
-# FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
-
 FROM high101bro/python38-ai:latest
 
 USER root
