@@ -1,8 +1,3 @@
-# Default registry variables
-# ARG BASE_REGISTRY=registry1.dsop.io
-# ARG BASE_IMAGE=ironbank/redhat/ubi/ubi8
-# ARG BASE_TAG=8.3
-
 FROM afcai2c/ubi8:latest
 
 ARG R_VERSION=4.0.3
