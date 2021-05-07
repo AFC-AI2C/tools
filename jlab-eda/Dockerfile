@@ -1,7 +1,7 @@
 FROM high101bro/python36-ai:latest
 
 ARG NB_USER="jovyan"
-# NB_UID == 1001 b/c the default user in the ironbank python36 image is uid 1001
+# NB_UID == 1001 b/c the default user in the python36 image is uid 1001
 ARG NB_UID="1000"
 ARG NB_GID="0"
 
