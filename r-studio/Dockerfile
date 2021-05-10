@@ -11,10 +11,9 @@ RUN yum update -y &&    \
 
 # R Studio Installation
 
-RUN yum install -y net-tools curl
+RUN yum install -y net-tools curl git
 
 WORKDIR /repo
-#WORKDIR /tmp/repo 
 
 #RUN ln -s /opt/R/4.0.3/lib/R /usr/lib/R
 
@@ -54,7 +53,7 @@ RUN mkdir /home/rstudio-server && \
     chown rstudio-server:rstudio-server /home/rstudio-server
 
 # Cleanup
-#RUN rm -rf /tmp/repo
+RUN rm -rf /repo
 
 ENTRYPOINT [ "rstudio-server","start" ]
 
@@ -64,5 +63,6 @@ EXPOSE 8787
 
 USER 1001
 
+WORKDIR $HOME
 
 
