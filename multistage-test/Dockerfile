@@ -5,7 +5,7 @@ FROM afcai2c/python38-ai:latest as multi-stage
 FROM afcai2c/r-base:latest
 
 # # Copies over the virtual environment containing python3.8 and all the AI/ML python packages
-COPY --from=multi-stage /opt/python/ /opt/python/
+COPY --from=multi-stage /opt/* /opt/
 COPY --from=multi-stage /opt/Python-3.8.9/ /opt/Python-3.8.9/
 
 # USER root
