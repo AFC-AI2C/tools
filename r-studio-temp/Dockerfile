@@ -1,6 +1,5 @@
 FROM afcai2c/r-base:latest
 
-
 USER root
 
 RUN yum upgrade -y        \
@@ -234,7 +233,9 @@ RUN Rscript --no-save ai-ml-packages.R devtools
 
 
 # Cleanup
+USER root
 RUN rm -rf /repo
+USER 1001
 
 ENTRYPOINT [ "rstudio-server","start" ]
 
@@ -242,7 +243,6 @@ HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1
 
 EXPOSE 8787
 
-USER 1001
 
 WORKDIR $HOME
 
