@@ -61,7 +61,7 @@ HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1
 
 EXPOSE 8787
 
-USER 1001
+USER default
 
 WORKDIR $HOME
 
