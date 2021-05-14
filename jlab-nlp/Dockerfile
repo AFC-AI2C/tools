@@ -15,9 +15,8 @@ RUN python3.6 -m pip install  \
     wheel                     \
     flair 
 
-
-
-USER jovyan
+#USER jovyan
+USER default
 
 WORKDIR $HOME
 

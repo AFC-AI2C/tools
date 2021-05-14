@@ -2,8 +2,8 @@ FROM afcai2c/jlab-dl:latest
 
 USER root
 
-RUN yum update -y -q && \
-    yum install -y -q   \
+RUN yum update -y -q    && \
+    yum install -y -q      \
     mesa-libGL
 
 RUN python3.6 -m pip install \
@@ -13,7 +13,8 @@ RUN python3.6 -m pip install \
     pytorchcv                \
     scikit-image
 
-USER jovyan
+#USER jovyan
+USER default
 
 WORKDIR $HOME
 

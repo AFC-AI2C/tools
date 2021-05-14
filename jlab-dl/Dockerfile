@@ -18,7 +18,8 @@ RUN python3.6 -m pip install --upgrade \
         cudnnenv \
         gluon
 
-USER jovyan
+#USER jovyan
+USER default
 
 ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-notebook.sh"]

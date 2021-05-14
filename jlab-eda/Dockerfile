@@ -88,7 +88,8 @@ RUN rm -rf \
 	/opt/app-root/lib/python3.6/site-packages/tornado/test/test.key
 
 # Switch back to jovyan to avoid accidental container runs as root
-USER $NB_UID
+#USER $NB_UID
+USER default
 
 HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1
 

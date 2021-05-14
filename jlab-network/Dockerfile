@@ -16,7 +16,8 @@ RUN python3.6 -m pip install \
     texttable                                          \
     pygraphviz 
 
-USER jovyan
+#USER jovyan
+USER default
 
 WORKDIR $HOME
 
