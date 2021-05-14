@@ -92,11 +92,6 @@ RUN mkdir /home/rstudio-server && \
 
 
 
-
-
-
-
-
 USER default
 
 # R Script to install pacakges and provides a stop error if in installation fails
@@ -150,9 +145,6 @@ RUN Rscript --no-save ai-ml-packages.R readr
 RUN Rscript --no-save ai-ml-packages.R readxl
 RUN Rscript --no-save ai-ml-packages.R tidyverse
 RUN Rscript --no-save ai-ml-packages.R timetk
-
-# Copy in rpms
-COPY *.rpm .
 
 
 # Used npm to install xpm - not an R package
@@ -224,14 +216,6 @@ RUN Rscript --no-save ai-ml-packages.R devtools
 
 
 
-
-
-
-
-
-
-
-
 # Cleanup
 USER root
 RUN rm -rf /repo
@@ -245,5 +229,3 @@ EXPOSE 8787
 
 
 WORKDIR $HOME
-
-
