@@ -235,7 +235,7 @@ RUN Rscript --no-save ai-ml-packages.R devtools
 # Cleanup
 USER root
 RUN rm -rf /repo
-USER 1001
+USER default
 
 ENTRYPOINT [ "rstudio-server","start" ]
 
