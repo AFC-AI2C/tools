@@ -1,21 +1,22 @@
-FROM afcai2c/r-base:latest
+FROM afcai2c/python-r-ai:latest
 
 USER root
 
-RUN yum update -y &&    \
-    yum upgrade -y &&   \
-    yum clean all -y && \
-    yum install -y      \
+RUN yum update -y      && \
+    yum upgrade -y     && \
+    yum clean all -y   && \
+    yum install -y        \
         # Needed to start rstudio-server
         initscripts
 
 # R Studio Installation
+# https://rstudio.com/products/rstudio/download-server/redhat-centos/
 
-RUN yum install -y net-tools curl git
-
-WORKDIR /repo
+WORKDIR /tmp/repo 
 
 #RUN ln -s /opt/R/4.0.3/lib/R /usr/lib/R
+
+RUN yum install -y net-tools curl git
 
 # Download R Studio rpm
 RUN curl -LO https://download2.rstudio.org/server/centos8/x86_64/rstudio-server-rhel-1.4.1106-x86_64.rpm
@@ -35,8 +36,8 @@ RUN yum localinstall -y rstudio-server-rhel-1.4.1106-x86_64.rpm --nogpgcheck
 RUN rstudio-server verify-installation >> /tmp/rstudio-server.log
 
 # Fixes permissions issue with sqlite3
-RUN chown -R root:root /var/lib/rstudio-server
-RUN chmod -R g=u /var/lib/rstudio-server
+RUN chown -R root:root /var/lib/rstudio-server && \
+    chmod -R g=u /var/lib/rstudio-server
 
 # Fixes issues with child images touching non-existing item 
 RUN mkdir -p /var/lock/subsys/rstudio-server
@@ -53,11 +54,7 @@ RUN mkdir /home/rstudio-server && \
     chown rstudio-server:rstudio-server /home/rstudio-server
 
 # Cleanup
-RUN rm -rf /repo
-
-ENTRYPOINT [ "rstudio-server","start" ]
-
-HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1
+RUN rm -rf /tmp/repo
 
 EXPOSE 8787
 
@@ -65,4 +62,7 @@ USER default
 
 WORKDIR $HOME
 
+ENTRYPOINT [ "rstudio-server","start" ]
+
+HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1
 
