@@ -1,77 +1,109 @@
-FROM afcai2c/python38-ai:latest as multi-stage
+FROM afcai2c/python38-ai as builder
+FROM afcai2c/r-base
 
-# Going to copy over staged python packages into the next image
-
-FROM afcai2c/r-base:latest
-
-# # Copies over the virtual environment containing python3.8 and all the AI/ML python packages
-COPY --from=multi-stage /opt/python /opt/python
-COPY --from=multi-stage /opt/Python-3.8.8 /opt/Python-3.8.8
+COPY --from=builder /opt/python /opt/python
+COPY --from=builder /usr/local/bin /usr/local/bin
+COPY --from=builder /usr/local/lib /usr/local/lib
 
 USER root
-
-# Fix that allows you to use python3.8
-RUN ln -sf /opt/Python-3.8.10/python /opt/python/venv/bin/python3.8 
 
 # Makes the python packages accessable
 ENV PATH="/opt/python/venv/bin:$PATH"
 
-
-RUN yum upgrade -y       \ 
-    && yum install -y    \
-        vim              \
-        zip              \
-        unzip            \
-        wget             \
-        curl             \
-        net-tools        \
-        gcc-c++          \
-        git              \
-        # The following packages were removed from the parent image to mitigate vulnerabiliites, but are needed here to install R packages and will be remove again later
-        binutils         \
-        glibc-devel      \
-        glibc-headers    \
-        libcurl-devel    \
-        libX11 	         \
-        libX11-common 	 \
-        kernel-headers   \
+#yum install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+RUN yum update -y       && \
+    yum install -y         \
+        vim                \
+        zip                \
+        unzip              \
+        curl               \
+        net-tools          \
+        git                \
         # Needed to install various R packages
-        openssl-devel    \
-        libxml2-devel  
+        gcc-c++            \
+        binutils           \
+        glibc-devel        \
+        glibc-headers      \
+        libcurl-devel      \
+        libX11-common  	   \
+        kernel-headers     \
+        openssl-devel      \
+        libxml2-devel
 
+RUN curl -LO http://13.89.34.249/R_AIML_Deps.tar.gz 
+# COPY *.tar.gz /tmp/repo/
+# COPY *.rpm .
 
-USER default
+# R package dependencies within standard repos
+# libsodium is required for the following packages
+RUN yum localinstall --nogpgcheck -y              \
+        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/l/libsodium-1.0.18-2.el8.x86_64.rpm         \
+        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/l/libsodium-devel-1.0.18-2.el8.x86_64.rpm            
 
+# These rpms are required for the following packages
+# The R_AIML_Deps.tar.gz contains multiple dependency rpms
+    # dnf -y install --downloadonly --downloaddir=./ cairo cairo-devel fontconfig freetype freetype-devel harfbuzz-devel http-parser libgit2 libgit2-devel libXext-devel libXrender-devel pixman-devel protobuf-devel udunits2 gdal-libs gpsbabel ImageMagick-c++ ImageMagick-devel udunits2 cfitsio freexl gdal hdf5 netcdf ogdi proj xerces-c
+RUN mkdir -p /tmp/repo/R_AIML_Deps                                     
+RUN tar xvf R_AIML_Deps.tar.gz -C /tmp/repo/R_AIML_Deps   
+RUN yum localinstall --nogpgcheck -y /tmp/repo/R_AIML_Deps/repo/*.rpm
+
+# R package dependencies within standard repos
+RUN yum localinstall --nogpgcheck -y                       \
+        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/g/gdal-libs-3.0.4-8.el8.x86_64.rpm                   \
+        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/g/gdal-3.0.4-8.el8.x86_64.rpm                        \
+        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/i/ImageMagick-c++-devel-6.9.10.86-1.el8.x86_64.rpm   \
+        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/u/udunits2-devel-2.2.26-5.el8.x86_64.rpm
+
+RUN yum install -y                    \
+        fontconfig-devel              \
+        libpng                        \
+        libpng-devel                  \
+        libxslt-devel                 \
+        java-1.8.0-openjdk            \
+        java-1.8.0-openjdk-devel   && \
+    yum clean packages
+
+# Creates local R repository from the /tmp/repo directory
+#RUN R -e "tools::write_PACKAGES('/tmp/repo/')"
+
+# install pandoc
+RUN curl -LO http://13.89.34.249/pandoc-2.13-linux-amd64.tar.gz
+RUN tar xvzf pandoc-2.13-linux-amd64.tar.gz --strip-components 1 -C /usr/local
+
+# needed by RJDBC package
+RUN R CMD javareconf
+
+USER 1001
 
 # R Script to install pacakges and provides a stop error if in installation fails
 COPY scripts/ai-ml-packages.R .
 
-
-# Note:
-#install.packages(c('broom','C50','cli','DT','ECharts2Shiny','feather','flexdashboard','forcats','foreign','gt','highcharter','htmlwidgets','httr','kernlab','kknn','knitr','lattice','lubridate','magrittr','Matrix','mlbench','nlme','nnet','openxlsx','packrat','parsnip','plotly','plotROC','randomForest','RCurl','rmarkdown','roxygen2','rvest','scales','shiny','shinydashboard','shinyWidgets','sparklyr','stringr','testthat','tidymodels','tidytext','xgboost','readr','readxl','tidyverse','timetk','devtools','ggiraph','flextable','kableExtra','leaflet','plumber','reticulate','rgdal','RJDBC','xpm'), dependencies=TRUE, repos = 'https://packagemanager.rstudio.com/all/latest')
-#'SQUAREM', 'caTools', 'triebeard', 'lava', 'inline', 'loo', 'gmp', 'polynom', 'sets', 'mathjaxr', 'rbibutils', 'gplots', 'rngWELL', 'misc3d', 'tmvnsim', 'miscTools', 'pcaPP', 'gdata', 'geometries', 'jsonify', 'rapidjsonr', 'sfheaders', 'urltools', 'httpcode', 'protolite', 'sys', 'miniUI', 'R.utils', 'showimage', 'fontBitstreamVera', 'fontLiberation', 'credentials', 'prodlim', 'lhs', 'snakecase', 'reactR', 'extraDistr', 'rstan', 'rstantools', 'fansi', 'pkgconfig', 'Formula', 'numDeriv', 'bdsmatrix', 'mvtnorm', 'flexmix', 'modeltools', 'partitions', 'Rdpack', 'xergm.common', 'sna', 'ROCR', 'RSiena', 'statnet.common', 'carData', 'abind', 'pbkrtest', 'rio', 'ModelMetrics', 'pROC', 'rex', 'gtools', 'plotrix', 'proxy', 'estimability', 'BiasedUrn', 'pander', 'trust', 'lpSolve', 'rle', 'dreamerr', 'gtable', 'isoband', 'shape', 'gridExtra', 'htmlTable', 'cobs', 'doParallel', 'randtoolbox', 'RcppArmadillo', 'FNN', 'multicool', 'plot3D', 'mnormt', 'pbivnorm', 'minqa', 'nloptr', 'statmod', 'RcppEigen', 'prediction', 'dfidx', 'TH.data', 'ucminf', 'maxLik', 'scatterplot3d', 'SparseM', 'MatrixModels', 'conquer', 'msm', 'fit.models', 'rrcov', 'DEoptimR', 'furrr', 'spData', 'deldir', 'LearnBayes', 'gmodels', 'mitools', 'quadprog', 'strucchange', 'urca', 'libcoin', 'inum', 'jquerylib', 'prismatic', 'rematch2', 'TTR', 'colorspace', 'geojsonsf', 'crul', 'V8', 'geojson', 'jqr', 'askpass', 'manipulateWidget', 'filehash', 'sysfonts', 'showtextdb', 'systemfonts', 'textshaping', 'R.cache', 'tensorflow', 'tfruns', 'zeallot', 'plotmo', 'TeachingDemos', 'reshape', 'debugme', 'parsedate', 'rematch', 'webdriver', 'fontquiver', 'freetypeharfbuzz', 'classInt', 'units', 'repr', 'bit', 'listenv', 'parallelly', 'fresh', 'waiter', 'gert', 'whisker', 'DiceDesign', 'gower', 'ipred', 'GPfit', 'hardhat', 'SnowballC', 'slam', 'fastmatch', 'RcppParallel', 'lda', 'matrixStats', 'ISOcodes', 'downloader', 'influenceR', 'cyclocomp', 'xmlparsedata', 'gargle', 'ids', 'utf8', 'warp', 'PerformanceAnalytics', 'Quandl', 'riingo', 'alphavantager', 'janitor', 'StanHeaders', 'reactable', 'progressr', 'prophet', 'xopen', 'clisymbols', 'gitcreds', 'ini', 'downlit', 'whoami', 'xslt', 'locatexec', 'plogr', 'leafem', 'leafpop', 'satellite', 'backports', 'dplyr', 'ellipsis', 'generics', 'glue', 'purrr', 'rlang', 'tibble', 'tidyr', 'AER', 'akima', 'AUC', 'bbmle', 'betareg', 'biglm', 'binGroup', 'btergm', 'car', 'caret', 'cmprsk', 'coda', 'covr', 'drc', 'e1071', 'emmeans', 'epiR', 'ergm', 'fixest', 'gam', 'gee', 'geepack', 'ggplot2', 'glmnet', 'glmnetUtils', 'gmm', 'Hmisc', 'irlba', 'joineRML', 'Kendall', 'ks', 'Lahman', 'lavaan', 'leaps', 'lfe', 'lm.beta', 'lme4', 'lmodel2', 'lmtest', 'lsmeans', 'maps', 'maptools', 'margins', 'mclust', 'mediation', 'metafor', 'mfx', 'mlogit', 'modeldata', 'modeltests', 'muhaz', 'multcomp', 'network', 'orcutt', 'ordinal', 'plm', 'poLCA', 'psych', 'quantreg', 'Rchoice', 'rgeos', 'robust', 'robustbase', 'rsample', 'sandwich', 'sp', 'spdep', 'spatialreg', 'speedglm', 'spelling', 'survey', 'systemfit', 'tseries', 'vars', 'zoo', 'partykit', 'Cubist', 'callr', 'mockery', 'ps', 'rstudioapi', 'prettycode', 'withr', 'htmltools', 'jsonlite', 'crosstalk', 'promises', 'bslib', 'testit', 'Rcpp', 'hms', 'checkmate', 'commonmark', 'fs', 'sass', 'tidyselect', 'paletteer', 'RColorBrewer', 'webshot', 'xml2', 'rlist', 'assertthat', 'xts', 'quantmod', 'igraph', 'yaml', 'rjson', 'viridisLite', 'gapminder', 'forecast', 'geojsonio', 'curl', 'mime', 'openssl', 'R6', 'httpuv', 'jpeg', 'png', 'evaluate', 'highr', 'markdown', 'xfun', 'formatR', 'digest', 'rgl', 'tikzDevice', 'tinytex', 'JuliaCall', 'magick', 'gifski', 'DBI', 'showtext', 'ragg', 'styler', 'latticeExtra', 'vctrs', 'expm', 'zip', 'stringi', 'globals', 'prettyunits', 'keras', 'earth', 'ranger', 'base64enc', 'lazyeval', 'data.table', 'hexbin', 'ggthemes', 'GGally', 'shinytest', 'vdiffr', 'Cairo', 'listviewer', 'dendextend', 'sf', 'IRdisplay', 'processx', 'plotlyGeoAssets', 'palmerpenguins', 'gridSVG', 'plyr', 'survivalROC', 'bitops', 'XML', 'tufte', 'dygraphs', 'rsconnect', 'brew', 'desc', 'pkgload', 'R.methodsS3', 'R.oo', 'lifecycle', 'selectr', 'repurrrsive', 'webfakes', 'farver', 'lab__eling', 'munsell', 'bit64', 'dichromat', 'xtable', 'sourcetools', 'later', 'crayon', 'fastmap', 'cachem', 'reactlog', 'future', 'shinydashboardPlus', 'bs4Dash', 'argonR', 'argonDash', 'tablerDash', 'blob', 'config', 'dbplyr', 'forge', 'r2d3', 'rappdirs', 'rprojroot', 'uuid', 'arrow', 'diffobj', 'foreach', 'iterators', 'janeaustenr', 'nycflights13', 'reshape2', 'brio', 'praise', 'waldo', 'diffviewer', 'usethis', 'conflicted', 'dials', 'infer', 'recipes', 'tune', 'workflows', 'workflowsets', 'yardstick', 'hunspell', 'tokenizers', 'tm', 'quanteda', 'wordcloud', 'topicmodels', 'NLP', 'mallet', 'stm', 'textdata', 'stopwords', 'DiagrammeR', 'Ckmeans.1d.dp', 'vcd', 'lintr', 'float', 'titanic', 'clipr', 'BH', 'cpp11', 'cellranger', 'progress', 'dtplyr', 'googledrive', 'googlesheets4', 'haven', 'modelr', 'pillar', 'reprex', 'padr', 'slider', 'anytime', 'timeDate', 'tidyquant', 'modeltime', 'robets', 'fracdiff', 'timeSeries', 'memoise', 'pkgbuild', 'rcmdcheck', 'remotes', 'rversions', 'sessioninfo', 'BiocManager', 'foghorn', 'gh', 'gmailr', 'pingr', 'pkgdown', 'rhub', 'gdtools', 'officer', 'bookdown', 'equatags', 'svglite', 'formattable', 'sparkline', 'raster', 'viridis', 'leaflet.providers', 'RJSONIO', 'webutils', 'sodium', 'swagger', 'visNetwork', 'RSQLite', 'mapview', 'rJava'
-    # 552 packages
-
-
-# R Packages can have a slow build time because they compile during installation - so build time is included for my sanity and expectation management
-# The ai-ml-packages.R script produces an error and stops the build if the R packages doesn't install
+# R Packages can have a slow build time because they compile during installation
+    # If you don't run R as root, you won't have permission to write packages into the default system-wide location and you will be prompted to create a personal library accessible by your userid. You can accept the personal library path chosen by R, or specify the library location by passing parameters to the install.packages function. For example, to create an R package repository in your home directory: R> install.packages("arules", lib="/home/username/Rpackages")
+    # The ai-ml-packages.R script's purpose is to produce an error and stops the build if the R packages doesn't install
+    # install.packages(c('broom','C50','cli','DT','ECharts2Shiny','feather','flexdashboard','forcats','foreign','gt','highcharter','htmlwidgets','httr','kernlab','kknn','knitr','lattice','lubridate','magrittr','Matrix','mlbench','nlme','nnet','openxlsx','packrat','parsnip','plotly','plotROC','randomForest','RCurl','rmarkdown','roxygen2','rvest','scales','shiny','shinydashboard','shinyWidgets','sparklyr','stringr','testthat','tidymodels','tidytext','xgboost','readr','readxl','tidyverse','timetk','devtools','ggiraph','flextable','kableExtra','leaflet','plumber','reticulate','rgdal','RJDBC','xpm'), dependencies=TRUE, repos='https://packagemanager.rstudio.com/all/latest')
 RUN Rscript --no-save ai-ml-packages.R broom
 RUN Rscript --no-save ai-ml-packages.R C50
 RUN Rscript --no-save ai-ml-packages.R cli
+RUN Rscript --no-save ai-ml-packages.R devtools
 RUN Rscript --no-save ai-ml-packages.R DT
 RUN Rscript --no-save ai-ml-packages.R ECharts2Shiny
 RUN Rscript --no-save ai-ml-packages.R feather
 RUN Rscript --no-save ai-ml-packages.R flexdashboard
+RUN Rscript --no-save ai-ml-packages.R flextable
 RUN Rscript --no-save ai-ml-packages.R forcats
 RUN Rscript --no-save ai-ml-packages.R foreign
+RUN Rscript --no-save ai-ml-packages.R ggiraph
 RUN Rscript --no-save ai-ml-packages.R gt
 RUN Rscript --no-save ai-ml-packages.R highcharter
 RUN Rscript --no-save ai-ml-packages.R htmlwidgets
 RUN Rscript --no-save ai-ml-packages.R httr
+RUN Rscript --no-save ai-ml-packages.R kableExtra  
 RUN Rscript --no-save ai-ml-packages.R kernlab
 RUN Rscript --no-save ai-ml-packages.R kknn
 RUN Rscript --no-save ai-ml-packages.R knitr
 RUN Rscript --no-save ai-ml-packages.R lattice
+RUN Rscript --no-save ai-ml-packages.R leaflet
 RUN Rscript --no-save ai-ml-packages.R lubridate
 RUN Rscript --no-save ai-ml-packages.R magrittr
 RUN Rscript --no-save ai-ml-packages.R Matrix
@@ -83,8 +115,13 @@ RUN Rscript --no-save ai-ml-packages.R packrat
 RUN Rscript --no-save ai-ml-packages.R parsnip
 RUN Rscript --no-save ai-ml-packages.R plotly
 RUN Rscript --no-save ai-ml-packages.R plotROC
+RUN Rscript --no-save ai-ml-packages.R plumber
 RUN Rscript --no-save ai-ml-packages.R randomForest
 RUN Rscript --no-save ai-ml-packages.R RCurl
+RUN Rscript --no-save ai-ml-packages.R readr
+RUN Rscript --no-save ai-ml-packages.R readxl
+RUN Rscript --no-save ai-ml-packages.R reticulate 
+RUN Rscript --no-save ai-ml-packages.R RJDBC  
 RUN Rscript --no-save ai-ml-packages.R rmarkdown
 RUN Rscript --no-save ai-ml-packages.R roxygen2
 RUN Rscript --no-save ai-ml-packages.R rvest
@@ -95,135 +132,91 @@ RUN Rscript --no-save ai-ml-packages.R shinyWidgets
 RUN Rscript --no-save ai-ml-packages.R sparklyr
 RUN Rscript --no-save ai-ml-packages.R stringr
 RUN Rscript --no-save ai-ml-packages.R testthat
+RUN Rscript --no-save ai-ml-packages.R themis
 RUN Rscript --no-save ai-ml-packages.R tidymodels
 RUN Rscript --no-save ai-ml-packages.R tidytext
-RUN Rscript --no-save ai-ml-packages.R xgboost
-RUN Rscript --no-save ai-ml-packages.R readr
-RUN Rscript --no-save ai-ml-packages.R readxl
 RUN Rscript --no-save ai-ml-packages.R tidyverse
 RUN Rscript --no-save ai-ml-packages.R timetk
+RUN Rscript --no-save ai-ml-packages.R xgboost
 
 
-# Copy in rpms
-COPY *.rpm .
+#COPY scripts/web_install.R .
+#RUN Rscript --no-save web_install.R rgdal
 
+# RUN  yum install -y --skip-broken \
+#         npm
+# USER 1001
+# # Used npm to install xpm - not an R package
+# RUN npm install --global xpm@latest
 
-# Used npm to install xpm - not an R package
+#########################
+# Compliance Mitigation #
+#########################
 USER root
-RUN yum install -y npm                 && \
-    npm install --global xpm@latest
 
+# NOTE: perl's upgrade is broken, so using --nobest
+# https://bugzilla.redhat.com/show_bug.cgi?id=1963049
 
-# reticulate R package
-USER root
-RUN yum install -y      \
-        libpng-devel    \
-        libpng
-USER default
-RUN Rscript --no-save ai-ml-packages.R reticulate 
+# Upgrading vulnerable binaries
+RUN yum upgrade -y --skip-broken --allowerasing --nobest   \
+        glibc            \
+        glibc-common     \
+        libdb            \
+        libkadm5         \
+        perl-libs        \
+        perl-IO
 
+# Removing un-needed vulnerable binaries
+RUN rpm -e --nodeps      \
+        avahi-libs       \
+        binutils         \
+        cups-libs        \
+        glibc-devel      \
+        glibc-headers    \
+        jasper-libs      \
+        kernel-headers   \
+        krb5-devel       \
+        libcurl-devel    \
+        libX11-common    \
+        libxml2-devel    \
+        perl-macros      \
+        openssl-devel    \
+        libtiff-devel    \
+        jasper-devel     \
+        glib2-devel      \
+        libwebp-devel    \
+        libX11-xcb       \
+        libX11-devel     \
+        pcre-cpp         \
+        pcre-devel       \
+        libwebp-devel
 
-# plumber R package
-USER root
-RUN curl -LO https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/l/libsodium-devel-1.0.18-2.el8.x86_64.rpm   && \
-    curl -LO https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/l/libsodium-1.0.18-2.el8.x86_64.rpm
-RUN yum localinstall --nogpgcheck --skip-broken -y   \
-        libsodium-devel-1.0.18-2.el8.x86_64.rpm      \
-        libsodium-1.0.18-2.el8.x86_64.rpm
-USER default
-RUN Rscript --no-save ai-ml-packages.R plumber
+# Removing secrets as identified in anchor scan 
+RUN rm -f /usr/share/doc/perl-IO-Socket-SSL/certs/client-key.enc        \
+          /usr/share/doc/perl-IO-Socket-SSL/certs/client-key.pem        \
+          /usr/share/doc/perl-IO-Socket-SSL/certs/proxyca.pem           \
+          /usr/share/doc/perl-IO-Socket-SSL/certs/server2-key.pem       \
+          /usr/share/doc/perl-IO-Socket-SSL/certs/server-ecc-key.pem    \
+          /usr/share/doc/perl-IO-Socket-SSL/certs/server-key.enc        \
+          /usr/share/doc/perl-IO-Socket-SSL/certs/server-key.pem        \
+          /usr/share/doc/perl-IO-Socket-SSL/certs/server-wildcard.pem   \
+          /usr/share/doc/perl-IO-Socket-SSL/certs/sub-server.pem        \
+          /usr/share/doc/perl-IO-Socket-SSL/example/simulate_proxy.pl   \
+          /usr/share/doc/perl-Net-SSLeay/examples/server_key.pem
 
+# Removing identified SUID files
+RUN chmod g-s /usr/libexec/openssh/ssh-keysign
 
-# kableExtra R package
-USER root
-RUN curl -LO https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/i/ImageMagick-c++-devel-6.9.10.86-1.el8.x86_64.rpm   && \
-    yum localinstall --nogpgcheck --skip-broken -y            \
-        ImageMagick-c++-devel-6.9.10.86-1.el8.x86_64.rpm   && \
-    yum install -y                                            \
-        fontconfig-devel
-USER default
-RUN Rscript --no-save ai-ml-packages.R kableExtra  
-
-
-# RJDBC R package
-USER root
-RUN yum install -y                     \
-        java-1.8.0-openjdk             \
-        java-1.8.0-openjdk-devel    && \
-    R CMD javareconf
-USER default
-RUN Rscript --no-save ai-ml-packages.R RJDBC  
-
-
-# leaflet package
-RUN Rscript --no-save ai-ml-packages.R leaflet
-
-
-# install pandoc
-USER root
-RUN curl -LO https://fossies.org/linux/www/pandoc-2.13-linux-amd64.tar.gz   && \
-    tar xvzf pandoc-2.13-linux-amd64.tar.gz --strip-components 1 -C /usr/local
-
-
-# devtools R package
-USER root
-RUN curl -LO http://mirror.centos.org/centos/8/PowerTools/x86_64/os/Packages/libgit2-devel-0.26.8-2.el8.i686.rpm    && \
-    curl -LO http://mirror.centos.org/centos/8/AppStream/x86_64/os/Packages/harfbuzz-devel-1.7.5-3.el8.x86_64.rpm   && \
-    yum localinstall --nogpgcheck --skip-broken -y   \
-        libgit2-devel-0.26.8-2.el8.i686.rpm          \
-        harfbuzz-devel-1.7.5-3.el8.x86_64.rpm
-USER default
-RUN Rscript --no-save ai-ml-packages.R devtools
-
-# COPY install_r_packages.R .
-
-# # ggiraph R package #################### still trouble shooting ####################
-    # dependencies: 
-# USER root
-# RUN curl -LO https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/u/udunits2-devel-2.2.26-5.el8.x86_64.rpm   && \
-#     curl -LO http://mirror.centos.org/centos/8/AppStream/x86_64/os/Packages/cairo-devel-1.15.12-3.el8.i686.rpm                        && \
-#     curl -LO http://repo.okay.com.mx/centos/8/x86_64/release/cairo-1.15.12-3.el8.x86_64.rpm                                           && \
-#     curl -LO http://mirror.centos.org/centos/7/os/x86_64/Packages/libXrender-devel-0.9.10-1.el7.x86_64.rpm                            && \
-#     curl -LO http://mirror.centos.org/centos/7/os/x86_64/Packages/pixman-devel-0.34.0-1.el7.x86_64.rpm                                && \
-#     curl -LO http://mirror.centos.org/centos/7/os/x86_64/Packages/libXext-devel-1.3.3-3.el7.x86_64.rpm
-# RUN yum localinstall --nogpgcheck --skip-broken -y   \
-#         udunits2-devel-2.2.26-5.el8.x86_64.rpm       \
-#         cairo-devel-1.15.12-3.el8.i686.rpm           \
-#         cairo-1.15.12-3.el8.x86_64.rpm               \
-#         libXrender-devel-0.9.10-1.el7.x86_64.rpm     \
-#         pixman-devel-0.34.0-1.el7.x86_64.rpm         \
-#         libXext-devel-1.3.3-3.el7.x86_64.rpm      && \
-#     export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib64/pkgconfig/freetype2.pc
-# USER default
-# RUN Rscript --no-save install_r_packages.R ggiraph
-
-
-# # flextable R package #################### still trouble shooting ####################
-    # dependencies: 
-# USER root
-# RUN yum install -y libxslt-devel
-# USER default
-# RUN Rscript --no-save install_r_packages.R flextable
-
-
-# rgdal R package #################### still trouble shooting ####################
-    # dependencies: 
-# USER root
-# RUN curl -LO https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/g/gdal-3.0.4-5.el8.x86_64.rpm  && \
-#     yum localinstall --skip-broken -y gdal-3.0.4-5.el8.x86_64.rpm
-# USER default
-# RUN Rscript --no-save install_r_packages.R rgdal
-
+# Removing vuln npm
+RUN rm -rf /opt/R/4.0.3/lib/R/library/webshot/casperjs
 
 ########################
 # Cleanup and Finalize #
 ########################
 
-USER root
-
 RUN rm -rf /tmp/repo/
 
-USER default
+USER 1001
 
 WORKDIR $HOME
 
@@ -233,80 +226,89 @@ HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1
 #################
 # Test Commands #
 #################
-# import sqlite3
-# import plotly
-# import pandas
-# import matplot
-# import seaborn
-# import numba
-# import numpy
-# import scipy
-# import sklearn
-# import tqdm
-# import urllib3
-# import requests
-# from bs4 import BeautifulSoup
-# from wordcloud import WordCloud
-# import statsmodels
-# import prophet
-# import django
-# import flask
-# R -e 'ls()'
-# R -e 'round(3.14159,2)'
-# library('broom')
-# library('C50')
-# library('cli')
-# library('DT')
-# library('ECharts2Shiny')
-# library('feather')
-# library('flexdashboard')
-# library('forcats')
-# library('foreign')
-# library('gt')
-# library('highcharter')
-# library('htmlwidgets')
-# library('httr')
-# library('kernlab')
-# library('kknn')
-# library('knitr')
-# library('lattice')
-# library('lubridate')
-# library('magrittr')
-# library('Matrix')
-# library('mlbench')
-# library('nlme')
-# library('nnet')
-# library('openxlsx')
-# library('packrat')
-# library('parsnip')
-# library('plotly')
-# library('plotROC')
-# library('randomForest')
-# library('RCurl')
-# library('rmarkdown')
-# library('roxygen2')
-# library('rvest')
-# library('scales')
-# library('shiny')
-# library('shinydashboard')
-# library('shinyWidgets')
-# library('sparklyr')
-# library('stringr')
-# library('testthat')
-# library('tidymodels')
-# library('tidytext')
-# library('xgboost')
-# library('readr')
-# library('readxl')
-# library('tidyverse')
-# library('timetk')
-# library('devtools')
-# library('ggiraph')
-# library('flextable')
-# library('kableExtra')
-# library('leaflet')
-# library('plumber')
-# library('reticulate')
-# library('rgdal')
-# library('RJDBC')
-# library('xpm')
+# vim --version
+# zip --help
+# unzip --help
+# curl www.google.com
+# netstat
+# git clone https://www.github.com/high101bro/Docker.git
+# pandoc --version
+# xpm --version
+
+# python3.8 -c 'import sqlite3'
+# python3.8 -c 'import plotly'
+# python3.8 -c 'import pandas'
+# python3.8 -c 'import matplot'
+# python3.8 -c 'import seaborn'
+# python3.8 -c 'import numba'
+# python3.8 -c 'import numpy'
+# python3.8 -c 'import scipy'
+# python3.8 -c 'import sklearn'
+# python3.8 -c 'import tqdm'
+# python3.8 -c 'import urllib3'
+# python3.8 -c 'import requests'
+# python3.8 -c 'from bs4 import BeautifulSoup'
+# python3.8 -c 'from wordcloud import WordCloud'
+# python3.8 -c 'import statsmodels'
+# python3.8 -c 'import prophet'
+# python3.8 -c 'import django'
+# python3.8 -c 'import flask'
+
+# R -e "plot(c(1,2,3),c(1,2,3))"
+# R -e "library('broom')"
+# R -e "library('C50')"
+# R -e "library('cli')"
+# R -e "library('DT')"
+# R -e "library('ECharts2Shiny')"
+# R -e "library('feather')"
+# R -e "library('flexdashboard')"
+# R -e "library('forcats')"
+# R -e "library('foreign')"
+# R -e "library('gt')"
+# R -e "library('htmlwidgets')"
+# R -e "library('kernlab')"
+# R -e "library('kknn')"
+# R -e "library('knitr')"
+# R -e "library('lattice')"
+# R -e "library('lubridate')"
+# R -e "library('magrittr')"
+# R -e "library('Matrix')"
+# R -e "library('mlbench')"
+# R -e "library('nlme')"
+# R -e "library('nnet')"
+# R -e "library('openxlsx')"
+# R -e "library('packrat')"
+# R -e "library('parsnip')"
+# R -e "library('randomForest')"
+# R -e "library('RCurl')"
+# R -e "library('readr')"
+# R -e "library('readxl')"
+# R -e "library('rmarkdown')"
+# R -e "library('scales')"
+# R -e "library('shiny')"
+# R -e "library('shinydashboard')"
+# R -e "library('shinyWidgets')"
+# R -e "library('stringr')"
+# R -e "library('testthat')"
+# R -e "library('tidymodels')"
+# R -e "library('tidytext')"
+# R -e "library('tinytex')"
+# R -e "library('xgboost')"
+# R -e "library('devtools')"
+# R -e "library('highcharter')"
+# R -e "library('httr')"
+# R -e "library('kableExtra')"
+# R -e "library('leaflet')"
+# R -e "library('plotly')"
+# R -e "library('plotROC')"
+# R -e "library('plumber')"
+# R -e "library('reticulate')"
+# R -e "library('RJDBC')"
+# R -e "library('roxygen2')"
+# R -e "library('rvest')"
+# R -e "library('sparklyr')"
+# R -e "library('tidyverse')"
+# R -e "library('timetk')"
+# R -e "library('flextable')"
+# R -e "library('ggiraph')"
+# R -e "library('rgdal')"

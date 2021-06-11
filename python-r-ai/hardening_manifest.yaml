@@ -1,0 +1,2900 @@
+apiVersion: v1
+
+args:
+  BASE_IMAGE: opensource/r/r-base
+  BASE_TAG: '4.0.3'
+
+labels:
+  mil.dso.ironbank.image.keywords: 'R, project, reticulate, language, datascience, ai, ml'
+  mil.dso.ironbank.image.type: 'opensource'
+  mil.dso.ironbank.product.name: 'R'
+  org.opencontainers.image.description: 'A container providing the R programming language and many R/python AI/ML related packages'
+  org.opencontainers.image.licenses: ' '
+  org.opencontainers.image.title: 'R AI/ML'
+  org.opencontainers.image.url: 'https://repo1.dso.mil/dsop/opensource/r-project/the-r-project'
+  org.opencontainers.image.vendor: 'R-Project'
+  org.opencontainers.image.version: '0.1'
+
+name: aiml/python/python-r-ai
+
+tags:
+- 4.0.3
+- latest
+
+resources:
+- filename: R_AIML_Deps.tar.gz
+  url: http://13.89.34.249/R_AIML_Deps.tar.gz
+  validation:
+    type: sha256
+    value: 6b4f0612f476ea804054d28014483816f32da71d7d0d82d561876b5c131ecfd1
+- filename: ParamHelpers_1.14.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ParamHelpers/ParamHelpers_1.14.tar.gz
+  validation:
+    type: sha256
+    value: de49b4530ccb43d39aec0453778c5297d7580228379d06df72a8c29a161788c6
+- filename: BBmisc_1.11.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/BBmisc/BBmisc_1.11.tar.gz
+  validation:
+    type: sha256
+    value: ef67ef5a5035f70705ef224b69d92d38bed41f10530eab200c32570a9b3d1148
+- filename: parallelMap_1.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/parallelMap/parallelMap_1.5.0.tar.gz
+  validation:
+    type: sha256
+    value: 7437f68aa9e5c413ed7ca9d68e69b23b4670a3bc5cca4a24831a102e2a96defd
+- filename: mlr_2.19.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mlr/mlr_2.19.0.tar.gz
+  validation:
+    type: sha256
+    value: affac1a600f2f121846de13d13694af4c90e1fe150ab62013b070b215fffd28c
+- filename: RANN_2.6.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RANN/RANN_2.6.1.tar.gz
+  validation:
+    type: sha256
+    value: b2f05cb513f9bd184f16013bf8b37670dd77355ca0060a949ce194c7e270fb9b
+- filename: ROSE_0.0-3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ROSE/ROSE_0.0-3.tar.gz
+  validation:
+    type: sha256
+    value: 4d013130b4e5e5922ef4d2bda7394fadd47a215e3cbcddd00e2e4fbb8136ff08
+- filename: unbalanced_2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/unbalanced/unbalanced_2.0.tar.gz
+  validation:
+    type: sha256
+    value: 49a9480210e5408731034e9787be1b2ae4ab5fc32005334941a64cbd881bb6ac
+- filename: themis_0.1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/themis/themis_0.1.3.tar.gz
+  validation:
+    type: sha256
+    value: e5ae2db9d3e39cea245af18e3ec8d37127642c76d86428a42331b6427783b710
+- filename: gdal-3.0.4-8.el8.x86_64.rpm
+  url: https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/g/gdal-3.0.4-8.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: 2489680974e5e5c37cf806fcaf0eef2ce1358caabc33f330508e53a0c5f7adce
+- filename: gdal-libs-3.0.4-8.el8.x86_64.rpm
+  url: https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/g/gdal-libs-3.0.4-8.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: f60528167ec2ce924ac7e9e1503f87c945350e627ab07b9568a470aae9ce611d
+- filename: ImageMagick-c++-devel-6.9.10.86-1.el8.x86_64.rpm
+  url: https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/i/ImageMagick-c++-devel-6.9.10.86-1.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: 8a7e29e5f35523b46ad64b773d4e87504247cfa9e5292c1094635564bc4af00c
+- filename: libsodium-devel-1.0.18-2.el8.x86_64.rpm
+  url: https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/l/libsodium-devel-1.0.18-2.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: 4294d63e96ad28f36c21b5a180710d33cc94344ded47deac1d93e4d7ac5a1363
+- filename: libsodium-1.0.18-2.el8.x86_64.rpm
+  url: https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/l/libsodium-1.0.18-2.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: 8a4cb8680d929d59fcbf33e34a8757b994b388e1df01d3e030940562e9b2d6b1
+- filename: udunits2-devel-2.2.26-5.el8.x86_64.rpm
+  url: https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/u/udunits2-devel-2.2.26-5.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: 8895dffde802425d78d5d7fb06b524a4477242dce289530fa15d1c372fc71615
+- filename: pandoc-2.13-linux-amd64.tar.gz
+  url: http://13.89.34.249/pandoc-2.13-linux-amd64.tar.gz
+  validation:
+    type: sha256
+    value: 7404aa88a6eb9fbb99d9803b80170a3a546f51959230cc529c66a2ce6b950d4c
+- filename: libgit2-1.1.0.x86_64_linux.tar.gz
+  url: https://r-lib.github.io/gert/libgit2-1.1.0.x86_64_linux.tar.gz
+  validation:
+    type: sha256
+    value: 9b75c4a64c11955097c46114c0d19f37181a7026fb0e9ab417dfd72020816f15
+- filename: get-libgit2-linux.sh
+  url: https://r-lib.github.io/gert/get-libgit2-linux.sh
+  validation:
+    type: sha256
+    value: 355007dc2843914af0620f569fd54fd2d08386240c36e20dff0294af66866ccc
+- filename: libpng-devel-1.6.34-5.el8.i686.rpm
+  url: http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/libpng-devel-1.6.34-5.el8.i686.rpm
+  validation:
+    type: sha256
+    value: ddb3024d26fbf188c7a2a960df8d716805eb5cfc683d1925bc97a7808e5a1b25
+- filename: freetype-2.9-patched.tar.gz
+  url: https://github.com/lionel-/freetypeharfbuzz/raw/v0.2.5/tools/freetype-2.9-patched.tar.gz
+  validation:
+    type: sha256
+    value: aabbf3aab0cbac7ca6aea1ade32b96b5519231a5f3df951d5f5cc65bec767185
+- filename: v8-devel-6.7.17-8.el8.x86_64.rpm
+  url: http://repo.okay.com.mx/centos/8/x86_64/release/v8-devel-6.7.17-8.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: a650508c562feaff7921061a8bfb6c391d437dc338bb8f0645c2687f800eee23
+- filename: jq-1.5-12.el8.x86_64.rpm
+  url: http://mirror.centos.org/centos/8/AppStream/x86_64/os/Packages/jq-1.5-12.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: 65d37df250e218828523bea2882f4bfad1ffc4dcc0f56aadd92b9c5265e7ae37
+- filename: libxml2-2.9.7-5.el8.x86_64.rpm
+  url: http://repo.okay.com.mx/centos/8/x86_64/release/libxml2-2.9.7-5.el8.x86_64.rpm
+  validation:
+    type: sha256
+    value: 61480c670a11fbc6b64a6afda1091cad7fc7d93556d404f2f5b32e5ff13b9572
+- filename: SQUAREM_2021.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/SQUAREM/SQUAREM_2021.1.tar.gz
+  validation:
+    type: sha256
+    value: b1a351971e624a9f1ce9323d4735391ab486d1454d6625d3b7a3e8a4e18096f8
+- filename: caTools_1.18.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/caTools/caTools_1.18.2.tar.gz
+  validation:
+    type: sha256
+    value: d8226f6d57f4be16833a905241ecd88fff554e99446b3de7127f8f166d75747a
+- filename: triebeard_0.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/triebeard/triebeard_0.3.0.tar.gz
+  validation:
+    type: sha256
+    value: ffebc238c27b359ec731bcfcd1c8421fef551127c308c01c1cb8d1aa1bb2cee8
+- filename: lava_1.6.9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lava/lava_1.6.9.tar.gz
+  validation:
+    type: sha256
+    value: 407cd6b60cb5e46a5c246505fd016c8f84eb9d055d45afa7321db6c0773c5174
+- filename: inline_0.3.17.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/inline/inline_0.3.17.tar.gz
+  validation:
+    type: sha256
+    value: d48a21106aeeed96f3a8788279d2dd0b73d339327af8d04da9d9aa2c31ab3760
+- filename: loo_2.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/loo/loo_2.4.1.tar.gz
+  validation:
+    type: sha256
+    value: ce67c02216fca960a1d3c3b019ae7113082e4903676eb77bec10894f9a411704
+- filename: gmp_0.6-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gmp/gmp_0.6-2.tar.gz
+  validation:
+    type: sha256
+    value: 7ab5f0d0e4c1ef57518890fcfae7e779899d5e70c58631da3850f3f21eaff19e
+- filename: polynom_1.4-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/polynom/polynom_1.4-0.tar.gz
+  validation:
+    type: sha256
+    value: de0890734b417062742b3e697c98c141748a41a6367d1d7858ebfb3a63fd437c
+- filename: sets_1.0-18.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sets/sets_1.0-18.tar.gz
+  validation:
+    type: sha256
+    value: 0d69d0b94b41fa756f7abc1a24815ac8e417dc360780a9579b075e399b29180c
+- filename: mathjaxr_1.4-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mathjaxr/mathjaxr_1.4-0.tar.gz
+  validation:
+    type: sha256
+    value: e78748f3cbc07e2c8987fb726d76a6a5aa50e53b39e8972395ebc3ae19aef4e1
+- filename: rbibutils_2.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rbibutils/rbibutils_2.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 8155883cc469487beaf9a0c386993ce4b809b7d79c896603d7d71954be85755a
+- filename: gplots_3.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gplots/gplots_3.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 8add36806bfd720f860ae2eca10bf5725f3dfb031bbed0bcc50c52f69faf563e
+- filename: rngWELL_0.10-6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rngWELL/rngWELL_0.10-6.tar.gz
+  validation:
+    type: sha256
+    value: 03c301b29eb3690d443512d1fdc34434fbc8b99857f0695b01ce036adf7ccb67
+- filename: misc3d_0.9-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/misc3d/misc3d_0.9-0.tar.gz
+  validation:
+    type: sha256
+    value: a2fd346faf0f94d2ee08b15aa2e444cfe9352ffa7cb266f0e735d533b159899c
+- filename: tmvnsim_1.0-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tmvnsim/tmvnsim_1.0-2.tar.gz
+  validation:
+    type: sha256
+    value: 778de7126c1e80e7a6fe37d43f7e1ffddb4431473edfb007d85aa808b6f1c3cc
+- filename: miscTools_0.6-26.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/miscTools/miscTools_0.6-26.tar.gz
+  validation:
+    type: sha256
+    value: 4b49e40dbbebfb3775b30dcab502a8d725c53af893fee6d2278fc0e49d607d46
+- filename: pcaPP_1.9-74.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pcaPP/pcaPP_1.9-74.tar.gz
+  validation:
+    type: sha256
+    value: 19789262407fca93a5c247cffca2c0e8ba1a52b0714ef0fa996d272b4a5f306b
+- filename: gdata_2.18.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gdata/gdata_2.18.0.tar.gz
+  validation:
+    type: sha256
+    value: 4e7458aa6c69dddb489be0393ee7450c8c1ebfda812b681d7abb7c0944bcc8ec
+- filename: geometries_0.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/geometries/geometries_0.2.0.tar.gz
+  validation:
+    type: sha256
+    value: c94729286fa196144181a1029d2cea8b23ef1471287a591dd49ba78f9f0b1d4c
+- filename: jsonify_1.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/jsonify/jsonify_1.2.1.tar.gz
+  validation:
+    type: sha256
+    value: 6589e38d0c1428d0cdcb84389b113a94aa25829bb366eff84e30380d16c20f88
+- filename: rapidjsonr_1.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rapidjsonr/rapidjsonr_1.2.0.tar.gz
+  validation:
+    type: sha256
+    value: 89fc77eb6fdd2432f2961df3ca6834a1f805eb06c31d66c6e3a6b51b415e9a3b
+- filename: sfheaders_0.4.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sfheaders/sfheaders_0.4.0.tar.gz
+  validation:
+    type: sha256
+    value: 331bada661176e69d35b796e68fa60850fda399802ef43497dab5f0a6c6202cb
+- filename: urltools_1.7.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/urltools/urltools_1.7.3.tar.gz
+  validation:
+    type: sha256
+    value: 93e4748a955a8b763a35993c538e9f38270d1ca087c7ad811a09b62e9701e423
+- filename: httpcode_0.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/httpcode/httpcode_0.3.0.tar.gz
+  validation:
+    type: sha256
+    value: c0a1c7bb6cd8091e21b2a4418ad89f66fdc706bed0c73a8c331df9cc3e0fe612
+- filename: protolite_2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/protolite/protolite_2.1.tar.gz
+  validation:
+    type: sha256
+    value: f5567f8d0fc1be019fe4406b696e38fe5fa57ed45bb626d9f3604720c483bd0b
+- filename: sys_3.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sys/sys_3.4.tar.gz
+  validation:
+    type: sha256
+    value: 0aff2849b7f954f8f130f82e2d1fc4bac89e49c195109cc738c94d2c67742586
+- filename: miniUI_0.1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/miniUI/miniUI_0.1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 92c1174f0cd73b043ca44e6d7e222dfae12346f0a7d05a7638accb467c9b6704
+- filename: R.utils_2.10.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/R.utils/R.utils_2.10.1.tar.gz
+  validation:
+    type: sha256
+    value: 2e272d3238dc2e9da6a0ab7886ef3b6ec120554d402e729a40de8d94b18001d7
+- filename: showimage_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/showimage/showimage_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 928d55dd43b1a6876e2ecb20e95b819498edec5115bf7932a3e24c29405bbc5d
+- filename: fontBitstreamVera_0.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fontBitstreamVera/fontBitstreamVera_0.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 5e62c4b9251750a11d667f38dddef91e42fd80f6e9f4518b3df769220000b4dd
+- filename: fontLiberation_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fontLiberation/fontLiberation_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 3376ddc72396857855915fcb8f4e1539330c1fab3144821a840865bc01b13a5b
+- filename: credentials_1.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/credentials/credentials_1.3.0.tar.gz
+  validation:
+    type: sha256
+    value: 28ce6992a4b02d74357bf4d4822d12aefb64e801dd17ebd3060e0a74e1913288
+- filename: prodlim_2019.11.13.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/prodlim/prodlim_2019.11.13.tar.gz
+  validation:
+    type: sha256
+    value: 4cb965332254d76e4f69e07a8e7bc74a793787c979416f664368b6f8e4e3ffe5
+- filename: lhs_1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lhs/lhs_1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 72cffcd44db14b0cf06d82fc685bb2f80922dac70120a76f8ea7bc989146d00c
+- filename: snakecase_0.11.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/snakecase/snakecase_0.11.0.tar.gz
+  validation:
+    type: sha256
+    value: 98d49766d5d007ceac5cc23b01ee4ace6bc0f3d3e4168cd5b5797ada79f30bc8
+- filename: reactR_0.4.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/reactR/reactR_0.4.4.tar.gz
+  validation:
+    type: sha256
+    value: 51c4662a9a647164ed65d259a64ff95c4d6ea7ed90a27b34ac8f475ff6c19427
+- filename: extraDistr_1.9.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/extraDistr/extraDistr_1.9.1.tar.gz
+  validation:
+    type: sha256
+    value: 2ae30ceeade32f9ff227b7e98210f3542477c1b9286c77efb187c184257b573c
+- filename: rstan_2.21.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rstan/rstan_2.21.2.tar.gz
+  validation:
+    type: sha256
+    value: a1112a661645806195e3743e7aeac51f1d7b82de82e895de59d1453358ba944c
+- filename: rstantools_2.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rstantools/rstantools_2.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 72521ed23670ddf23ba537355bed00051206ef461a5f1d01e2e6588864ed43f9
+- filename: fansi_0.4.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fansi/fansi_0.4.2.tar.gz
+  validation:
+    type: sha256
+    value: f50da020dc86326f8d64a987bad639a439aa35752295c30813b31687f10508bc
+- filename: pkgconfig_2.0.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pkgconfig/pkgconfig_2.0.3.tar.gz
+  validation:
+    type: sha256
+    value: 5c66598af8f3a298afb300170270cef161ea7df84ed432e1e2d615de4bac808d
+- filename: Formula_1.2-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Formula/Formula_1.2-4.tar.gz
+  validation:
+    type: sha256
+    value: d5c1a93c78bd1338c4bfa8af51c88001fc5a2bed7ac982ab786c5ec05cacc133
+- filename: numDeriv_2016.8-1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/numDeriv/numDeriv_2016.8-1.1.tar.gz
+  validation:
+    type: sha256
+    value: 20bdeb5a346214dc9b706f1ac1869dde6677196682329be925f16480a8d0c2f6
+- filename: bdsmatrix_1.3-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/bdsmatrix/bdsmatrix_1.3-4.tar.gz
+  validation:
+    type: sha256
+    value: 0928a70b5cd69b3b773af33246a07c95bf5f144dcdd4ca207208ccb9210e7746
+- filename: mvtnorm_1.1-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mvtnorm/mvtnorm_1.1-1.tar.gz
+  validation:
+    type: sha256
+    value: 6ee67a6a0519c3e05da207221a8330c9a820e3806250a4f677c3bcef43fa7160
+- filename: flexmix_2.3-17.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/flexmix/flexmix_2.3-17.tar.gz
+  validation:
+    type: sha256
+    value: 5df5977b9af5f1641916c231a35e470769db9d13a6d411b7846b8d87f9baca9d
+- filename: modeltools_0.2-23.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/modeltools/modeltools_0.2-23.tar.gz
+  validation:
+    type: sha256
+    value: 64a854b3725243f6031b620c9ee386776037f32f8c0d12efc92223cbe2cf73d9
+- filename: partitions_1.10-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/partitions/partitions_1.10-2.tar.gz
+  validation:
+    type: sha256
+    value: 6abbc01814c2edf673d3d672e25a69d4a9777ed2aaf8ccf4d7b5e29be44021cc
+- filename: Rdpack_2.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Rdpack/Rdpack_2.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 22ac5c6445a1644ac490b24b1714383bb8d7b34c1af8159d4a3a6c68af84cba3
+- filename: xergm.common_1.7.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xergm.common/xergm.common_1.7.8.tar.gz
+  validation:
+    type: sha256
+    value: 29a57639309887bda19c9e79b85b19a3378e405fca646e16eb7ad6d8d8b46f6f
+- filename: sna_2.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sna/sna_2.6.tar.gz
+  validation:
+    type: sha256
+    value: 8c33b127b8e8fb49434e3f1ecab2d7b261f9032cb62bbd047e3214874f3effdc
+- filename: ROCR_1.0-11.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ROCR/ROCR_1.0-11.tar.gz
+  validation:
+    type: sha256
+    value: 9996805e94e68bf1a2274db97c8b9fb801e1cee17e0f16c91901519b313f63ae
+- filename: RSiena_1.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RSiena/RSiena_1.3.0.tar.gz
+  validation:
+    type: sha256
+    value: da251063b31651b2b6f8019fc081dedf2b4c8a1811dafdb38d15c8253a1b79f7
+- filename: statnet.common_4.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/statnet.common/statnet.common_4.4.1.tar.gz
+  validation:
+    type: sha256
+    value: 9bda4522ed7548a8b07ba0c0770a525aac40ce7c397175db65041ab175a603de
+- filename: carData_3.0-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/carData/carData_3.0-4.tar.gz
+  validation:
+    type: sha256
+    value: eb8b95ff2a199446ff0ff7036b101aacdca1a8947afc892b0224f1bafcc47c1a
+- filename: abind_1.4-5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/abind/abind_1.4-5.tar.gz
+  validation:
+    type: sha256
+    value: 92ea96614231be2bd36cb30547dcfd9af994aff555f6ac11106a09f5a430dd41
+- filename: pbkrtest_0.5.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pbkrtest/pbkrtest_0.5.1.tar.gz
+  validation:
+    type: sha256
+    value: ef2794c1deb035a347b01bd998aac8cdebf4c164bb436d2ae2950dced3aaee3d
+- filename: rio_0.5.26.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rio/rio_0.5.26.tar.gz
+  validation:
+    type: sha256
+    value: ddc1cd041f3cb5a7359e9d4c375282dbb011698b4a1a05d9d24fec9943b3edd1
+- filename: ModelMetrics_1.2.2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ModelMetrics/ModelMetrics_1.2.2.2.tar.gz
+  validation:
+    type: sha256
+    value: 18574f10ed1bfd404d979ddd7eb9889ae027c1e25723f7c2f490d42eef243682
+- filename: pROC_1.17.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pROC/pROC_1.17.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 658e9a7314ace0b7e03e07f381e57d1b931efea364914bf0bd7718fe54839f4d
+- filename: rex_1.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rex/rex_1.2.0.tar.gz
+  validation:
+    type: sha256
+    value: b96de6d01cbe076466ac958440ed0700994893c8e77d3e6101eb3d5679870653
+- filename: gtools_3.8.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gtools/gtools_3.8.2.tar.gz
+  validation:
+    type: sha256
+    value: fdaff9fd5382549530103876a999ec0e381769883083792f9b73f09e09605788
+- filename: plotrix_3.8-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plotrix/plotrix_3.8-1.tar.gz
+  validation:
+    type: sha256
+    value: c9e967758db49a086d5945afab633c07c44c565b8f4ef870249d0852bbb6d2ba
+- filename: proxy_0.4-25.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/proxy/proxy_0.4-25.tar.gz
+  validation:
+    type: sha256
+    value: 4daec4d448b3eee1077e58a42357819ee186bd2c57c93694fb8ceeacf8f44047
+- filename: estimability_1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/estimability/estimability_1.3.tar.gz
+  validation:
+    type: sha256
+    value: 295eb946b1ec65feb3ab1b3863c8f62f7d98a2e471ab6ea38a69d0d5a445904b
+- filename: BiasedUrn_1.07.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/BiasedUrn/BiasedUrn_1.07.tar.gz
+  validation:
+    type: sha256
+    value: b1455abdd8da4365f73ef06fef0004ade47ad338de0d8fe334bdde4d4767026c
+- filename: pander_0.6.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pander/pander_0.6.3.tar.gz
+  validation:
+    type: sha256
+    value: 4cb7a0037a20c8f17afb56dfb86758b45df139c61d2703d05246e196f584ca0b
+- filename: trust_0.1-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/trust/trust_0.1-8.tar.gz
+  validation:
+    type: sha256
+    value: 73a5af2877691a8a6e614c15e0d2de63cd218f35dee77704f7dc1907a4e571c4
+- filename: lpSolve_5.6.15.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lpSolve/lpSolve_5.6.15.tar.gz
+  validation:
+    type: sha256
+    value: 1c1e38e31c1d941951c2203f85e97413c9bdabaab5ad077598ff7ab5b8905d6e
+- filename: rle_0.9.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rle/rle_0.9.2.tar.gz
+  validation:
+    type: sha256
+    value: 82f638c7b14866b6d2019a0fba10cf5f56eef9a90a467b02b323a7e75bbd1884
+- filename: dreamerr_1.2.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dreamerr/dreamerr_1.2.3.tar.gz
+  validation:
+    type: sha256
+    value: 6d054c362a2342a542fda0be01ed40cc8c816e1db25b96b6fe7ca3bc73efad38
+- filename: gtable_0.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gtable/gtable_0.3.0.tar.gz
+  validation:
+    type: sha256
+    value: 63df6479a0f3fd98c8f2b3a1fabf058143443cecf4817a4019a63477525bf004
+- filename: isoband_0.2.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/isoband/isoband_0.2.4.tar.gz
+  validation:
+    type: sha256
+    value: e2f27152d36d2bb04d47ccaa4758eaff842559523a8b603c67a9442a7340fc52
+- filename: shape_1.4.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/shape/shape_1.4.5.tar.gz
+  validation:
+    type: sha256
+    value: 96edcbb5e06e1ca73b50001498523a3f6d90ff36a782a69c1a0811a92ff4ac0f
+- filename: gridExtra_2.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gridExtra/gridExtra_2.3.tar.gz
+  validation:
+    type: sha256
+    value: ca0e74f73a87cc9af22fd574674a7379387c0d6f11e2755042636b8ed2e66017
+- filename: htmlTable_2.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/htmlTable/htmlTable_2.1.0.tar.gz
+  validation:
+    type: sha256
+    value: ff05455f2530ffbfa54b80cc4e57717caaa1efde7ff414d806d7f8ac077eee97
+- filename: cobs_1.3-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/cobs/cobs_1.3-4.tar.gz
+  validation:
+    type: sha256
+    value: baa99f09d20bac44ab0f5207113303249ceb15a22470b4f07a19c531bdf79431
+- filename: doParallel_1.0.16.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/doParallel/doParallel_1.0.16.tar.gz
+  validation:
+    type: sha256
+    value: 1f20acfc28d47ab8a12ee654ef535353625dc98d763af4daf1febc6c964894e0
+- filename: randtoolbox_1.30.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/randtoolbox/randtoolbox_1.30.1.tar.gz
+  validation:
+    type: sha256
+    value: 46d0289a4fb018085ea5ce25ea2598a2aae555d03375dcb54e057d3ed15a8c5f
+- filename: RcppArmadillo_0.10.4.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RcppArmadillo/RcppArmadillo_0.10.4.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 3d2b152198d35c0f054b345f47eae11c90941f2caeb4dd0aa3b527ad3c2e15dc
+- filename: FNN_1.1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/FNN/FNN_1.1.3.tar.gz
+  validation:
+    type: sha256
+    value: b5d221c2649d54ea50c7f2d5210cc56a14eaa5b9adedd0067c8774ebe2fc2e2f
+- filename: multicool_0.1-11.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/multicool/multicool_0.1-11.tar.gz
+  validation:
+    type: sha256
+    value: 610a9434f7b97dfc842edbf9011d7a597d8bc1b33d9cd39546c4c52169d76a4a
+- filename: plot3D_1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plot3D/plot3D_1.3.tar.gz
+  validation:
+    type: sha256
+    value: 42cf9e935e3baac1f246512e83718972525739362c8e09c43f62e2ae21f0b0aa
+- filename: mnormt_2.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mnormt/mnormt_2.0.2.tar.gz
+  validation:
+    type: sha256
+    value: 1f875ff5cb1c8b7fe22bcf1236413c303a8cf15838920ca9caa461133a89a3b0
+- filename: pbivnorm_0.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pbivnorm/pbivnorm_0.6.0.tar.gz
+  validation:
+    type: sha256
+    value: b4412f43485e9f8348fd58b3b393f36914873920316d662ec65de291ec1f8cbe
+- filename: minqa_1.2.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/minqa/minqa_1.2.4.tar.gz
+  validation:
+    type: sha256
+    value: c1f4425dcac8db390e3c8bd470afbde65825fd5634ff51ba556f6988889f3a67
+- filename: nloptr_1.2.2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/nloptr/nloptr_1.2.2.2.tar.gz
+  validation:
+    type: sha256
+    value: caf57e1df01af327b067c3558b3d2a7bda3739e80fb668924ac168105efa4203
+- filename: statmod_1.4.36.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/statmod/statmod_1.4.36.tar.gz
+  validation:
+    type: sha256
+    value: 5cfea9a6d68af69592a760c434e16e7464032062af93cf7bfbcf950ba8686a46
+- filename: RcppEigen_0.3.3.9.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RcppEigen/RcppEigen_0.3.3.9.1.tar.gz
+  validation:
+    type: sha256
+    value: 591d63e1c1764f453f2a73f723a18a703a641cdae6fa3cc052f552760851cad0
+- filename: prediction_0.3.14.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/prediction/prediction_0.3.14.tar.gz
+  validation:
+    type: sha256
+    value: f5b2fb14d74df6ce850e20c2444c1fcc4f65c8cd88b7cdfb8fb5d3898ec8e82a
+- filename: dfidx_0.0-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dfidx/dfidx_0.0-4.tar.gz
+  validation:
+    type: sha256
+    value: 1a75d7abcd511d577463b69052b293bf8e5bf704d77fc5fd97112d98978852bc
+- filename: TH.data_1.0-10.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/TH.data/TH.data_1.0-10.tar.gz
+  validation:
+    type: sha256
+    value: 3d0b0665073670455450d8d5a9c692b432e08e2fd9d3452e118122b6eafdfb51
+- filename: ucminf_1.1-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ucminf/ucminf_1.1-4.tar.gz
+  validation:
+    type: sha256
+    value: f3a1c240869dd3cba6d6b04ea48dca4b07e51c34a0789969a4af539b32e90925
+- filename: maxLik_1.4-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/maxLik/maxLik_1.4-8.tar.gz
+  validation:
+    type: sha256
+    value: de8e961af06be7497526e9affe595a3e1c6c5e65a8084f2bcee60af11519bb97
+- filename: scatterplot3d_0.3-41.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/scatterplot3d/scatterplot3d_0.3-41.tar.gz
+  validation:
+    type: sha256
+    value: c0fd495dcc23570212e86bfdc0cba86fe0680d57411c9c05d7e0dae8c955e247
+- filename: SparseM_1.81.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/SparseM/SparseM_1.81.tar.gz
+  validation:
+    type: sha256
+    value: 3ceeafb893f75f0b103aaaa07d7643930c1c21dd90efc5121c9fb75fea503a2f
+- filename: MatrixModels_0.5-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/MatrixModels/MatrixModels_0.5-0.tar.gz
+  validation:
+    type: sha256
+    value: 847503e4f406bb43d707dbbd5f1d803f0b11b8132970ffa64e91b873d7070e93
+- filename: conquer_1.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/conquer/conquer_1.0.2.tar.gz
+  validation:
+    type: sha256
+    value: 55c917ed32ff1f346262579a737f276cafb15d72c60d5eaf20d28f9dd077fc1c
+- filename: msm_1.6.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/msm/msm_1.6.8.tar.gz
+  validation:
+    type: sha256
+    value: 466d6200395505ba60c9936ff436953f05d49d36fa0293d475e085c5a61cc765
+- filename: fit.models_0.64.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fit.models/fit.models_0.64.tar.gz
+  validation:
+    type: sha256
+    value: 6c8f8dd43dc72a1929dcbad808a6c5d67ee54ec12a679dc0782c336f79b8eac3
+- filename: rrcov_1.5-5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rrcov/rrcov_1.5-5.tar.gz
+  validation:
+    type: sha256
+    value: c00d0b1b2e058180c17c3288ddfeba448306280af74d2a9fa6f7f7f78cd8051e
+- filename: DEoptimR_1.0-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/DEoptimR/DEoptimR_1.0-8.tar.gz
+  validation:
+    type: sha256
+    value: 3600f91d3af04747e50950d46225ce3a9219515b4b1b18b83ca2942aa82deae8
+- filename: furrr_0.2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/furrr/furrr_0.2.2.tar.gz
+  validation:
+    type: sha256
+    value: 3d2a3c5a67c125ca8ee29e5cdfaa72fa9a6aea4f790b21e843c1660507454a9c
+- filename: spData_0.3.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/spData/spData_0.3.8.tar.gz
+  validation:
+    type: sha256
+    value: 71367fbcb24838e7490b34322b60e0fc840a8277e851b81cb18a8f5ab6ed05bf
+- filename: deldir_0.2-10.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/deldir/deldir_0.2-10.tar.gz
+  validation:
+    type: sha256
+    value: 0eccc7ba56747ee6c65fb0d7849e1388309aca845da07c6e0360afe93c85b2f2
+- filename: LearnBayes_2.15.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/LearnBayes/LearnBayes_2.15.1.tar.gz
+  validation:
+    type: sha256
+    value: 7aaf1f8219630730b8d74f7959cd2c3d065769994de4a7cc627e0c6b0c1601a9
+- filename: gmodels_2.18.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gmodels/gmodels_2.18.1.tar.gz
+  validation:
+    type: sha256
+    value: f2fb079ca72898c0341f5c8e7909e9c47274a378162a765bf948c171e144a696
+- filename: mitools_2.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mitools/mitools_2.4.tar.gz
+  validation:
+    type: sha256
+    value: e12dde447aa1bb5765ffe949955a41806d8f81fcf6b5061085ec11bbe155492d
+- filename: quadprog_1.5-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/quadprog/quadprog_1.5-8.tar.gz
+  validation:
+    type: sha256
+    value: c094e6425a20ff2c5600b2a900c97920814a8b5b612ad256e8ae4ab6f5946e7b
+- filename: strucchange_1.5-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/strucchange/strucchange_1.5-2.tar.gz
+  validation:
+    type: sha256
+    value: 682c77574a0be65aa2b846b0bbb586fa82c57ed9fa2ab6d445364067e8c90dc7
+- filename: urca_1.3-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/urca/urca_1.3-0.tar.gz
+  validation:
+    type: sha256
+    value: 646f3fc657cc4aa5bb8612009cc447c04a9369b3fec84ceb1c56ee6ac510ff12
+- filename: libcoin_1.0-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/libcoin/libcoin_1.0-8.tar.gz
+  validation:
+    type: sha256
+    value: 169148a04359d2a72540a9e560c18c5f3eb1bf88b1d35ed0ba9d3aa19c2737df
+- filename: inum_1.0-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/inum/inum_1.0-4.tar.gz
+  validation:
+    type: sha256
+    value: 01e1849d0cd320944b80ffd0e734658b347de601b15821fe8f56a1609c79edfc
+- filename: jquerylib_0.1.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/jquerylib/jquerylib_0.1.4.tar.gz
+  validation:
+    type: sha256
+    value: 329844fe20b944142d7b35e21ee49c4f291e2c1777ad393a7fd42882f5adb9ae
+- filename: prismatic_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/prismatic/prismatic_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: f942dc03540108092fb690f037a96e5451cafb6585129e34be8b3ee383efe2c6
+- filename: rematch2_2.1.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rematch2/rematch2_2.1.2.tar.gz
+  validation:
+    type: sha256
+    value: ead33a0a4f9aa7495545f3a728e77b5ff0a6921c73fece4a245fedb37c1bb842
+- filename: TTR_0.24.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/TTR/TTR_0.24.2.tar.gz
+  validation:
+    type: sha256
+    value: ece52ece8daca207e88ed140998d3ef1cd9973807fb3e7eae2f8b734ab305e97
+- filename: colorspace_2.0-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/colorspace/colorspace_2.0-1.tar.gz
+  validation:
+    type: sha256
+    value: c4e7179f611ad315c00d5233c636c46774d5542141f1181b6bd407e4da5f32a3
+- filename: geojsonsf_2.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/geojsonsf/geojsonsf_2.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 208f84a9b8752cb100b256b179ea2e64949ddb41d7346236eb6700e493c405e9
+- filename: crul_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/crul/crul_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 3410a11631bf80947548ac83be343a14605241dd4d8d27cfd3221333bbaa987e
+- filename: V8_3.4.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/V8/V8_3.4.2.tar.gz
+  validation:
+    type: sha256
+    value: 6cae05fb47b3f821d8a888028a568af68f2d57cdad237995399cd0e8d49a5b82
+- filename: geojson_0.3.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/geojson/geojson_0.3.4.tar.gz
+  validation:
+    type: sha256
+    value: bc6c88023439d403fb41940c35d27657b21666d921e9c984aec416b4a4c4789a
+- filename: jqr_1.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/jqr/jqr_1.2.1.tar.gz
+  validation:
+    type: sha256
+    value: ff74e2d6252891c4ace4fc0363110360844e1ab5151362b0fdf0827b6ed50593
+- filename: askpass_1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/askpass/askpass_1.1.tar.gz
+  validation:
+    type: sha256
+    value: f8b5968b75c96dd23cdda0413765ca457b837b4136bd25e162f1975aee410ad0
+- filename: manipulateWidget_0.10.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/manipulateWidget/manipulateWidget_0.10.1.tar.gz
+  validation:
+    type: sha256
+    value: 3d6072293b8dace020922193ce27faa55e645784cf49444855ff20d47eb6ea2c
+- filename: filehash_2.4-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/filehash/filehash_2.4-2.tar.gz
+  validation:
+    type: sha256
+    value: da45fa7409f190351f934c72fb1677c44a57e4432f9c1587b857da4e6cd9d155
+- filename: sysfonts_0.8.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sysfonts/sysfonts_0.8.3.tar.gz
+  validation:
+    type: sha256
+    value: 3a76da0c557d371f6cb9153cdefe42aa72bed55878c09763084bb3ad0bfe271d
+- filename: showtextdb_3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/showtextdb/showtextdb_3.0.tar.gz
+  validation:
+    type: sha256
+    value: 3932afa495411d51a58a1a43345dfaa84d5cc1939588d9436e56f04bcf0168ee
+- filename: systemfonts_1.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/systemfonts/systemfonts_1.0.2.tar.gz
+  validation:
+    type: sha256
+    value: 6a93d68df62da8b4d515d1ab84fbd7d6d305c80fa636372d05adc604234cb5b3
+- filename: textshaping_0.3.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/textshaping/textshaping_0.3.3.tar.gz
+  validation:
+    type: sha256
+    value: 637362583b204398ee9682a43bda107a9c5a4e95adc1c5ff88db66fc992cab16
+- filename: R.cache_0.15.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/R.cache/R.cache_0.15.0.tar.gz
+  validation:
+    type: sha256
+    value: be243b555a9bf29b63f36765550c7d4ac2010cd6c03303a51f7facf923d7e246
+- filename: tensorflow_2.4.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tensorflow/tensorflow_2.4.0.tar.gz
+  validation:
+    type: sha256
+    value: d7fb252cd53048ee47d24f401ad97abcffbd1680e628abf7854e5364d74e825e
+- filename: tfruns_1.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tfruns/tfruns_1.5.0.tar.gz
+  validation:
+    type: sha256
+    value: 64f1886dc4979a853a5c6ff843e73617d1d375e5bde3611fe3dc2515332e3377
+- filename: zeallot_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/zeallot/zeallot_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 80744b40ba1752664056650228a5700847aa5d7fb9e9ef8a8a0347526a9989ff
+- filename: plotmo_3.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plotmo/plotmo_3.6.0.tar.gz
+  validation:
+    type: sha256
+    value: adb712ea4661f7708cb3acaab197c06232937d144b08f1b6421d2afa633c772a
+- filename: TeachingDemos_2.12.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/TeachingDemos/TeachingDemos_2.12.tar.gz
+  validation:
+    type: sha256
+    value: 8e7aca239612db068658bb4b91e3094eb4459a772f6783538cfd698e84554b79
+- filename: reshape_0.8.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/reshape/reshape_0.8.8.tar.gz
+  validation:
+    type: sha256
+    value: 03cde0beb0ba365e6ed5325c55ce1345ae649c116f568b5f422b284071792b9b
+- filename: debugme_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/debugme/debugme_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 2bbb17a7ffa96a9723419e221d10dea961696f25d19184fdfce06293673e751f
+- filename: parsedate_1.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/parsedate/parsedate_1.2.1.tar.gz
+  validation:
+    type: sha256
+    value: 6a9209ef982fafec92bb3317dd67ee7033abe530e185addebefdd85662855795
+- filename: rematch_1.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rematch/rematch_1.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 9565da5eaee7d85a8de3bd52f423f06a8eac30056808d3f990b8a804eb0ae3b4
+- filename: webdriver_1.0.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/webdriver/webdriver_1.0.6.tar.gz
+  validation:
+    type: sha256
+    value: b1dcd132067312797ab7b134170c3e258e2fcb2acfa54bc73a065adad4b4a340
+- filename: fontquiver_0.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fontquiver/fontquiver_0.2.1.tar.gz
+  validation:
+    type: sha256
+    value: 04beb4e365dce7bf278fd9a57b313051b98baaabbb4f6a162e49bc29a6543211
+- filename: freetypeharfbuzz_0.2.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/freetypeharfbuzz/freetypeharfbuzz_0.2.6.tar.gz
+  validation:
+    type: sha256
+    value: 51fecdc1e0a76d792d2014f0bb44b2146c7d3e869fe7b6e4f46713cf98f44fd6
+- filename: classInt_0.4-3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/classInt/classInt_0.4-3.tar.gz
+  validation:
+    type: sha256
+    value: f79f7a1642c82a71044236e534b95d387228e18eff43676bef087b47ec5034cc
+- filename: units_0.7-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/units/units_0.7-1.tar.gz
+  validation:
+    type: sha256
+    value: be95247dc7bdab449dbb39fa171563e81e7c9e6722b5eea16bbcdbc1e82d51fd
+- filename: repr_1.1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/repr/repr_1.1.3.tar.gz
+  validation:
+    type: sha256
+    value: 66966f1b0ce149476e32cf38b1b3fd44821de147957a48ad768df54a7b6882a3
+- filename: bit_4.0.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/bit/bit_4.0.4.tar.gz
+  validation:
+    type: sha256
+    value: ea5d79a458fbbabad7fd48c811c070dbf31dac0fb43786b98e980130ce77c07e
+- filename: listenv_0.8.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/listenv/listenv_0.8.0.tar.gz
+  validation:
+    type: sha256
+    value: f1892bc39c9a28d2b40a1b7b3bcce31e940702bd155a2d6915b8dde0217d6042
+- filename: parallelly_1.25.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/parallelly/parallelly_1.25.0.tar.gz
+  validation:
+    type: sha256
+    value: c625b971aff9ee91eae173fd382a7c5f97091d5c197a65913670940fba17a1f2
+- filename: fresh_0.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fresh/fresh_0.2.0.tar.gz
+  validation:
+    type: sha256
+    value: f84830927aeff100f46a1114683e0fa6ad1ff46f0dbccaf9fd55a56a1a85d5ac
+- filename: waiter_0.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/waiter/waiter_0.2.1.tar.gz
+  validation:
+    type: sha256
+    value: 4b2080466a06bcad6ec46d32a06a9ce77c653b1cfd6f5e520b893c67a1791cfa
+- filename: gert_1.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gert/gert_1.3.0.tar.gz
+  validation:
+    type: sha256
+    value: f321aa1bd48b08e60be0731d1665d594355beb2e0f25eba222d15367143b6f57
+- filename: whisker_0.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/whisker/whisker_0.4.tar.gz
+  validation:
+    type: sha256
+    value: 4616a236a3563bd3789a30c8a232f2db1950951b2464000d0c6330ffc8bd79c0
+- filename: DiceDesign_1.9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/DiceDesign/DiceDesign_1.9.tar.gz
+  validation:
+    type: sha256
+    value: 42a744b4ce61a9ad9e1a8203ac2762e53df8774c7912baf647a846f5bb9e0c5e
+- filename: gower_0.2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gower/gower_0.2.2.tar.gz
+  validation:
+    type: sha256
+    value: 079b41e19b9fb84ba981a63292e1ed536949f8a8b26f99c206f585a142e48149
+- filename: ipred_0.9-11.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ipred/ipred_0.9-11.tar.gz
+  validation:
+    type: sha256
+    value: 2c9ca1cfa5aa25671d8e7d664168a4ed8346584e95b017edff9f1544a5024fce
+- filename: GPfit_1.0-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/GPfit/GPfit_1.0-8.tar.gz
+  validation:
+    type: sha256
+    value: db9173add02d4bac93610cf57a1e9bb9bd14b442e2a9c74738b8a2302f73d213
+- filename: hardhat_0.1.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/hardhat/hardhat_0.1.5.tar.gz
+  validation:
+    type: sha256
+    value: 10b60da537fabfff873a330c744f2e4ad58b622e0bf307ece983924077b9ff1c
+- filename: SnowballC_0.7.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/SnowballC/SnowballC_0.7.0.tar.gz
+  validation:
+    type: sha256
+    value: b444959c4448f9bb12798d98fd89ac5c1d33766860fc3818dfa58670ec5c6af5
+- filename: slam_0.1-48.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/slam/slam_0.1-48.tar.gz
+  validation:
+    type: sha256
+    value: a84c29956c389d9765124c657722ecc79a0a355c1eec18cea6c3087df81dfae1
+- filename: fastmatch_1.1-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fastmatch/fastmatch_1.1-0.tar.gz
+  validation:
+    type: sha256
+    value: 426ec1421bae532c1ab1f0340a8a33a363aebecaa281595517f08973538e2d05
+- filename: RcppParallel_5.1.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RcppParallel/RcppParallel_5.1.4.tar.gz
+  validation:
+    type: sha256
+    value: e2be1c0cbcc4c4ae5571de7e6e55adea3ecf9bf6f14c200912e416c1eeeccc0c
+- filename: lda_1.4.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lda/lda_1.4.2.tar.gz
+  validation:
+    type: sha256
+    value: a4654e3831190bbe9f9f99672fc4212d0f4f5e057fdfd861d61788c2dc7397dd
+- filename: matrixStats_0.58.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/matrixStats/matrixStats_0.58.0.tar.gz
+  validation:
+    type: sha256
+    value: a438b94016e200c04f7bca07b4fad3c636c99460d688c4bf6cae4a4db20d6795
+- filename: ISOcodes_2021.02.24.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ISOcodes/ISOcodes_2021.02.24.tar.gz
+  validation:
+    type: sha256
+    value: 9c6cb54e6d993069b459dab5a9cbae2b064eec88a144c6df121c96c75da6537e
+- filename: downloader_0.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/downloader/downloader_0.4.tar.gz
+  validation:
+    type: sha256
+    value: db03f290ab77f7217791223fa31c829fee0a9545ed8b1a71014e4a676e96b66e
+- filename: influenceR_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/influenceR/influenceR_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: df4fa95a4efe5ba586fb93f0a12cc4980283165ba08bdc43054f87460f604e71
+- filename: cyclocomp_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/cyclocomp/cyclocomp_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: eef0e417a6036c29d1f5a14967fbc1104147bd83b50a4f8141ad580010241501
+- filename: xmlparsedata_1.0.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xmlparsedata/xmlparsedata_1.0.5.tar.gz
+  validation:
+    type: sha256
+    value: c37338a47129ff4fc8801c14995b3b53f67ef5ea5581ffb68e9d85eadc0bdd50
+- filename: gargle_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gargle/gargle_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 22fb309fc1d2a90fcb5cfab63cc38bc97472ac785832e54c68381875279d9e79
+- filename: ids_1.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ids/ids_1.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 1497bb7da9b8f4e6a544d97622efc7632f6d881b836e8bc8f665029a2c626f00
+- filename: utf8_1.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/utf8/utf8_1.2.1.tar.gz
+  validation:
+    type: sha256
+    value: b477edc0da5b9dd1c9ab20079b40f3f8bfec98e7aa5595f3a7ae2a38cafe18cb
+- filename: warp_0.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/warp/warp_0.2.0.tar.gz
+  validation:
+    type: sha256
+    value: a934f1ed16344aa3259cfd620dd26add75f9e0631db5a613f2f3361b003310eb
+- filename: PerformanceAnalytics_2.0.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/PerformanceAnalytics/PerformanceAnalytics_2.0.4.tar.gz
+  validation:
+    type: sha256
+    value: 3c2309d257d2609fcc76b69c484a40c04394f7d954ac47586fb131ddc8036c14
+- filename: Quandl_2.10.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Quandl/Quandl_2.10.0.tar.gz
+  validation:
+    type: sha256
+    value: 882cff9f870366d00581dd16b8503f2bffd454bd43f5956ebe37bcd17e9d9d89
+- filename: riingo_0.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/riingo/riingo_0.3.1.tar.gz
+  validation:
+    type: sha256
+    value: 80f26b62586f4532acaeb94cf98828147996670b123ce2462692c7a80742f72b
+- filename: alphavantager_0.1.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/alphavantager/alphavantager_0.1.2.tar.gz
+  validation:
+    type: sha256
+    value: 4e831d01e01fe2845da542deb9b0ae7349a807cf5a5dcb3571533c76443ce7af
+- filename: janitor_2.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/janitor/janitor_2.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 8634ee2580f7a1bf9fb1283a9c53f4ec5ed4c83f2b9ef58893d8cfafe08bd189
+- filename: StanHeaders_2.21.0-7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/StanHeaders/StanHeaders_2.21.0-7.tar.gz
+  validation:
+    type: sha256
+    value: f80946d9ba3cf12c7c2afa8606b58f0a93bf023a66d30eecca7f231466b5234c
+- filename: reactable_0.2.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/reactable/reactable_0.2.3.tar.gz
+  validation:
+    type: sha256
+    value: 8de778b0e1ad8f63b0eb2295844c7600a2d225481c20b98b914ed33cb270329d
+- filename: progressr_0.7.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/progressr/progressr_0.7.0.tar.gz
+  validation:
+    type: sha256
+    value: d0fd321f00f5b2e47c036b0aa2584c027f6f3313b5db62ff36ea203897c48fd4
+- filename: prophet_1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/prophet/prophet_1.0.tar.gz
+  validation:
+    type: sha256
+    value: 7f738e2287ecb73b58c7c79d8eb1ba80a0fbf57d6e4b82f3b848cab4d44e1ec1
+- filename: xopen_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xopen/xopen_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 1b54ec3b85a7686a16a894754681e60190d4c624faf00f3cc642e36c927509dd
+- filename: clisymbols_1.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/clisymbols/clisymbols_1.2.0.tar.gz
+  validation:
+    type: sha256
+    value: f1badd24e300b5b80fd71c6ace134ea73f10959b668e8e85142c55113dccd81e
+- filename: gitcreds_0.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gitcreds/gitcreds_0.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 927fa10dc2af9f0559665e1cc5f430c703d21462bb07c34427bffaf657b8796e
+- filename: ini_0.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ini/ini_0.3.1.tar.gz
+  validation:
+    type: sha256
+    value: e85aa2007eaedc596a854ba0f0a645c118ea75e2aa85f6130b72cef7abc6e356
+- filename: downlit_0.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/downlit/downlit_0.2.1.tar.gz
+  validation:
+    type: sha256
+    value: 61d72fd130f93c4f82627de6c1f1ee65272842618179c323dc99308c137d8177
+- filename: whoami_1.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/whoami/whoami_1.3.0.tar.gz
+  validation:
+    type: sha256
+    value: 0b2a2739e7dc584615def0c254d46fe5ee0c0abca7ceb59900a458725def6ad9
+- filename: xslt_1.4.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xslt/xslt_1.4.3.tar.gz
+  validation:
+    type: sha256
+    value: 5b59da6f7585f5da9a564ecd0de3dec261c23d276af09cb79909feae505e77da
+- filename: locatexec_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/locatexec/locatexec_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: bfcdbdcf09630d6499ece5b73e80cc5d6090c116566ee7fee959429fe6a35a2c
+- filename: plogr_0.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plogr/plogr_0.2.0.tar.gz
+  validation:
+    type: sha256
+    value: 45d3d3b8725f569b140449f8fe37a928170b4716023ba794e6651216cd86ab93
+- filename: leafem_0.1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/leafem/leafem_0.1.3.tar.gz
+  validation:
+    type: sha256
+    value: c5bba574d4353dd2fd263724baa6e0d05864a1ce62f046458cb5a4db05ab99c4
+- filename: leafpop_0.0.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/leafpop/leafpop_0.0.6.tar.gz
+  validation:
+    type: sha256
+    value: 46d88e5d3eaee76fafae79140398a197f89521d54c3151c88d0a2271c13c67bd
+- filename: satellite_1.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/satellite/satellite_1.0.2.tar.gz
+  validation:
+    type: sha256
+    value: 8705251c51aa42084c7136f419a3b7723e0c7d8f38b322859c91ffc8305b8499
+- filename: backports_1.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/backports/backports_1.2.1.tar.gz
+  validation:
+    type: sha256
+    value: ac35cad3d6a23a5141e082a38384d0017173f15497423da83e0440b57385aeea
+- filename: dplyr_1.0.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dplyr/dplyr_1.0.6.tar.gz
+  validation:
+    type: sha256
+    value: c320202d1da95ae94ef38be85f80f73fc1aa4594f9b301b583e962603c25fc87
+- filename: ellipsis_0.3.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ellipsis/ellipsis_0.3.2.tar.gz
+  validation:
+    type: sha256
+    value: ba6e65cd295aeee6352e85a6120da70a09c0a9ae04e06a45fb6c8019570b4548
+- filename: generics_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/generics/generics_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 16619b3df62d89e3113bf78fcc9f97d1cca8bee5538a7fcb7d7f78c6ae68f259
+- filename: glue_1.4.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/glue/glue_1.4.2.tar.gz
+  validation:
+    type: sha256
+    value: 884ca2b71eaa6105db533304d34c5b5be34121c0a7264d668f6a5efbace71db4
+- filename: purrr_0.3.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/purrr/purrr_0.3.4.tar.gz
+  validation:
+    type: sha256
+    value: 0e0420b44f67298ebc051cac9a5f64542e72cd3a6f1b2fdb8ad2199ca68fd414
+- filename: rlang_0.4.11.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rlang/rlang_0.4.11.tar.gz
+  validation:
+    type: sha256
+    value: 75080f4e014fdd27c3ebfd0da5e7c3f810124a8b6befb05c01323106048f7d68
+- filename: tibble_3.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tibble/tibble_3.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 2b82582c3f76e4aee40b0e79e73b50bdeb8af2e6c645f9ed68008dc063222d22
+- filename: tidyr_1.1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tidyr/tidyr_1.1.3.tar.gz
+  validation:
+    type: sha256
+    value: 1f811e4bd74d11b4da1951b211f9f91875bcc0baf9fa728cad78a186324c316a
+- filename: AER_1.2-9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/AER/AER_1.2-9.tar.gz
+  validation:
+    type: sha256
+    value: 64f7788a3d5ce3aaffb0afd46c64e0b2f8c50a1ae9f219ce23579740e47ae671
+- filename: akima_0.6-2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/akima/akima_0.6-2.1.tar.gz
+  validation:
+    type: sha256
+    value: bf4eb970ccd11e9db835276ce85d11314243a723035f417621a8236740d1342f
+- filename: AUC_0.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/AUC/AUC_0.3.0.tar.gz
+  validation:
+    type: sha256
+    value: 426c3e250949a6aea83dfdd33b340352a2a46c14895820d510042a925b603932
+- filename: bbmle_1.0.23.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/bbmle/bbmle_1.0.23.1.tar.gz
+  validation:
+    type: sha256
+    value: 0193437adcdc5f84661c9e19088c8ec29b6cef0c9de523aed87a5cdc7da4d388
+- filename: betareg_3.1-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/betareg/betareg_3.1-4.tar.gz
+  validation:
+    type: sha256
+    value: 03f4682da5c79bf4da596fda39c0d4192e194889365ae384ff756112def96641
+- filename: biglm_0.9-2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/biglm/biglm_0.9-2.1.tar.gz
+  validation:
+    type: sha256
+    value: 7574933c45ed197c37692ab9d0831f6089300ec474baf089af251a1da85cff77
+- filename: binGroup_2.2-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/binGroup/binGroup_2.2-1.tar.gz
+  validation:
+    type: sha256
+    value: ca40401c1307033e73b9a01f36e03bf5e349317fe5bdfb92bddb774970651b58
+- filename: btergm_1.9.13.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/btergm/btergm_1.9.13.tar.gz
+  validation:
+    type: sha256
+    value: 9eec38cea371fd1e4822644da1be076f89cfc473fc40b0484eda4a9dc2502860
+- filename: car_3.0-10.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/car/car_3.0-10.tar.gz
+  validation:
+    type: sha256
+    value: f405399dbe8a9d91c8efb1a87ba50d10a34174a997b3e4705736c860c29e92ac
+- filename: caret_6.0-86.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/caret/caret_6.0-86.tar.gz
+  validation:
+    type: sha256
+    value: 00bed97294abe1464d88aafd8067236921647ff2fcef29a925ca49a64ff87af1
+- filename: cmprsk_2.2-10.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/cmprsk/cmprsk_2.2-10.tar.gz
+  validation:
+    type: sha256
+    value: bbb549d2485b578807748d6f173f14b5fbee6590ef6a049af956b92418305d16
+- filename: coda_0.19-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/coda/coda_0.19-4.tar.gz
+  validation:
+    type: sha256
+    value: 15d7749c926bbf24243b97cdedde46404665f3a34a4d381d9a39d46707f2fcf2
+- filename: covr_3.5.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/covr/covr_3.5.1.tar.gz
+  validation:
+    type: sha256
+    value: 27a03a274e0c1c170430295cf5e5eaf48f5b7dde7407c180be0e066c3df40a31
+- filename: drc_3.0-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/drc/drc_3.0-1.tar.gz
+  validation:
+    type: sha256
+    value: dd1238daeee7cb1d1a87364a953cfa74d97c50542fe686f96b0c17d250152636
+- filename: e1071_1.7-6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/e1071/e1071_1.7-6.tar.gz
+  validation:
+    type: sha256
+    value: 3b3686a2885775e41a79155ee6d02cd6a820dceec05f856c332cc3bcb1ec574a
+- filename: emmeans_1.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/emmeans/emmeans_1.6.0.tar.gz
+  validation:
+    type: sha256
+    value: 6f29ae10e7ce5a4c755dd8315c4d31ec00a4faa2ac298c56eb3d8b7452d406c1
+- filename: epiR_2.0.19.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/epiR/epiR_2.0.19.tar.gz
+  validation:
+    type: sha256
+    value: 594aba668bd02c7116d9b918d04f1d70e975ed45fcb66748e4ebad182d67ea7c
+- filename: ergm_3.11.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ergm/ergm_3.11.0.tar.gz
+  validation:
+    type: sha256
+    value: aa5b7f5e82a35036b9d06803f512e3294fffde9223dc74bb25b1a7a0cd9793cf
+- filename: fixest_0.8.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fixest/fixest_0.8.4.tar.gz
+  validation:
+    type: sha256
+    value: 166aa7a17069310ce8353ccea095e714bfc28528b96d3da1dce9ba489e8b4490
+- filename: gam_1.20.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gam/gam_1.20.tar.gz
+  validation:
+    type: sha256
+    value: 389188404742a40c6216b2453c2ee7e916433540e69717f3bba64dae60c35e45
+- filename: gee_4.13-20.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gee/gee_4.13-20.tar.gz
+  validation:
+    type: sha256
+    value: 3bdb288786196d68f78e402b262d9601a1010c6a2c44367426dd88975a303bf5
+- filename: geepack_1.3-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/geepack/geepack_1.3-2.tar.gz
+  validation:
+    type: sha256
+    value: 0edb8f157bd1f47116d288005c8c9c39b2b16c45347bef4d34de2e5f91395cdb
+- filename: ggplot2_3.3.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ggplot2/ggplot2_3.3.3.tar.gz
+  validation:
+    type: sha256
+    value: 5409a5f991bc730fa35d1085032980975e82d1e622d910237d4d87d046db9475
+- filename: glmnet_4.1-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/glmnet/glmnet_4.1-1.tar.gz
+  validation:
+    type: sha256
+    value: 871fd320931c509d3fa6275e437b48aee498aa6362d1666bfcf759ccaa52c73c
+- filename: glmnetUtils_1.1.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/glmnetUtils/glmnetUtils_1.1.8.tar.gz
+  validation:
+    type: sha256
+    value: e124eb7193e6a14848bedb112dde1c0d003fb8b753b0e34919b245e6de9fa3b1
+- filename: gmm_1.6-6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gmm/gmm_1.6-6.tar.gz
+  validation:
+    type: sha256
+    value: 190c0d38c28f649761393598acca0fa272ea985909828f3674df3570ee90c1d8
+- filename: Hmisc_4.5-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Hmisc/Hmisc_4.5-0.tar.gz
+  validation:
+    type: sha256
+    value: 4db8d3a673bb3424d3d0c7e7a68a80ad5d4a6607e1918d8f53f1d7a72e3dd41d
+- filename: irlba_2.3.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/irlba/irlba_2.3.3.tar.gz
+  validation:
+    type: sha256
+    value: 04cb8aff5dce69d9b0132edecb00022c9596106a255361361538ce616da4de37
+- filename: joineRML_0.4.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/joineRML/joineRML_0.4.5.tar.gz
+  validation:
+    type: sha256
+    value: c63bc7cbdbd12c843eddc3472bad3f5f2c89e00e71a7394e56bb09906591199f
+- filename: Kendall_2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Kendall/Kendall_2.2.tar.gz
+  validation:
+    type: sha256
+    value: 745f0a5e2482fc437bb481e754761a1a95649d874b661f8fd84f26d51a39c227
+- filename: ks_1.12.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ks/ks_1.12.0.tar.gz
+  validation:
+    type: sha256
+    value: dc5c827d32733cd94630009ab8bba456be875c149d97d3b7b9611017cdba3ea7
+- filename: Lahman_9.0-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Lahman/Lahman_9.0-0.tar.gz
+  validation:
+    type: sha256
+    value: bb388f6ac6659eda5b67c2586cd64af89cbe41f81e1f4595d86447d81989b4d9
+- filename: lavaan_0.6-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lavaan/lavaan_0.6-8.tar.gz
+  validation:
+    type: sha256
+    value: 949e369f3a43f8b865557857181f7a08b24f3b499cba3a168777286855ab5cd0
+- filename: leaps_3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/leaps/leaps_3.1.tar.gz
+  validation:
+    type: sha256
+    value: 4c22c655d92bcb7d970ec76b8717bc02b24b6de964f72aaa7a4c5a871fef5f1f
+- filename: lfe_2.8-6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lfe/lfe_2.8-6.tar.gz
+  validation:
+    type: sha256
+    value: b603f6d2d9600cd97c1ee1880ac3675cc0e9cd27298919708e01566cd93344de
+- filename: lm.beta_1.5-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lm.beta/lm.beta_1.5-1.tar.gz
+  validation:
+    type: sha256
+    value: 12727027cb6f9764885982a62972e0c38a92d502e9deb13a5a75304675eb035c
+- filename: lme4_1.1-26.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lme4/lme4_1.1-26.tar.gz
+  validation:
+    type: sha256
+    value: d4b83f4580df2220d1bf5f1a7c7b0feb3f2b22a7fe1923990a6c16d0beb3814d
+- filename: lmodel2_1.7-3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lmodel2/lmodel2_1.7-3.tar.gz
+  validation:
+    type: sha256
+    value: 4ba2045c923ef8831a5bd32159ca61cf75a5a60c261cf73bc75a3621fcec8c97
+- filename: lmtest_0.9-38.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lmtest/lmtest_0.9-38.tar.gz
+  validation:
+    type: sha256
+    value: 58d1926edce40a29eb8d8c9dccbf6495596a566b3de41345705d28429d33f0d5
+- filename: lsmeans_2.30-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lsmeans/lsmeans_2.30-0.tar.gz
+  validation:
+    type: sha256
+    value: 5c5f09ff1f382545f2ff7073cc5ebf699db859beaf24adf87a629a055b386d74
+- filename: maps_3.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/maps/maps_3.3.0.tar.gz
+  validation:
+    type: sha256
+    value: 3a52388b0227e28f8edf5c84132e462617989543ed3c460c2ba96c89a57fda04
+- filename: maptools_1.1-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/maptools/maptools_1.1-1.tar.gz
+  validation:
+    type: sha256
+    value: deb83efe7bded88b96638864ba7abfb4ba7be3dda0e9ceb0fec856144f7baf8f
+- filename: margins_0.3.26.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/margins/margins_0.3.26.tar.gz
+  validation:
+    type: sha256
+    value: 00245da65e4aad34f22c3e2cdb89dd58747f7446d5dfb5415b1345baa469fa84
+- filename: mclust_5.4.7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mclust/mclust_5.4.7.tar.gz
+  validation:
+    type: sha256
+    value: 4115e7a8e41510e3eee7a8587c09d4ae63b777bd727fbd9042b2df9cc6509821
+- filename: mediation_4.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mediation/mediation_4.5.0.tar.gz
+  validation:
+    type: sha256
+    value: 9d9e84f0b436f98b2b6f23538ed49396632490ce951d56816c226be0f195cb0f
+- filename: metafor_2.4-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/metafor/metafor_2.4-0.tar.gz
+  validation:
+    type: sha256
+    value: 8ac615046f607bcc22b82cf5ae77a82d4be469afd78c20a6e4c67641789997cb
+- filename: mfx_1.2-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mfx/mfx_1.2-2.tar.gz
+  validation:
+    type: sha256
+    value: 40b5484f02fe9a73bacc0aaa32efba19e7aeead6f113e9784d9bc2f2662ab8bc
+- filename: mlogit_1.1-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mlogit/mlogit_1.1-1.tar.gz
+  validation:
+    type: sha256
+    value: 974ae8252ceb45340369c9c9ed3184bb57dbd5355e0aae7dde3e669d65b63bf9
+- filename: modeldata_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/modeldata/modeldata_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 5a01231d4b841cd4ad230fb6c21464e18614e13e39075e441f7655c6a399c4f2
+- filename: modeltests_0.1.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/modeltests/modeltests_0.1.4.tar.gz
+  validation:
+    type: sha256
+    value: 1be235fe1c6ebf247fa4cd472ba206c324896adeef7fea2b3cb7e162443e1b10
+- filename: muhaz_1.2.6.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/muhaz/muhaz_1.2.6.4.tar.gz
+  validation:
+    type: sha256
+    value: 37dc3ebfb58c80e30f2b3ee048ff588fa7cca909ce8fd62ea11c1fafd7188f04
+- filename: multcomp_1.4-17.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/multcomp/multcomp_1.4-17.tar.gz
+  validation:
+    type: sha256
+    value: 5df077d885469c3bd2834cdac989b5f9c22264cb583007d8ea6b0b0c2d77f98b
+- filename: network_1.16.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/network/network_1.16.1.tar.gz
+  validation:
+    type: sha256
+    value: 406363588cd9d9c71ed1da0b73a055f68d0c42757e40bbb22d2224ce6d7a25ba
+- filename: orcutt_2.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/orcutt/orcutt_2.3.tar.gz
+  validation:
+    type: sha256
+    value: 11bbe9a895c11b218248c7df78a658abb01367ae126c013166190ddf4f46b0b8
+- filename: ordinal_2019.12-10.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ordinal/ordinal_2019.12-10.tar.gz
+  validation:
+    type: sha256
+    value: 1de858095a42a138b624222b75bdb8219878ce31a486865562d38080649f6a4a
+- filename: plm_2.4-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plm/plm_2.4-1.tar.gz
+  validation:
+    type: sha256
+    value: d755f73b20f0c5ed346194a7004a79bd970cd513e43006e2967c5cd5e8877b59
+- filename: poLCA_1.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/poLCA/poLCA_1.4.1.tar.gz
+  validation:
+    type: sha256
+    value: 20b7950b1fe7dd706e5d38a3210288b4814307a55f1bbd288ee1f0c3a528381f
+- filename: psych_2.1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/psych/psych_2.1.3.tar.gz
+  validation:
+    type: sha256
+    value: 304c4de07f5cfd8a30b9ad341aea15a0a4eaf635894683db34ff87041edf2ce2
+- filename: quantreg_5.85.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/quantreg/quantreg_5.85.tar.gz
+  validation:
+    type: sha256
+    value: 6cbf05b4ca1c4c9d7bbac963ee485e32863f6dd9497a0ec54844e494f5bb3132
+- filename: Rchoice_0.3-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Rchoice/Rchoice_0.3-2.tar.gz
+  validation:
+    type: sha256
+    value: eb9e7e1d4c5a212822dae19d5671ef86f6bde715ca9346e565d3c78e76e1dfd4
+- filename: rgeos_0.5-5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rgeos/rgeos_0.5-5.tar.gz
+  validation:
+    type: sha256
+    value: 8d56ec2cc4c3e8eed75efcba8641929b7e80f925343aff994fc641a96cdaa66c
+- filename: robust_0.5-0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/robust/robust_0.5-0.0.tar.gz
+  validation:
+    type: sha256
+    value: 3fb35356b3c0691e31022dd8fb2ac01e3daf9505ee544fe2db5aefe0afbcd8a7
+- filename: robustbase_0.93-7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/robustbase/robustbase_0.93-7.tar.gz
+  validation:
+    type: sha256
+    value: 7c5f2d62c185dc0013795403797b25dc026e3a8ac69b5f46370e0028ea4eac96
+- filename: rsample_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rsample/rsample_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 33e08715624f9761f11e79d2cb823d1d00367c20b6f8723c31fc27910e44b6b0
+- filename: sandwich_3.0-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sandwich/sandwich_3.0-0.tar.gz
+  validation:
+    type: sha256
+    value: d00308ba55212f44395df45b72d59d2374eb15ad7101dac4cc2695a1bdfe0635
+- filename: sp_1.4-5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sp/sp_1.4-5.tar.gz
+  validation:
+    type: sha256
+    value: 847f5c0cd8c669fa04929a09f5c7b3763e28bebc68268bd28a155b43421cf525
+- filename: spdep_1.1-7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/spdep/spdep_1.1-7.tar.gz
+  validation:
+    type: sha256
+    value: d0ff2fbbfb1881e6ab2e5ef136ca1dc1b91eed59aedda4110582492e9a1671d3
+- filename: spatialreg_1.1-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/spatialreg/spatialreg_1.1-8.tar.gz
+  validation:
+    type: sha256
+    value: d903f38f688fbb324338c65ee2e281011a61984cf494f54b6fd642b7d05bccfe
+- filename: speedglm_0.3-3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/speedglm/speedglm_0.3-3.tar.gz
+  validation:
+    type: sha256
+    value: 6a778fd3ab037d6ddd99b5e2a3372181815264a10d2cb60967bcfbb46b435a0c
+- filename: spelling_2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/spelling/spelling_2.2.tar.gz
+  validation:
+    type: sha256
+    value: 9df7c6837b336000535a31a4d9597d91799d7a3f848710a2194b45e8f60e7bfe
+- filename: survey_4.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/survey/survey_4.0.tar.gz
+  validation:
+    type: sha256
+    value: 5010dbfe96b182d8f77465ce018c46ed79edb9330e01afc4713d367ef01d36b7
+- filename: systemfit_1.1-24.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/systemfit/systemfit_1.1-24.tar.gz
+  validation:
+    type: sha256
+    value: ebf165937601d0279449ae9d2b460f7b5d65a1b41f990cd1f49c9ccd12d202fb
+- filename: tseries_0.10-48.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tseries/tseries_0.10-48.tar.gz
+  validation:
+    type: sha256
+    value: aad82e799bb9d90447b7cebab7e79944317fb00482e23964d99ed3257cb45d64
+- filename: vars_1.5-3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/vars/vars_1.5-3.tar.gz
+  validation:
+    type: sha256
+    value: 1fa7a83baa6aa074b9f503d1de82e845b28cc9125de6b429c1d808b5737850ca
+- filename: zoo_1.8-9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/zoo/zoo_1.8-9.tar.gz
+  validation:
+    type: sha256
+    value: 54a065d74e2b9cc074e8418c6da5d0111193cb8b55cf3ae1e8f1fc17fb97b632
+- filename: partykit_1.2-13.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/partykit/partykit_1.2-13.tar.gz
+  validation:
+    type: sha256
+    value: 7612295967527f38892e65bc234da1853c86f86d09cd625a5c8e70b3624da1f1
+- filename: Cubist_0.2.40.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Cubist/Cubist_0.2.40.tar.gz
+  validation:
+    type: sha256
+    value: bf6ce9d86f38edbb6453f71546638a85d735e368c49a0cba2f14ffb08113554e
+- filename: callr_3.7.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/callr/callr_3.7.0.tar.gz
+  validation:
+    type: sha256
+    value: 3d78c84fe9234e753a0f0f78e41995be7ddc43bf340444aee29798a2cc70bb71
+- filename: mockery_0.4.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mockery/mockery_0.4.2.tar.gz
+  validation:
+    type: sha256
+    value: 24c7c62b0ec507c662aaa0cfa42781dba62572cb8f4e1ca95064a25e9963a92c
+- filename: ps_1.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ps/ps_1.6.0.tar.gz
+  validation:
+    type: sha256
+    value: 011a2205dec0024cb45bf2b7f99f2cb4bb3a763723c87a587282540cb2879260
+- filename: rstudioapi_0.13.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rstudioapi/rstudioapi_0.13.tar.gz
+  validation:
+    type: sha256
+    value: e946b290b6f0dd8d7186bfdcff9bfa07f757a59614c25dc4e5b39d1eb337cc3b
+- filename: prettycode_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/prettycode/prettycode_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 8e4b19fc3ce9150bb15d15308d3b823839bafd355cd43debba7f64c0d053b303
+- filename: withr_2.4.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/withr/withr_2.4.2.tar.gz
+  validation:
+    type: sha256
+    value: 405a3992b936554ca4d9101eeced65ba101898f78bf2678860652ea6d8169d54
+- filename: htmltools_0.5.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/htmltools/htmltools_0.5.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 2bd803d78c46236f2092c28dfca71bfc4627f03e5e9b65bd1954b1afc7cae002
+- filename: jsonlite_1.7.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/jsonlite/jsonlite_1.7.2.tar.gz
+  validation:
+    type: sha256
+    value: 99f8563f3bc5160f0b7dd74328291373be1dfb08e033eea3c086b74401748875
+- filename: crosstalk_1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/crosstalk/crosstalk_1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: c6fe1f077f335a5a11369a778f7ec8b970a1eff61ae8ece2fba3facb6c65b759
+- filename: promises_1.2.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/promises/promises_1.2.0.1.tar.gz
+  validation:
+    type: sha256
+    value: be08d573d6a93811bcac70991d3bae6dadadfab48067f62347430a98656af4af
+- filename: bslib_0.2.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/bslib/bslib_0.2.4.tar.gz
+  validation:
+    type: sha256
+    value: 835698d33363b149846a22ea469ac672c713d0ce9d5620ade3d71e1e5dd0b94e
+- filename: testit_0.13.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/testit/testit_0.13.tar.gz
+  validation:
+    type: sha256
+    value: 6755e131f84929bd5346fed94bcc5d91a41642ecbe2408f4a6e8811890f996ad
+- filename: Rcpp_1.0.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Rcpp/Rcpp_1.0.6.tar.gz
+  validation:
+    type: sha256
+    value: 9669d6823a14bf641525e073250fd4eb7f0307cadf188f454dd77263e0b750d7
+- filename: hms_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/hms/hms_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 1c50d7abae885a49b3f48e9c1f20dfdeed663a8f900101bde3d8be71dcb7bfe6
+- filename: checkmate_2.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/checkmate/checkmate_2.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 44196ddd63943b5dc5dcaa77bd6e21abf96d2ff130bd36ffb2f7134c6bd7c781
+- filename: commonmark_1.7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/commonmark/commonmark_1.7.tar.gz
+  validation:
+    type: sha256
+    value: 7d44d68b7444ff352a1b559ecb4ece98a8f2d26259131bd0100c360e56903069
+- filename: fs_1.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fs/fs_1.5.0.tar.gz
+  validation:
+    type: sha256
+    value: 9b19ff631bace98c9b118c81f79c82a021b51baf51497f6de5853879781f05fd
+- filename: sass_0.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sass/sass_0.3.1.tar.gz
+  validation:
+    type: sha256
+    value: 6cd7dbe9587e8fa444e8f8d91bc43731d3504e4d3578388d5f37c1c9770be505
+- filename: tidyselect_1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tidyselect/tidyselect_1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 2e8658232f28cc5447e3063430e1c1927c15bedd1f1216daffd0d011bb424e6d
+- filename: paletteer_1.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/paletteer/paletteer_1.3.0.tar.gz
+  validation:
+    type: sha256
+    value: b3b5d88209c643bd0d366898c482ef7384d1473573e0fa966d2512986586835c
+- filename: RColorBrewer_1.1-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RColorBrewer/RColorBrewer_1.1-2.tar.gz
+  validation:
+    type: sha256
+    value: 05f224657dfb819bd383ab123f1373a2a4c964cde4457bd8d9eb093ff52d2f2d
+- filename: webshot_0.5.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/webshot/webshot_0.5.2.tar.gz
+  validation:
+    type: sha256
+    value: 8574c7e72d70bd9a926e74e230b5556da88c3cebb99de86d8ea304ec12e5c288
+- filename: xml2_1.3.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xml2/xml2_1.3.2.tar.gz
+  validation:
+    type: sha256
+    value: ee0a7dec234f17ee47455823614fa4afbc73c8a19c8861588ddbaa4a62830ed4
+- filename: rlist_0.4.6.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rlist/rlist_0.4.6.1.tar.gz
+  validation:
+    type: sha256
+    value: cf1160f8c1f5fd719a3dcc77a46d6c884b5aa1791aa0e19fc74d9432a065825b
+- filename: assertthat_0.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/assertthat/assertthat_0.2.1.tar.gz
+  validation:
+    type: sha256
+    value: 87393da61655bda2ce1933c6c9eb770f4b549713994f3536c21586092535de22
+- filename: xts_0.12.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xts/xts_0.12.1.tar.gz
+  validation:
+    type: sha256
+    value: 1bf49c5535b9a5634388a72c6e0e8b6650e37b2bf3069c30535c2a03e41b032b
+- filename: quantmod_0.4.18.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/quantmod/quantmod_0.4.18.tar.gz
+  validation:
+    type: sha256
+    value: 9598e678d489bc7e2d15c0907be624060b502d483314a673f8d1a0528e87cf80
+- filename: igraph_1.2.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/igraph/igraph_1.2.6.tar.gz
+  validation:
+    type: sha256
+    value: f0e2506fe2984bf09351bf8226515b5fc696157aeed8b36af4c7bfe940e4d932
+- filename: yaml_2.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/yaml/yaml_2.2.1.tar.gz
+  validation:
+    type: sha256
+    value: d46628dd611bd79fc4ba8143bdf887560f7867262961a69d912647e56df2de4b
+- filename: rjson_0.2.20.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz
+  validation:
+    type: sha256
+    value: aabdff0976aa18eb95d9e95d595a2e0926fe10cfa2fdb08c225900ec4776af5e
+- filename: viridisLite_0.4.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/viridisLite/viridisLite_0.4.0.tar.gz
+  validation:
+    type: sha256
+    value: 22051d2cf71179700141f56d22290b38b17952c05cea660dfc4f20c6cb08ff96
+- filename: gapminder_0.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gapminder/gapminder_0.3.0.tar.gz
+  validation:
+    type: sha256
+    value: f40fd6e19df1296230842d140c9cc4c9e520f0ebce61d1090a263245d3c85f44
+- filename: forecast_8.14.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/forecast/forecast_8.14.tar.gz
+  validation:
+    type: sha256
+    value: 10cce5333143a79b3a869c6d47b24afbd74ed72132ada108d0974ed40670da0e
+- filename: geojsonio_0.9.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/geojsonio/geojsonio_0.9.4.tar.gz
+  validation:
+    type: sha256
+    value: ab3ed8d42ad00e7e294fc415c2e6b40c307ac1afbe85e43f6a358b9629f950de
+- filename: curl_4.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/curl/curl_4.3.1.tar.gz
+  validation:
+    type: sha256
+    value: 85e4580d0e288c79528154bb74ed791fa591421a54644eb32820d06be7e6c062
+- filename: mime_0.10.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mime/mime_0.10.tar.gz
+  validation:
+    type: sha256
+    value: 3336d979a0f9d0f52be7ade6c49510a2ec06eae8c730063be01f9a31df0047a9
+- filename: openssl_1.4.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/openssl/openssl_1.4.4.tar.gz
+  validation:
+    type: sha256
+    value: bb1e9810c890af9957b7b1700e68b9d85b11c51a665e97b2beedb8d92aafcbec
+- filename: R6_2.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/R6/R6_2.5.0.tar.gz
+  validation:
+    type: sha256
+    value: 7e4994e50659d3531d9170f136cb1daadb98692f91587de6377d641a430f79e1
+- filename: httpuv_1.6.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/httpuv/httpuv_1.6.1.tar.gz
+  validation:
+    type: sha256
+    value: 3b530279f4c9967c73a87d2769c19b3c6e129a8cc3ec2aecbcfa1bc5176f25a1
+- filename: jpeg_0.1-8.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/jpeg/jpeg_0.1-8.1.tar.gz
+  validation:
+    type: sha256
+    value: 665eb96e2d5fa908642daec57cd6cb45a1942d144845b5d54c8dd74c769515fb
+- filename: png_0.1-7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/png/png_0.1-7.tar.gz
+  validation:
+    type: sha256
+    value: 6ad9667f1cd4ea9968d40dc0f8f2f98dc696f27f667027b38753aa674ed6f991
+- filename: evaluate_0.14.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/evaluate/evaluate_0.14.tar.gz
+  validation:
+    type: sha256
+    value: e7b4ac485410d92ebafd4362347d0612782e89958eeeb962cd3152542ec13c1f
+- filename: highr_0.9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/highr/highr_0.9.tar.gz
+  validation:
+    type: sha256
+    value: eb92f8d7b2b04d57d595e35182aa0ae981cb7e375196720f48a638b6b10dc998
+- filename: markdown_1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/markdown/markdown_1.1.tar.gz
+  validation:
+    type: sha256
+    value: 4badd314785682d20e5ef6b99ca7f7ea719240b5626768a720cf75fcf946fd37
+- filename: xfun_0.22.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xfun/xfun_0.22.tar.gz
+  validation:
+    type: sha256
+    value: 85ca80cd378fb481b5a1cf9e18cb3dfda4777a7127525dc30a1e8735c51bdf79
+- filename: formatR_1.9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/formatR/formatR_1.9.tar.gz
+  validation:
+    type: sha256
+    value: 54e071520a49b4f80ee512dd4c3ed71539738499103241e57c0ad1d05bef4894
+- filename: digest_0.6.27.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/digest/digest_0.6.27.tar.gz
+  validation:
+    type: sha256
+    value: bbca791fab7ea86cee550f69b40b8a97f8a8a081dd23867d0267c746d87f39cc
+- filename: rgl_0.106.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rgl/rgl_0.106.8.tar.gz
+  validation:
+    type: sha256
+    value: d1ee3e84c746badcf12257439621288297fa9e7687e354c5ae36e8f073b2832f
+- filename: tikzDevice_0.12.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tikzDevice/tikzDevice_0.12.3.1.tar.gz
+  validation:
+    type: sha256
+    value: 854810272f126ca55376e395a093bfd7d34d4c40dd8c6fea4f76348dbe08876a
+- filename: tinytex_0.31.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tinytex/tinytex_0.31.tar.gz
+  validation:
+    type: sha256
+    value: e93d8ec626a6fc27c3ca597605c82da81cf2b30fd2bf649ff0b67528e4c9580d
+- filename: JuliaCall_0.17.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/JuliaCall/JuliaCall_0.17.2.tar.gz
+  validation:
+    type: sha256
+    value: 050131030fc4b4901674ae04d130de3ae41fd0dd7e8ac5cc0c2e7e7f31c0c01b
+- filename: magick_2.7.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/magick/magick_2.7.2.tar.gz
+  validation:
+    type: sha256
+    value: ab5f36d179dde0c0b1deadd49a49ec7c10333422fb0cc558c46855e26f2300b3
+- filename: gifski_1.4.3-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gifski/gifski_1.4.3-1.tar.gz
+  validation:
+    type: sha256
+    value: 939d06982e62262b66558823a2fc673144970ee9b75afaaa9a2212540ab4f508
+- filename: DBI_1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/DBI/DBI_1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 7ceeb49dedf0bb5cf3d2416a3f9880131d99503558c0b299d7fec84b683952d6
+- filename: showtext_0.9-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/showtext/showtext_0.9-2.tar.gz
+  validation:
+    type: sha256
+    value: fa5fe305de77b49d98772721473aec33be7bb811ec191c54cdd7b70e49a6eb37
+- filename: ragg_1.1.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ragg/ragg_1.1.2.tar.gz
+  validation:
+    type: sha256
+    value: f5fbc45ceeada91441c6d5873e122718884d513e1ce649616217f501e28025d5
+- filename: styler_1.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/styler/styler_1.4.1.tar.gz
+  validation:
+    type: sha256
+    value: 12744ec0bef839e26b57e218cbf51b7f85e7d9aa2d29b2db94ddf7c8f39cb8ad
+- filename: latticeExtra_0.6-29.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/latticeExtra/latticeExtra_0.6-29.tar.gz
+  validation:
+    type: sha256
+    value: 995aed8fd2c0323c0d62e0d2a44b966272105f630f85c29314473daeb65d0170
+- filename: vctrs_0.3.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/vctrs/vctrs_0.3.8.tar.gz
+  validation:
+    type: sha256
+    value: 77f98cc471425af2a8cf1d6cfd8b9071c24ed7832bfcd354dc35e662cfc99d88
+- filename: expm_0.999-6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/expm/expm_0.999-6.tar.gz
+  validation:
+    type: sha256
+    value: a14884c0a318189aba5eb605deecd1cd15e0bb766a1a7c786e630728e6246e83
+- filename: zip_2.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/zip/zip_2.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 3afca4f7f21ddde295deab9bb04670a873fb4a057df2c0c08c64981bda207035
+- filename: stringi_1.6.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/stringi/stringi_1.6.1.tar.gz
+  validation:
+    type: sha256
+    value: c75ed79a75bfb2cd24246b510f2b1fb922e6445fb6ad60a39da69e735bfa10d0
+- filename: globals_0.14.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/globals/globals_0.14.0.tar.gz
+  validation:
+    type: sha256
+    value: d718aba3552b710a9e992ba3614c4818b8ccc66e678e4e96caea374b2d51006f
+- filename: prettyunits_1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/prettyunits/prettyunits_1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 4b925c481d7eafbd6e07c6db16d93817407cbb86928383da485be61bb7fd47b8
+- filename: keras_2.4.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/keras/keras_2.4.0.tar.gz
+  validation:
+    type: sha256
+    value: 3c4ddea728e7bb00d23d0e10266e4ba0fde8ae395671294e5a50428a54581f56
+- filename: earth_5.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/earth/earth_5.3.0.tar.gz
+  validation:
+    type: sha256
+    value: ff3ae49ff2d9c6c156f6c0610c75dd90ec84bb0aee8028616b72dbd850da96f7
+- filename: ranger_0.12.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ranger/ranger_0.12.1.tar.gz
+  validation:
+    type: sha256
+    value: 18ecfeea78af4f91e8769c7c4c73f0d90414427d3ab12c9f1101d162444de69a
+- filename: base64enc_0.1-3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/base64enc/base64enc_0.1-3.tar.gz
+  validation:
+    type: sha256
+    value: ec261c5e2aa93778f33a94245d672baf93e33c7dc72c2783c7361e8705c114b4
+- filename: lazyeval_0.2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lazyeval/lazyeval_0.2.2.tar.gz
+  validation:
+    type: sha256
+    value: 60bc3e9b5ea101688b76ac42d17ae3673382343d035f77dff7d59b8200b8e2c8
+- filename: data.table_1.14.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/data.table/data.table_1.14.0.tar.gz
+  validation:
+    type: sha256
+    value: 4ab33f0e77b9a0333a42607751e6c2e0cb10d5ec24b4b85918df57cd37ee0c36
+- filename: hexbin_1.28.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/hexbin/hexbin_1.28.2.tar.gz
+  validation:
+    type: sha256
+    value: 2df4c922c7241a952f6f871b1f93618279f3e2259d0b6ff25348c4786e8abfed
+- filename: ggthemes_4.2.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ggthemes/ggthemes_4.2.4.tar.gz
+  validation:
+    type: sha256
+    value: b7369f20f18a804b365632cad37d6f52c7793b47658dd8a718b637603c5d5536
+- filename: GGally_2.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/GGally/GGally_2.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 35120323bc2d6c84a1ea9831cbc47ae83c3b59a5f5cf66bb01922434501f4347
+- filename: shinytest_1.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/shinytest/shinytest_1.5.0.tar.gz
+  validation:
+    type: sha256
+    value: ae6cdc3ad406cd2c8c67a5e1b4c3cf8fcc75630da0564f3adedaa8e56543ba09
+- filename: vdiffr_0.3.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/vdiffr/vdiffr_0.3.3.tar.gz
+  validation:
+    type: sha256
+    value: ddebe0c6c09260005fb95fc6e1b802d3779f7af1d9855954d13992f39bb8f23d
+- filename: Cairo_1.5-12.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Cairo/Cairo_1.5-12.2.tar.gz
+  validation:
+    type: sha256
+    value: 6277f87ed73d5ce4599c3db90e8209c28cf4e7d8ef26f90566d449c65671b87a
+- filename: listviewer_3.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/listviewer/listviewer_3.0.0.tar.gz
+  validation:
+    type: sha256
+    value: c507a96314843344c8ad23b4c0bf87536f5b0604660329bd0a984c5688ef95d4
+- filename: dendextend_1.15.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dendextend/dendextend_1.15.1.tar.gz
+  validation:
+    type: sha256
+    value: 2927c9e2d86bfde87da4a1c0055464b80793f9f483e38c24c4a4d50e27a8d401
+- filename: sf_0.9-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sf/sf_0.9-8.tar.gz
+  validation:
+    type: sha256
+    value: 49972b8f380084beff8417d3d99004cceddaacb547a2848ca10a81ddf6a8f1eb
+- filename: IRdisplay_1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/IRdisplay/IRdisplay_1.0.tar.gz
+  validation:
+    type: sha256
+    value: 2ee811d4ea4b3a232d9212ce4e96eace302ba1b8282383dec4df603d8a1c2a00
+- filename: processx_3.5.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/processx/processx_3.5.2.tar.gz
+  validation:
+    type: sha256
+    value: 426a4838701f15745df6e1e59cb01ef7429782c7c96b1903e969ca74f67088d0
+- filename: plotlyGeoAssets_0.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plotlyGeoAssets/plotlyGeoAssets_0.0.2.tar.gz
+  validation:
+    type: sha256
+    value: 1955d6a79fe3a1a9b87825c2765734a360e5dacf6273c42544f4e9b4b1cea2e7
+- filename: palmerpenguins_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/palmerpenguins/palmerpenguins_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 74d9fecd3eb13abb8d7d7340b20168daf82a22403c6392003ee2eddfd2c4fec5
+- filename: gridSVG_1.7-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gridSVG/gridSVG_1.7-2.tar.gz
+  validation:
+    type: sha256
+    value: 219a6f8fc9c8e8161d8d9a526a8c3c9555bd1765eb2c16d58b34ea7df10e33ba
+- filename: plyr_1.8.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plyr/plyr_1.8.6.tar.gz
+  validation:
+    type: sha256
+    value: c042a375c0bc9e36ead3cf8528f8e56a6326a192c2720bf70e8ccc2933344ae1
+- filename: survivalROC_1.0.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/survivalROC/survivalROC_1.0.3.tar.gz
+  validation:
+    type: sha256
+    value: c9ff2882ee0c0fb45c36c4c09c100b221daac0b622808eb5429261aa33a4a82b
+- filename: bitops_1.0-7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/bitops/bitops_1.0-7.tar.gz
+  validation:
+    type: sha256
+    value: abb7104ab91c618ea6cf311bf801ac4ac4eec1abfeb1f4914162d504b379a062
+- filename: XML_3.99-0.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/XML/XML_3.99-0.6.tar.gz
+  validation:
+    type: sha256
+    value: 2632de816a4eb619d50da700632a253b09a7637dc00b123a458b40c66aa8025a
+- filename: tufte_0.9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tufte/tufte_0.9.tar.gz
+  validation:
+    type: sha256
+    value: 16590eaacb5ba28e3fda84db9b994fe84f99b1ecb69fd768eafc27c14bde23e2
+- filename: dygraphs_1.1.1.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dygraphs/dygraphs_1.1.1.6.tar.gz
+  validation:
+    type: sha256
+    value: 79cfb651df44cfa3aebbfcdfdde08010e203ae40ab062e77e7f050c7cc5c5cb0
+- filename: rsconnect_0.8.17.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rsconnect/rsconnect_0.8.17.tar.gz
+  validation:
+    type: sha256
+    value: bb15662f54453864668e9e6673e2f4e092491e37bea4ffd5de335c64621e4aca
+- filename: brew_1.0-6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/brew/brew_1.0-6.tar.gz
+  validation:
+    type: sha256
+    value: fc5c5c51baf3febfb3bfb79289602bcb2a5ae33fab1bf3fca56fc282c2f54eca
+- filename: desc_1.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/desc/desc_1.3.0.tar.gz
+  validation:
+    type: sha256
+    value: f9ee84dfde0ac7398ac911e557d9bf22cbdb380d323abf436c1413b830a89f8c
+- filename: pkgload_1.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pkgload/pkgload_1.2.1.tar.gz
+  validation:
+    type: sha256
+    value: f9a3910ba0fba3cfce32038b114090ef632a33b5eab0caf2b611a517feb87671
+- filename: R.methodsS3_1.8.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/R.methodsS3/R.methodsS3_1.8.1.tar.gz
+  validation:
+    type: sha256
+    value: 43441383bb75a9b464bad3d3d7c9b1b34dfd0c1ce56ad3442e86de17a0997d84
+- filename: R.oo_1.24.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/R.oo/R.oo_1.24.0.tar.gz
+  validation:
+    type: sha256
+    value: 1625615cf333173050334d8e4f4d44cfc354ffe738b12dd48afc7ab0b1f7b179
+- filename: lifecycle_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lifecycle/lifecycle_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: d6b1b4570f7ea4771873dfc96b198727d045be4752be9f60ebb7cd095bb34102
+- filename: selectr_0.4-2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/selectr/selectr_0.4-2.tar.gz
+  validation:
+    type: sha256
+    value: 07d03c70254a034c63773c47063fdcaece6499d5b904993105e4b15d1e398dcc
+- filename: repurrrsive_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/repurrrsive/repurrrsive_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 0070769530217a10d29b3f72059f5aa1999496f7d02e08dbcf55a844f558a52b
+- filename: webfakes_1.1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/webfakes/webfakes_1.1.3.tar.gz
+  validation:
+    type: sha256
+    value: 91e26c38419329818c42c2833963122e1f3760195c5973f1d6a96241e4aa13f3
+- filename: farver_2.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/farver/farver_2.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 81fa5151c2a8166a7e4ccc4dfba7d2d13822b5873a9c0d338d7a82ae7bcc93f9
+- filename: labeling_0.4.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/labeling/labeling_0.4.2.tar.gz
+  validation:
+    type: sha256
+    value: efc0539fc922aee17d7deb23dcec20c137cfed54d3555e50dffce536ebc3478e
+- filename: munsell_0.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/munsell/munsell_0.5.0.tar.gz
+  validation:
+    type: sha256
+    value: 04d05e466946e101072533b1c1fc83847bbd141731c4eabf608809c71d01071a
+- filename: bit64_4.0.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/bit64/bit64_4.0.5.tar.gz
+  validation:
+    type: sha256
+    value: 90035ad471b3d260080fbec3825f1e7a280c9e61e38289a944ef1402acf5e339
+- filename: dichromat_2.0-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dichromat/dichromat_2.0-0.tar.gz
+  validation:
+    type: sha256
+    value: 3038d406cf0178776fddbdc83a3d216f8df85eb8dc1b267c83fda4134a193714
+- filename: xtable_1.8-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xtable/xtable_1.8-4.tar.gz
+  validation:
+    type: sha256
+    value: 53dc5b267f6bb902b2d70cad870ba956ca673120d5d69ded7c47ecbbd8d9ad34
+- filename: sourcetools_0.1.7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sourcetools/sourcetools_0.1.7.tar.gz
+  validation:
+    type: sha256
+    value: e32c74fec18924a0486ebfca1f1e86136fb0b302402ccd2b86d773bb95cd2459
+- filename: later_1.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/later/later_1.2.0.tar.gz
+  validation:
+    type: sha256
+    value: 10e6a5dd960ce1911568437f424607702e88f8f32506306412a5a2ad198371e4
+- filename: crayon_1.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/crayon/crayon_1.4.1.tar.gz
+  validation:
+    type: sha256
+    value: e99f68a35c5ca2c69b7864f8f4b0249a53d3a7072816988c672d940cdee872d8
+- filename: fastmap_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fastmap/fastmap_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: c5b98ee12fd257e8679ade898907165861ebb223f4de9d011fed06384aaaf41a
+- filename: cachem_1.0.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/cachem/cachem_1.0.4.tar.gz
+  validation:
+    type: sha256
+    value: f7e890478a4e77803584bc920a6dad7c524353185d1123cbdf66af4f0ae3939e
+- filename: reactlog_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/reactlog/reactlog_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: b4e71cb04f48e9598318799beea0cf426f3f9ad16f8456a1eccde4cf9f9c67e1
+- filename: future_1.21.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/future/future_1.21.0.tar.gz
+  validation:
+    type: sha256
+    value: e58ae2c6dab8fcfbf4f887eda4abae398c404c53459026e3660ffca5054ea499
+- filename: shinydashboardPlus_2.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/shinydashboardPlus/shinydashboardPlus_2.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 3a01520c12320772942ab754dc9c784f2cfe92b47d820d163d9703feab71ac81
+- filename: bs4Dash_0.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/bs4Dash/bs4Dash_0.5.0.tar.gz
+  validation:
+    type: sha256
+    value: 1ae52991105eb4564e7559620bcc3839ed12c64cc0f9e3054172191e87b542be
+- filename: argonR_0.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/argonR/argonR_0.2.0.tar.gz
+  validation:
+    type: sha256
+    value: 458bc8e292037bae6b74df9bacddc9c56e4114924cd5a8c4e09e74a0d2d0c02f
+- filename: argonDash_0.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/argonDash/argonDash_0.2.0.tar.gz
+  validation:
+    type: sha256
+    value: ce6ef463b808856930b30eca7dc3bcb13b0c6287ad861b3d66b1b9bd70a8d4e5
+- filename: tablerDash_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tablerDash/tablerDash_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 32b2d7e123829a49a54385c516d4b304bed813ebb1815bc1c60f26f3a07d8dd0
+- filename: blob_1.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/blob/blob_1.2.1.tar.gz
+  validation:
+    type: sha256
+    value: 670c2228bf23fd0c9dc648ef426724595c354daeaea978184da2cba000fb6d5f
+- filename: config_0.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/config/config_0.3.1.tar.gz
+  validation:
+    type: sha256
+    value: a178a397d358dce83cf8e1029f4bab252a54209c479b1a7afe7ae89acac53645
+- filename: dbplyr_2.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dbplyr/dbplyr_2.1.1.tar.gz
+  validation:
+    type: sha256
+    value: a684cfe7f68ab0262e9f570cf4c745348d5a867082e77d1600640dc63965ffab
+- filename: forge_0.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/forge/forge_0.2.0.tar.gz
+  validation:
+    type: sha256
+    value: d0800e19a546dc8438a27f3250769e0d2d4e8c81b2c2cfcc892fe4f3e17a8eb4
+- filename: r2d3_0.2.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/r2d3/r2d3_0.2.5.tar.gz
+  validation:
+    type: sha256
+    value: b636afcb3721fe877209623dcda7a772f54dbf0723ab8796a3439cbf9b046230
+- filename: rappdirs_0.3.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rappdirs/rappdirs_0.3.3.tar.gz
+  validation:
+    type: sha256
+    value: 6f619fd06c7ab14df5beda2afcb562fc0df23d1cbb7b8af4f9e90d9a81b0936c
+- filename: rprojroot_2.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rprojroot/rprojroot_2.0.2.tar.gz
+  validation:
+    type: sha256
+    value: 9d99e65feddc451126aa3bc7752137c8fad16fd8e0ea1f2d866544ea46716b64
+- filename: uuid_0.1-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/uuid/uuid_0.1-4.tar.gz
+  validation:
+    type: sha256
+    value: 4acbe38edead1a75444e46f1fee461cbb2ed870a24947a0bf1974c43c7d841a9
+- filename: arrow_4.0.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/arrow/arrow_4.0.0.1.tar.gz
+  validation:
+    type: sha256
+    value: c940143efd6f79f5092c247c65fa7c42efdc15fbe252e949acf6a23ed43dbe28
+- filename: diffobj_0.3.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/diffobj/diffobj_0.3.4.tar.gz
+  validation:
+    type: sha256
+    value: 90e2b52258a383b79bbe3911eef4cb15ef1db9bc441b000207e9408995d6d8c3
+- filename: foreach_1.5.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/foreach/foreach_1.5.1.tar.gz
+  validation:
+    type: sha256
+    value: 53661aa7e4bf22234b71e001f407ad3cd0457ab61d41993a3638f37a006e6af5
+- filename: iterators_1.0.13.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/iterators/iterators_1.0.13.tar.gz
+  validation:
+    type: sha256
+    value: f597cda1958cdb26cb5e6a92c518f44b37ae05fe58544090345f0320ea2db2e6
+- filename: janeaustenr_0.1.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/janeaustenr/janeaustenr_0.1.5.tar.gz
+  validation:
+    type: sha256
+    value: 683ed258ea7d5e025e6481847fcf0f89784cfff4f069da3950199c53866796a0
+- filename: nycflights13_1.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/nycflights13/nycflights13_1.0.2.tar.gz
+  validation:
+    type: sha256
+    value: b465d7dd04e4326a4c7be09d3b0eef22c4b04e5e5af5bd40a6c22ee3de53881b
+- filename: reshape2_1.4.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/reshape2/reshape2_1.4.4.tar.gz
+  validation:
+    type: sha256
+    value: e30ee8076f168bab2edcbdf414ee1ce7d02edc9178607891e2250b26e3122e5f
+- filename: brio_1.1.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/brio/brio_1.1.2.tar.gz
+  validation:
+    type: sha256
+    value: 7c7cfd09ce320d98b6592ea9cc20adfa7cb50d69ef07bd55a44f05ec3a940690
+- filename: praise_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/praise/praise_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 81c61e97f46f16da751fda19143002dc65c3b43fddbb85ae5106a830259fed00
+- filename: waldo_0.2.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/waldo/waldo_0.2.5.tar.gz
+  validation:
+    type: sha256
+    value: d9cb337abbd2829dc3c153e8d5d21f94e44c3a9007bdc3b3be4bdce987fa0040
+- filename: diffviewer_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/diffviewer/diffviewer_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: bcb48bd030163cd99c9e7056397dffe320fd75485f83a51676bb004ff53d63b3
+- filename: usethis_2.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/usethis/usethis_2.0.1.tar.gz
+  validation:
+    type: sha256
+    value: d072e803bf489a1eac367d94ffb15d052b69ac1c3f638e0a6dd2d51c68170853
+- filename: conflicted_1.0.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/conflicted/conflicted_1.0.4.tar.gz
+  validation:
+    type: sha256
+    value: ed2ab0b709b88c9e3342014d3bf7a750730bbdcc6541b1dea0e49177fbc0ff19
+- filename: dials_0.0.9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dials/dials_0.0.9.tar.gz
+  validation:
+    type: sha256
+    value: 8dbdcad570a7d24557e8b4f841cd90852828345e0b550a0e509cc3794e3c94c4
+- filename: infer_0.5.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/infer/infer_0.5.4.tar.gz
+  validation:
+    type: sha256
+    value: abe1db8aac6c05571ce668e8c177501d4bfbc4379de7e297b53ecad3bc203836
+- filename: recipes_0.1.16.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/recipes/recipes_0.1.16.tar.gz
+  validation:
+    type: sha256
+    value: 60e5fdcd3a1ccf5ce0581be62d357292bd185684770fcdcbb35346f3282d983f
+- filename: tune_0.1.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tune/tune_0.1.5.tar.gz
+  validation:
+    type: sha256
+    value: ff1f9abfebebe3bcf44428a0b0815dbf20d5e38ca537ac088fc77da90ff84d96
+- filename: workflows_0.2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/workflows/workflows_0.2.2.tar.gz
+  validation:
+    type: sha256
+    value: 8ad7c2cd1eb8a21cd2710e4021abba6446a4e42c66b574d1e7a4a1018832e39f
+- filename: workflowsets_0.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/workflowsets/workflowsets_0.0.2.tar.gz
+  validation:
+    type: sha256
+    value: 255c584d2b114718d5f2069ac8f81bf41d6c038f8b508501b3543d1bd4747ba2
+- filename: yardstick_0.0.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/yardstick/yardstick_0.0.8.tar.gz
+  validation:
+    type: sha256
+    value: 3f046896139cbd14e8fd0088021658de48405d79d5311defc911da38793a9f25
+- filename: hunspell_3.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/hunspell/hunspell_3.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 2b0ffa2a70cb61a026efd3c4a881bf7a79fa288f9d75dd5337100fb3492a9cc4
+- filename: tokenizers_0.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tokenizers/tokenizers_0.2.1.tar.gz
+  validation:
+    type: sha256
+    value: 91ed482adb3280f1fdb480394f6e503c6a4953c2b4be08fcedf7cd19e3e4c496
+- filename: tm_0.7-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tm/tm_0.7-8.tar.gz
+  validation:
+    type: sha256
+    value: b0e1ffd0fd1bb0bd8b4280cb0899142a033dd4524192f7082147778e2c21246a
+- filename: quanteda_3.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/quanteda/quanteda_3.0.0.tar.gz
+  validation:
+    type: sha256
+    value: fa89b0adaef643f13fb21213ca2017c8379e058fe64d76c4b0c57f75c1cb0060
+- filename: wordcloud_2.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/wordcloud/wordcloud_2.6.tar.gz
+  validation:
+    type: sha256
+    value: c50b7cee957127a9fa99eed5aafe826bf346dc97db41cb7561fbb73e4435ce3e
+- filename: topicmodels_0.2-12.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/topicmodels/topicmodels_0.2-12.tar.gz
+  validation:
+    type: sha256
+    value: fbf17c186306b25d6de2970f529de929f7629e2697df515f6927683dd33ad389
+- filename: NLP_0.2-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/NLP/NLP_0.2-1.tar.gz
+  validation:
+    type: sha256
+    value: 3df14fc76bb1056755c6cf01e2036e93765ac173897b2e4d8e4e5f262e575048
+- filename: mallet_1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mallet/mallet_1.0.tar.gz
+  validation:
+    type: sha256
+    value: 9c7a82e8cfb8a4cb9ead58eb6275095e60122ba7ea590f6e94fe760080377ed7
+- filename: stm_1.3.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/stm/stm_1.3.6.tar.gz
+  validation:
+    type: sha256
+    value: 82d63c8b66ea38f9d49d0bf979cb985df72f3818dc14dc6f89f2b928c0d41031
+- filename: textdata_0.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/textdata/textdata_0.4.1.tar.gz
+  validation:
+    type: sha256
+    value: 5814e39aaa46cf786b1a2a76126ee2d04019831f7be5a8c67fd2f128ceb51da9
+- filename: stopwords_2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/stopwords/stopwords_2.2.tar.gz
+  validation:
+    type: sha256
+    value: f7c8c06624c3a756bcc09e4431005203b089bb8dff90d43c4be2d43d86f54290
+- filename: DiagrammeR_1.0.6.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/DiagrammeR/DiagrammeR_1.0.6.1.tar.gz
+  validation:
+    type: sha256
+    value: c9fc9469b40a42b95ebe89920755fa3d28fa72051c4fc1ba0c7f8c26e663e0df
+- filename: Ckmeans.1d.dp_4.3.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Ckmeans.1d.dp/Ckmeans.1d.dp_4.3.3.tar.gz
+  validation:
+    type: sha256
+    value: e305befa2123033c0cfe8f57dcf9d70e44a437918ce85ed28ef3b37a411aa8c6
+- filename: vcd_1.4-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/vcd/vcd_1.4-8.tar.gz
+  validation:
+    type: sha256
+    value: 5b38f052e5922b7112748d5d4fb0c8a75881af64ecf5daca459a97bb1b92ef67
+- filename: lintr_2.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lintr/lintr_2.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 888aad72dca6400d0f22dc49f803e0ec751622a1a8f946a22cfa0b2500b02162
+- filename: float_0.2-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/float/float_0.2-4.tar.gz
+  validation:
+    type: sha256
+    value: 63a5b11fb121b0f12de748ebc5c00ca9eb50d08b2e56d779dff4e5d2992b0a7b
+- filename: titanic_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/titanic/titanic_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 8758ba280612fd5c5d52d633935a27b285a62f6589e184234961505ebe14fdfd
+- filename: clipr_0.7.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/clipr/clipr_0.7.1.tar.gz
+  validation:
+    type: sha256
+    value: 372f1d1b776e6435fbe27f2828e4ed1dc7dd801d63b2a644d61b37db7aaa2968
+- filename: BH_1.75.0-0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/BH/BH_1.75.0-0.tar.gz
+  validation:
+    type: sha256
+    value: 8ada4b341558465f408eb0da8298fc50d507006834609609138c0e1c5d5bd019
+- filename: cpp11_0.2.7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/cpp11/cpp11_0.2.7.tar.gz
+  validation:
+    type: sha256
+    value: e9f5987be622b54f6bdd1f891bfca96a7da46e7a13db2c2c54606cbc2b4792b2
+- filename: cellranger_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/cellranger/cellranger_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 4c8b3354d2e36d1e6998a9045457c0a11e84a2f41dd587a32db3524f36b924fe
+- filename: progress_1.2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/progress/progress_1.2.2.tar.gz
+  validation:
+    type: sha256
+    value: 4bbe679dabf783a6548587862f0ab9114bbf9dac1ffbcdf3ad25fd96ea85f7ef
+- filename: dtplyr_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/dtplyr/dtplyr_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: c2262ee3be812e2c317158a8bc46d15d7feef4dc334df82ea3fa0b499dede816
+- filename: googledrive_1.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/googledrive/googledrive_1.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 5af1f50d812250cf89fcffd71b9d2faa81d47b1aa781da38b00416674d68f362
+- filename: googlesheets4_0.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/googlesheets4/googlesheets4_0.3.0.tar.gz
+  validation:
+    type: sha256
+    value: 1e693f9f67424e882f44a22e576294a0f6c7da67a3edb2a46e6de03eea1d6b12
+- filename: haven_2.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/haven/haven_2.4.1.tar.gz
+  validation:
+    type: sha256
+    value: 1b8860ef0d6583774694303c28aba933ef69ed0b048ddebeecf86fc1b2a54023
+- filename: modelr_0.1.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/modelr/modelr_0.1.8.tar.gz
+  validation:
+    type: sha256
+    value: 592da08e62513a80df00caad13a3d12bcd54c09a97a2db4355fc30591779dd1e
+- filename: pillar_1.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pillar/pillar_1.6.0.tar.gz
+  validation:
+    type: sha256
+    value: f6698242a92769bb55f0282b8fe743778b24a3d512a9300e27ae66af5dae9bf7
+- filename: reprex_2.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/reprex/reprex_2.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 0a6d7cd6ca78f080fb055e78d022e2b03d536154ac914cb7d3809da7d1b9761f
+- filename: padr_0.5.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/padr/padr_0.5.3.tar.gz
+  validation:
+    type: sha256
+    value: dfdbe67bace29acb5e3f7f0ea34d78f3478793a6b88f8601226beaa35fe43373
+- filename: slider_0.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/slider/slider_0.2.1.tar.gz
+  validation:
+    type: sha256
+    value: f8defa4268a9005659bb079ea11955761bed4f7fa0d08d09364955a9673e6dc8
+- filename: anytime_0.3.9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/anytime/anytime_0.3.9.tar.gz
+  validation:
+    type: sha256
+    value: 47d3878b9a306f876da833779a72d10e171b667757f9d61a6b6c088e84038150
+- filename: timeDate_3043.102.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/timeDate/timeDate_3043.102.tar.gz
+  validation:
+    type: sha256
+    value: d86e52c02495320705d8349e4520a5c0f39c4106bb043040eba2bc7e21163f02
+- filename: tidyquant_1.0.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tidyquant/tidyquant_1.0.3.tar.gz
+  validation:
+    type: sha256
+    value: 0bbb66916149755c657dbf2cbb7422cdb423666f54160a86ec0e50a03475c65d
+- filename: modeltime_0.5.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/modeltime/modeltime_0.5.1.tar.gz
+  validation:
+    type: sha256
+    value: e51e3665d6b8f0228b3b9ccc036f33bb9b9e77d7390b036f20121087ebc95f76
+- filename: robets_1.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/robets/robets_1.4.tar.gz
+  validation:
+    type: sha256
+    value: 9d5e28dd89c54d87418c14e0f4e2ede8e6dcc9c9761aa6cd4f4e56e03b15af27
+- filename: fracdiff_1.5-1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/fracdiff/fracdiff_1.5-1.tar.gz
+  validation:
+    type: sha256
+    value: 822b947807f949b32402a32729997f4afab64fc41ce2e06f2d538fa6ae552e2c
+- filename: timeSeries_3062.100.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/timeSeries/timeSeries_3062.100.tar.gz
+  validation:
+    type: sha256
+    value: 3d08a3c47202ec084c84f7f67f332c2f5d9394c15881c58859158a00ffbe9db4
+- filename: memoise_2.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/memoise/memoise_2.0.0.tar.gz
+  validation:
+    type: sha256
+    value: cf2adf2bf38ad9ddef4d93b8858b6d85fcf5aa143d20466692208d44655bf89f
+- filename: pkgbuild_1.2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pkgbuild/pkgbuild_1.2.0.tar.gz
+  validation:
+    type: sha256
+    value: b7af60d696048ab12786eb36341122341a5abe68aa0f95684d06691f9799c652
+- filename: rcmdcheck_1.3.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rcmdcheck/rcmdcheck_1.3.3.tar.gz
+  validation:
+    type: sha256
+    value: 22a74c6a76a8177e1f8d0b567ab0234ac35a355936d78b4006814b2e225e5c39
+- filename: remotes_2.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/remotes/remotes_2.3.0.tar.gz
+  validation:
+    type: sha256
+    value: f96a76618c7b7bc1e4c93499d2adfd042fb851ab1f61ee5ff3de12b51cc4fb05
+- filename: rversions_2.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rversions/rversions_2.0.2.tar.gz
+  validation:
+    type: sha256
+    value: c4c0611b4222f9b093659f9fce83a5de9e1345013a67d3a48d334c9bbdf5e5db
+- filename: sessioninfo_1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sessioninfo/sessioninfo_1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 6a584e4e1e9394ac1b13c3eeba92c8a4afe0cf6176a667e6365d0494059635eb
+- filename: BiocManager_1.30.14.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/BiocManager/BiocManager_1.30.14.tar.gz
+  validation:
+    type: sha256
+    value: 4e20015204171e4ab53b57dc5f6c0e74e8f7f346a278eeaae8f2cd0f6d009be3
+- filename: foghorn_1.4.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/foghorn/foghorn_1.4.0.tar.gz
+  validation:
+    type: sha256
+    value: 94eb7661c2f5e3bee1f8ad02c4e3941037a869368bb31fb20ab346f923ec3c28
+- filename: gh_1.3.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gh/gh_1.3.0.tar.gz
+  validation:
+    type: sha256
+    value: cd39f0f346d5a84354fd9f63176d12f2d5fe8e7997683ccc0b4362805f7c19a8
+- filename: gmailr_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gmailr/gmailr_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: d854e10ff5da3309c89f4468e13f4a72365c25df7c1ffe5475d9259d314c3238
+- filename: pingr_2.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pingr/pingr_2.0.1.tar.gz
+  validation:
+    type: sha256
+    value: 658073f85bd0ab9845137e63efc83a171903d5545a5ea0b8eb6c2c4817653f1d
+- filename: pkgdown_1.6.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/pkgdown/pkgdown_1.6.1.tar.gz
+  validation:
+    type: sha256
+    value: 6d93fd739174eca212eb9c05e2d5ab621a8000aa94a9aadab60516665ae50332
+- filename: rhub_1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rhub/rhub_1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: ddfbc92ce59e96e2d2fed3d3db2c0c61d53d96e4884c39050ed54d22eca51a54
+- filename: gdtools_0.2.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gdtools/gdtools_0.2.3.tar.gz
+  validation:
+    type: sha256
+    value: 677146561876f9823e1999e88ee05725d75bf8cd5d444056aa5fd90423a28b88
+- filename: officer_0.3.18.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/officer/officer_0.3.18.tar.gz
+  validation:
+    type: sha256
+    value: 7aade653e9119bfdee78a0882ae2ccf1691ff3b9143e674d196295711ac93c46
+- filename: bookdown_0.22.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/bookdown/bookdown_0.22.tar.gz
+  validation:
+    type: sha256
+    value: 579d9aa4d6ecdbd7c68b224a612783aa9a533febdbbd92294d6f36124b7b248f
+- filename: equatags_0.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/equatags/equatags_0.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 09e21470c3ff4de3f7918962c49afc3239311bed21a41b80fc510e4c30d61391
+- filename: svglite_2.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/svglite/svglite_2.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 2788ddf227a4ad555592b955217d13b2047a32e905c483e330f5871e6de7e9e5
+- filename: formattable_0.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/formattable/formattable_0.2.1.tar.gz
+  validation:
+    type: sha256
+    value: bfe48ad36cae9b3749062f0ac063a7e44d1f32c7ef9247a28040294bb5bdb5ac
+- filename: sparkline_2.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sparkline/sparkline_2.0.tar.gz
+  validation:
+    type: sha256
+    value: 24d1c25aa1fd38b936a4ca84b8caa40dd5c8f395da930bf80284d386dcccbfc5
+- filename: raster_3.4-10.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/raster/raster_3.4-10.tar.gz
+  validation:
+    type: sha256
+    value: 27c6ace304795340ed137c65966c64c482d159d342cfb2544802f26e5ccf2b4b
+- filename: viridis_0.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/viridis/viridis_0.6.0.tar.gz
+  validation:
+    type: sha256
+    value: 0f964b882ec571433462477e5a0d21a71384d22245549701d80d6a320788f1fa
+- filename: leaflet.providers_1.9.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/leaflet.providers/leaflet.providers_1.9.0.tar.gz
+  validation:
+    type: sha256
+    value: b24707a4aad8793dbbbf3d3116fbb364f846eca6855e570c43a21e0af54015d3
+- filename: RJSONIO_1.3-1.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RJSONIO/RJSONIO_1.3-1.4.tar.gz
+  validation:
+    type: sha256
+    value: b27a78149cabb75249e36abbac019189850f03fcae13ff19521e06a0d9680784
+- filename: webutils_1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/webutils/webutils_1.1.tar.gz
+  validation:
+    type: sha256
+    value: 07b95a54d7b4e94bb644311eeab6ec61bd650b37eab7586d2ed917e7744e2535
+- filename: sodium_1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sodium/sodium_1.1.tar.gz
+  validation:
+    type: sha256
+    value: f605c092bd11293ea6632634b1ad1b1963a53f2d2288e8007883b602d9d6b551
+- filename: swagger_3.33.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/swagger/swagger_3.33.1.tar.gz
+  validation:
+    type: sha256
+    value: 5fc70346dce0428dd8d982824b2d21deee4f19e320ee4d5dcc54770aaca1ddd7
+- filename: visNetwork_2.0.9.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/visNetwork/visNetwork_2.0.9.tar.gz
+  validation:
+    type: sha256
+    value: 76d2c9215c4d3c164c1d8588247bfc5b0c1879c6e9a78105db0468039d87ffbe
+- filename: RSQLite_2.2.7.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RSQLite/RSQLite_2.2.7.tar.gz
+  validation:
+    type: sha256
+    value: 2b2988f816b611f4e0ec396eb4283ec1bdd3b79f8d0ef9bbde369bed12ddd1dd
+- filename: mapview_2.9.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mapview/mapview_2.9.0.tar.gz
+  validation:
+    type: sha256
+    value: 9c9cc1e7e1b7d60d64714e915ef751caa8e341fee9be98b494cd35d80455aaf0
+- filename: rJava_1.0-4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rJava/rJava_1.0-4.tar.gz
+  validation:
+    type: sha256
+    value: 8a14cae9c8d5a414cfbbf5b46e63caa90b3e0ad8002ce91198ccbc02dea64733
+- filename: broom_0.7.6.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/broom/broom_0.7.6.tar.gz
+  validation:
+    type: sha256
+    value: e7818d4c16b3990d4e714e6bb94bd7e49f1cf9859e794d4b2f95d5857f78c48e
+- filename: C50_0.1.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/C50/C50_0.1.3.1.tar.gz
+  validation:
+    type: sha256
+    value: fea474fd07672e056b62743ddbc7e611aa1c64dd49ccec2a05610441cdaa63f0
+- filename: cli_2.5.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/cli/cli_2.5.0.tar.gz
+  validation:
+    type: sha256
+    value: 57f087723f3eea739161b476785a23a5df64b8935861a68a7f651006c92a1cae
+- filename: DT_0.18.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/DT/DT_0.18.tar.gz
+  validation:
+    type: sha256
+    value: 88d82655ac3fc2fde8ffebc00e91385933240c63a7ca1173d6a93338e9d46b5d
+- filename: ECharts2Shiny_0.2.13.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ECharts2Shiny/ECharts2Shiny_0.2.13.tar.gz
+  validation:
+    type: sha256
+    value: eec158a787f120c54d83412734248b87a58b866ce476a98321fa71735c728228
+- filename: feather_0.3.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/feather/feather_0.3.5.tar.gz
+  validation:
+    type: sha256
+    value: 844fbbfd736fff41d0dcefe88d233e6af48d68b726b9fc8357f27c3f548eb06c
+- filename: flexdashboard_0.5.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/flexdashboard/flexdashboard_0.5.2.tar.gz
+  validation:
+    type: sha256
+    value: 9487b2877f52d89d23bd324ea661f9628dc902a80b2c2d99ed33d41183d05bb0
+- filename: forcats_0.5.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/forcats/forcats_0.5.1.tar.gz
+  validation:
+    type: sha256
+    value: b5f7d4b0eef091c2f4d25d5b8a7665e00667e71cae0155ebc939d0bf740e67ac
+- filename: foreign_0.8-81.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/foreign/foreign_0.8-81.tar.gz
+  validation:
+    type: sha256
+    value: 98c4d511cb20d24a532e4b02dd8b8b5c1523c65fb294151ebd807efc390103fe
+- filename: gt_0.2.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/gt/gt_0.2.2.tar.gz
+  validation:
+    type: sha256
+    value: c65a4bf5334f60780f2339b52ff089ad9eb251f164c153758857004d16971a77
+- filename: highcharter_0.8.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/highcharter/highcharter_0.8.2.tar.gz
+  validation:
+    type: sha256
+    value: ef1e3d45f5996856e27ef0845cbbf199891050c73d96213f79ad606b1a9c06f1
+- filename: htmlwidgets_1.5.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/htmlwidgets/htmlwidgets_1.5.3.tar.gz
+  validation:
+    type: sha256
+    value: 3547072d4bd3ab2e2782933c8129cf8b0672b0cdcd2f39819b741c9386dbc5b8
+- filename: httr_1.4.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/httr/httr_1.4.2.tar.gz
+  validation:
+    type: sha256
+    value: 2a3ff050967a6d2996248692ed10e38f18bd4229b81be07bfd36b91db62bf334
+- filename: kernlab_0.9-29.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/kernlab/kernlab_0.9-29.tar.gz
+  validation:
+    type: sha256
+    value: 1dcb9958d7db7ed3b41d3c6df840cd65e610cd4edcb38c7bd95399d1bad8f27c
+- filename: kknn_1.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/kknn/kknn_1.3.1.tar.gz
+  validation:
+    type: sha256
+    value: 615d248dfd44830d988ced3ee4beb9c3ea78b451a3d5e230aee0994ec947874d
+- filename: knitr_1.33.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/knitr/knitr_1.33.tar.gz
+  validation:
+    type: sha256
+    value: fc9e54cc24740bfc801cec4b36db23072c44a67de25194f438f30c1ec78b064c
+- filename: lattice_0.20-44.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lattice/lattice_0.20-44.tar.gz
+  validation:
+    type: sha256
+    value: f98c9d8c9e2b3e0723f91237c8f8fe19146fc1180d710df2d6e33fbee075aa79
+- filename: lubridate_1.7.10.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/lubridate/lubridate_1.7.10.tar.gz
+  validation:
+    type: sha256
+    value: 37536dfd979ef3f3d5613c01f9c63f65555feb875370723bdaa148b4225b45e5
+- filename: magrittr_2.0.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/magrittr/magrittr_2.0.1.tar.gz
+  validation:
+    type: sha256
+    value: f514a06749b6c58931367af65c2758605ddeba8d0b1b5d462ee69dfbfa6e1629
+- filename: Matrix_1.3-3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/Matrix/Matrix_1.3-3.tar.gz
+  validation:
+    type: sha256
+    value: 60a91c9876f7391df58d4d9a2788b18bfd05e67f97a467475e87eec5e1797031
+- filename: mlbench_2.1-3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/mlbench/mlbench_2.1-3.tar.gz
+  validation:
+    type: sha256
+    value: dd4eb915ff7de5e70816c339df7fd951b9b44f456169a8a81ef70938d60ee485
+- filename: nlme_3.1-152.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/nlme/nlme_3.1-152.tar.gz
+  validation:
+    type: sha256
+    value: ea8c4fcb8197325c0c2f1eb1e7f3d4686c7d324f5a026ee87a57dd309387e4f2
+- filename: nnet_7.3-16.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/nnet/nnet_7.3-16.tar.gz
+  validation:
+    type: sha256
+    value: af92ca656ca4ada7f63603ecf6c324b7a292b6e09fbee1416100c715a5f05ed6
+- filename: openxlsx_4.2.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/openxlsx/openxlsx_4.2.3.tar.gz
+  validation:
+    type: sha256
+    value: 6873bffd595e5a178c4f7b779785405d0b8f21fec00bd62593f1f74e1b8b21f9
+- filename: packrat_0.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/packrat/packrat_0.6.0.tar.gz
+  validation:
+    type: sha256
+    value: 24963dbfc289e7d69d7a634ba1ddd5efd06f3814d47791581d21d1650018ed89
+- filename: parsnip_0.1.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/parsnip/parsnip_0.1.5.tar.gz
+  validation:
+    type: sha256
+    value: 1292136c79cbf1f482f6ddb3d5ee41d3fd67a232ba6715c93f88d444bd831f46
+- filename: plotly_4.9.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plotly/plotly_4.9.3.tar.gz
+  validation:
+    type: sha256
+    value: 6acd180f3c3f34cc7f0d11f75b1ca59ef052f3cd6b3147b47b5e8bd09921ceae
+- filename: plotROC_2.2.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plotROC/plotROC_2.2.1.tar.gz
+  validation:
+    type: sha256
+    value: bca276ae85acc8784bd80fa43ba1b6fe02846a5ec15f977500ec3295503a445d
+- filename: randomForest_4.6-14.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/randomForest/randomForest_4.6-14.tar.gz
+  validation:
+    type: sha256
+    value: 2ba34946ef0a3431cf744f3052bda5d81f3f3be2407e11675ca20ca51b74b043
+- filename: RCurl_1.98-1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RCurl/RCurl_1.98-1.3.tar.gz
+  validation:
+    type: sha256
+    value: 29a0569c6296125dfd3624a872e794b6af57a8b2a96df53e2a1ffbf76c30f4f5
+- filename: rmarkdown_2.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rmarkdown/rmarkdown_2.8.tar.gz
+  validation:
+    type: sha256
+    value: 0432b05ce0fd666729543abcf0f331d79953ff62e46af8f01f9385a7b64eba13
+- filename: roxygen2_7.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/roxygen2/roxygen2_7.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 8d1180e3f3a071603377bad02041e130a5a24e06437e930fc8e850265d324947
+- filename: rvest_1.0.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rvest/rvest_1.0.0.tar.gz
+  validation:
+    type: sha256
+    value: 99c1795d15651c9e039e0b2d5bc07f84d0ad981e820073550b15aa3de1b2a1d2
+- filename: scales_1.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/scales/scales_1.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 43559db0ca2f87a38987ceb7076cc8922a4f4e964924dab8b4a55aafbeb6a9ce
+- filename: shiny_1.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/shiny/shiny_1.6.0.tar.gz
+  validation:
+    type: sha256
+    value: 623890ad0cabc9dfeb5abad1e14a64af489dd7a16ff5fbff3a32083cfcdb030d
+- filename: shinydashboard_0.7.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/shinydashboard/shinydashboard_0.7.1.tar.gz
+  validation:
+    type: sha256
+    value: 52666f07c18e1ab2499938a5630c9018d6a98e9146c322b6b278b931d1042a20
+- filename: shinyWidgets_0.6.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/shinyWidgets/shinyWidgets_0.6.0.tar.gz
+  validation:
+    type: sha256
+    value: c6e54432113aa430a0666cb5eb40a12179406a18b20b373b2aa3f4d6cc975db3
+- filename: sparklyr_1.6.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/sparklyr/sparklyr_1.6.2.tar.gz
+  validation:
+    type: sha256
+    value: f3f8791ed6f02dafe74ed404ba98e52e6f10e3aaecfa4f01ca3a32b835f792e1
+- filename: stringr_1.4.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/stringr/stringr_1.4.0.tar.gz
+  validation:
+    type: sha256
+    value: d05111bc72c8b34fba81bb0cb5453ff35f9f15ac6203f4a01a209197dece52ae
+- filename: testthat_3.0.2.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/testthat/testthat_3.0.2.tar.gz
+  validation:
+    type: sha256
+    value: 0ee2f4c051b2c99ddc3b2cd640e3d9f903d4f23fe2d1a0f9b10e83b526ab98b2
+- filename: tidymodels_0.1.3.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tidymodels/tidymodels_0.1.3.tar.gz
+  validation:
+    type: sha256
+    value: 1808f1c8b7ef9d3dc97c052a045674acbd1d107b7c2266c3c995d5a8242d4511
+- filename: tidytext_0.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tidytext/tidytext_0.3.1.tar.gz
+  validation:
+    type: sha256
+    value: 4398abd7cf00de1e18f11a1fab00cf1f33ab68735836bad57fd5dd40c2c7082f
+- filename: xgboost_1.4.1.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/xgboost/xgboost_1.4.1.1.tar.gz
+  validation:
+    type: sha256
+    value: 2cbd870c40611d78b5d1db551ff12dc62b8c82336ab07c5e8318a37055e54f71
+- filename: readr_1.4.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/readr/readr_1.4.0.tar.gz
+  validation:
+    type: sha256
+    value: cead4027584246568f07378163375e7c8ee210fb48988a4a41f568df4aed398e
+- filename: readxl_1.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/readxl/readxl_1.3.1.tar.gz
+  validation:
+    type: sha256
+    value: faaef5399a1a0b5adbc83e4db26ddb15a2df82626a553bd88ea11bf0f7b43d48
+- filename: tidyverse_1.3.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/tidyverse/tidyverse_1.3.1.tar.gz
+  validation:
+    type: sha256
+    value: e1221a5da14d3ae2f45a3451994506ae7aac3d47802d0c3266b836bb4bfb5e51
+- filename: timetk_2.6.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/timetk/timetk_2.6.1.tar.gz
+  validation:
+    type: sha256
+    value: beb069b75311aa3761ffefbe91669decf205c0758554723bd0d8c7db50a53b58
+- filename: devtools_2.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/devtools/devtools_2.4.1.tar.gz
+  validation:
+    type: sha256
+    value: 5b72e518aa328942ffe100442604fc085e5dbcc772e48f43aca90e20d18f91af
+- filename: ggiraph_0.7.8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/ggiraph/ggiraph_0.7.8.tar.gz
+  validation:
+    type: sha256
+    value: 05f110c8b8b4246a3dbb355072359bd06012685990a84208965758d6593352a6
+- filename: flextable_0.6.5.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/flextable/flextable_0.6.5.tar.gz
+  validation:
+    type: sha256
+    value: 35ac1666a150fef7c7af736a60a555dfbb125121cfcabb4adc4794ad8ab67f62
+- filename: kableExtra_1.3.4.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/kableExtra/kableExtra_1.3.4.tar.gz
+  validation:
+    type: sha256
+    value: cc24daadc9ddc8ad1a8ca8cc3cab311896bb3fa944fc6b362782b9d2bd200466
+- filename: leaflet_2.0.4.1.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/leaflet/leaflet_2.0.4.1.tar.gz
+  validation:
+    type: sha256
+    value: 623bf1f4930ddc9497e5807e1215bb9b7d01674a4e3b6349d32f3f6f7ef6aff2
+- filename: plumber_1.1.0.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/plumber/plumber_1.1.0.tar.gz
+  validation:
+    type: sha256
+    value: 623cf58d2e6b034ba0d437362c44b09435d599f2234956fef5262df669c3c477
+- filename: reticulate_1.20.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/reticulate/reticulate_1.20.tar.gz
+  validation:
+    type: sha256
+    value: b543e2e0a492f310e621753a72796d036dfb54a94703ab146c403cd0ae0aedd2
+- filename: rgdal_1.5-23.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/rgdal/rgdal_1.5-23.tar.gz
+  validation:
+    type: sha256
+    value: 85a01c3c303482fc258078cc341b0a5c932d2b944b40a85ebaf7d3452938874a
+- filename: RJDBC_0.2-8.tar.gz
+  url: https://packagemanager.rstudio.com/all/latest/src/contrib/Archive/RJDBC/RJDBC_0.2-8.tar.gz
+  validation:
+    type: sha256
+    value: f5e495da7a84abd347755f909bf21d91bd75f1e942a541176f4bc8357b8394e7
+
+maintainers:
+- email: "daniel.s.komnick.mil@mail.mil"
+  name: "Dan Komnick"
+  username: "Komnick"
+  cht_member: false

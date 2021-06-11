@@ -1,0 +1,22 @@
+{
+  "baseBranches": [
+    "development"
+  ],
+  "automerge": true,
+  "gitLabAutomerge": true,
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^hardening_manifest.yaml$"
+      ],
+      "matchStrings": [
+        "org\\.opencontainers\\.image\\.version:\\s+\"(?<currentValue>.+?)\"",
+        "tags:\\s+-\\s+\"(?<currentValue>.+?)\""
+      ],
+      "depNameTemplate": "jupyterlab",
+      "datasourceTemplate": "pypi"
+    }
+  ]
+}
+
+

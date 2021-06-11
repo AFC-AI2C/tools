@@ -1,56 +1,72 @@
-FROM afcai2c/python38:latest
+FROM afcai2c/python38
 
 USER root
 
-RUN yum upgrade -y        \
-    && yum clean all -y   \
-    && yum install -y     \
-        vim               \
-        zip               \
-        unzip             \
-        wget              \
-        net-tools         \
-        # gcc is needed for prophet
-        gcc-c++           \
-        git
+RUN yum upgrade -y      && \
+    yum clean all -y    && \
+    yum install -y         \
+        vim                \
+        zip                \
+        unzip              \
+        net-tools          \
+        curl               \
+        git                \
+        gcc-c++
 
+RUN mkdir -p /opt/python/repo
+RUN chown -R 1001:users /opt/python
 
-RUN mkdir -p /opt/python
-RUN chown -R python3:users /opt/python
+# dev
+# COPY repo /opt/python/repo
 
+# pipeline
+COPY *.tar.gz /opt/python/repo
+COPY *.whl /opt/python/repo
 
-USER python3
-
+USER 1001
 
 ENV VIRTUAL_ENV=/opt/python/venv
 RUN python3.8 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN . $VIRTUAL_ENV/bin/activate   && \
-    pip install --upgrade  pip    && \
-    pip install          \
-        plotly           \
-        pandas           \
-        matplot          \
-        seaborn          \
-        numba            \
-        numpy            \
-        scipy            \
-        scikit-learn     \
-        tqdm             \
-        urllib3          \
-        requests         \
-        beautifulsoup4   \
-        wordcloud        \
-        statsmodels      \
-        django           \
-        flask            \
-        prophet
 
+COPY ./scripts/requirements.txt /tmp
+RUN pip install -r /tmp/requirements.txt
+
+#########################
+# Compliance Mitigation #
+#########################
+
+USER root
+
+# Removing unneeded vulnerable binaries
+RUN rpm -e --nodeps   \
+    binutils          \
+    glibc-devel       \
+    glibc-headers     \
+    kernel-headers
+
+# Removing identified secret
+RUN rm -rf /usr/share/doc/perl-IO-Socket-SSL/certs/                 && \
+    rm -rf /usr/share/doc/perl-IO-Socket-SSL/example/               && \
+    rm -rf /usr/share/doc/perl-IO-Socket-SSL/example/               && \
+    rm -rf /usr/share/doc/perl-Net-SSLeay/examples/server_key.pem
+
+# Modifying identified SUID files
+RUN chmod g-s /usr/libexec/openssh/ssh-keysign
+
+##########################
+# Clean up install files #
+##########################
+
+RUN rm -rf /opt/python/repo   \
+    rm /tmp/requirements.txt
+
+
+USER 1001
 
 WORKDIR $HOME
 
 HEALTHCHECK --interval=10s --timeout=1s CMD python.3.8 -c 'print("up")' || exit 1
-
 
 #################
 # local testing #
