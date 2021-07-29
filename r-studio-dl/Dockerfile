@@ -1,13 +1,5 @@
 ARG BASE_REGISTRY=registry1.dso.mil
-ARG BASE_IMAGE=ironbank/opensource/r/r-studio
-ARG BASE_TAG=4.0.3
-FROM ${BASE_REGISTRY}/{BASE_IMAGE}:{BASE_TAG}
-
-# # FROM registry.access.redhat.com/ubi8/ubi:latest
-# #FROM afcai2c/r-base
-# FROM afcai2c
-# #FROM python-r-ai:latest
-# FROM rstudio:27JulyTest 
+FROM afcai2c/rstudio:latest
 
 USER root
 
