@@ -1,4 +1,3 @@
-ARG BASE_REGISTRY=registry1.dso.mil
 FROM afcai2c/rstudio:latest
 
 USER root
