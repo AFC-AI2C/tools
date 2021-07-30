@@ -2,30 +2,35 @@ FROM afcai2c/jlab-dl:latest
 
 USER root
 
-RUN curl -LO http://13.89.34.249/graphviz-devel.tar.gz
-RUN tar xvf graphviz-devel.tar.gz
-RUN yum update -y && yum localinstall -y ./graphviz-devel/*.rpm
+RUN curl -LO http://13.89.34.249/graphviz-devel.tar.gz   && \
+    tar xvf graphviz-devel.tar.gz                        && \
+    yum localinstall -y ./graphviz-devel/*.rpm           && \
+    yum install -y gcc
 
-RUN python3.6 -m pip install \
-    decorator                                          \
-    python-igraph                                      \
-    networkx                                           \
-    scikit_network                                     \
-    numpy                                              \
-    scipy                                              \
-    texttable                                          \
-    pygraphviz 
+RUN python3.8 -m pip install   \
+        decorator              \
+        python-igraph          \
+        networkx               \
+        scikit_network         \
+        texttable              \
+        pygraphviz 
 
-#USER jovyan
-USER default
+
+RUN yum remove -y gcc   && \
+    yum update -y
+
+RUN . $VIRTUAL_ENV/bin/activate
+
+USER jovyan
 
 WORKDIR $HOME
 
-#ENTRYPOINT ["bash"]
 ENTRYPOINT ["tini", "-g", "--"]
+
 CMD ["start-notebook.sh"]
+# start-notebook.sh inherited from ironbank/opensource/jupyter/jupyterlab 
+# https://repo1.dso.mil/dsop/opensource/jupyter/jupyterlab/-/blob/development/scripts/start-notebook.sh
 
 EXPOSE 8888
 
-HEALTHCHECK --interval=10s --timeout=1s CMD python.3.6 -c 'print("up")' || exit 1
-
+HEALTHCHECK --interval=10s --timeout=1s CMD python.3.8 -c 'print("up")' || exit 1
