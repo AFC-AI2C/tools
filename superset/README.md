@@ -1,7 +1,10 @@
 ## Usage
+The username and password need to be passed into the container.
 Use the following two docker run environmental variables for user accounts setup:
-    USERNAME='username'
-    PASSWORD='password'
+    -e USERNAME='username'
+    -e PASSWORD='password'
+Example:
+    docker run -it --rm -p 8088:8088 -e USERNAME='admin' -e PASSWORD='admin' afcai2c/superset:latest
 
 ## About
 Apache Superset is an open-source software cloud-native application for data exploration and data visualization able to handle data at petabyte scale.
