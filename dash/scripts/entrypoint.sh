@@ -1,14 +1,17 @@
 #!/bin/bash
 
-# expects an app.py to be mounted into /apps, otherwise it will run the 
-# provided app.py in /default/app.py
+# expects your custom app.py to be mounted into /home/python3/apps, otherwise it will run the 
+# provided app.py in /home/python3/app.py
 
-if [ "$(ls -A /opt/app-root/apps)" ] 
+if [ "$(ls -A $HOME/apps)" ] 
 then 
-    python /opt/app-root/apps/app.py
+    echo "running mounted application.."
+    cd $HOME/apps
 else
-    python /opt/app-root/default/app.py
+    cd $HOME
 fi
+
+gunicorn -b 0.0.0.0:8050 app:server
 
 
 
