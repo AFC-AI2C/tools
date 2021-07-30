@@ -1,4 +1,4 @@
-FROM afcai2c/rstudio:latest
+FROM afcai2c/r-studio-ai:latest
 
 USER root
 
