@@ -16,10 +16,6 @@ RUN yum upgrade -y      && \
 RUN mkdir -p /opt/python/repo
 RUN chown -R 1001:users /opt/python
 
-# dev
-# COPY repo /opt/python/repo
-
-# pipeline
 COPY *.tar.gz /opt/python/repo
 COPY *.whl /opt/python/repo
 
@@ -29,12 +25,25 @@ ENV VIRTUAL_ENV=/opt/python/venv
 RUN python3.8 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-COPY ./scripts/requirements.txt /tmp
-RUN pip install -r /tmp/requirements.txt
-
-#########################
-# Compliance Mitigation #
-#########################
+RUN pip install          \
+        pip              \
+        plotly           \
+        pandas           \
+        matplot          \
+        seaborn          \
+        numba            \
+        numpy            \
+        scipy            \
+        scikit-learn     \
+        tqdm             \
+        urllib3          \
+        requests         \
+        beautifulsoup4   \
+        wordcloud        \
+        statsmodels      \
+        django           \
+        flask            \
+        prophet
 
 USER root
 
@@ -51,40 +60,17 @@ RUN rm -rf /usr/share/doc/perl-IO-Socket-SSL/certs/                 && \
     rm -rf /usr/share/doc/perl-IO-Socket-SSL/example/               && \
     rm -rf /usr/share/doc/perl-Net-SSLeay/examples/server_key.pem
 
+# Mitigate django v1.1.14 packaged w/pypi bleach
+RUN rm -rf /opt/python/venv/lib/python3.8/site-packages/bleach/_vendor/django                    \
+           /opt/python/venv/lib/python3.8/site-packages/bleach/_vendor/Django-1.11.29.dist-info
+
 # Modifying identified SUID files
 RUN chmod g-s /usr/libexec/openssh/ssh-keysign
 
-##########################
-# Clean up install files #
-##########################
-
-RUN rm -rf /opt/python/repo   \
-    rm /tmp/requirements.txt
-
+RUN rm -rf /opt/python/repo
 
 USER 1001
 
 WORKDIR $HOME
 
 HEALTHCHECK --interval=10s --timeout=1s CMD python.3.8 -c 'print("up")' || exit 1
-
-#################
-# local testing #
-#################
-# import plotly
-# import pandas
-# import matplot
-# import seaborn
-# import numba
-# import numpy
-# import scipy
-# import sklearn
-# import tqdm
-# import urllib3
-# import requests
-# from bs4 import BeautifulSoup
-# from wordcloud import WordCloud
-# import statsmodels
-# import prophet 
-# import django
-# import flask
