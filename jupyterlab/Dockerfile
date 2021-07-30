@@ -20,8 +20,8 @@ RUN yum update -yq        && \
         ca-certificates   && \
     yum clean all
 
-RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   \
-    && chmod -R 775 /home/jovyan                                            
+RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
+    chmod -R 775 /home/jovyan                                            
 
 # Install tini
 COPY tini /usr/local/bin/tini
@@ -47,12 +47,12 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV VIRTUAL_ENV=/opt/jupyter/venv
 RUN python3.8 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN . $VIRTUAL_ENV/bin/activate                             \
-    && pip install      \
-    pip                                                     \
-    jupyterlab                                              \
-    jupyterlab-git					    \
-    jupyterhub
+RUN . $VIRTUAL_ENV/bin/activate   && \
+    pip install                      \
+        pip                          \
+        jupyterlab                   \
+        jupyterlab-git               \
+        jupyterhub
 
 # for downstream accessibility surrounding jupyterhub 
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
@@ -71,8 +71,8 @@ COPY scripts/jupyter_server_config.py /etc/jupyter/
 
 USER root
 
-RUN chmod -R 775 /etc/jupyter                       \
-    && chmod g-s /usr/libexec/openssh/ssh-keysign
+RUN chmod -R 775 /etc/jupyter   && \
+    chmod g-s /usr/libexec/openssh/ssh-keysign
 
 RUN yum remove perl -y
 
