@@ -1,6 +1,6 @@
-FROM registry1.dso.mil/ironbank/aiml/python/python-r-ai as base
+FROM afcai2c/python-r-ai as base
 
-FROM registry1.dso.mil/ironbank/opensource/r/r-studio as final
+FROM afcai2c/r-studio as final
 
 USER root 
 
