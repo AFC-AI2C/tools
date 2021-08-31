@@ -9,9 +9,9 @@ ENV PATH="/opt/python/venv/bin:$PATH"
 USER root
 #Workaround for perl issue preventing yum upgrade
 RUN yum remove -y perl-threads
-RUN yum upgrade -y        \
-    && yum clean all -y   \
-    && yum install -y     \
+RUN yum upgrade -y     && \
+    yum clean all -y   && \
+    yum install -y        \
         vim               \
         zip               \
         unzip             \
