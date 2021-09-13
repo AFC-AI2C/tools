@@ -10,101 +10,12 @@ RUN yum remove git -y  && \
     yum install -y -q     \
         gcc               \
         git               \
-        make
-
-COPY ./cuda/* /tmp/repo
-COPY config/RPM-GPG-KEY-NVIDIA /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA
-
-# Prepare cuda repo
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA 
-RUN mkdir /etc/yum/repos.d
-RUN curl -LO http://coeus-fileserver.centralus.cloudapp.azure.com/cuda_files.tar.gz
-RUN tar -xzvf /tmp/repo/cuda_files.tar.gz -C /tmp/repo
-
-# Install CUDA
-ENV CUDA_VERSION 11.2.0
-
-RUN yum upgrade -y                                          && \
-    yum localinstall -y                                        \
-        /tmp/repo/cuda-cudart-11-2-11.2.72-1.x86_64.rpm        \
-        /tmp/repo/cuda-compat-11-2-460.91.03-1.x86_64.rpm   && \
-    yum clean all                                           && \
-    rm -rf /var/cache/yum/*
-
-# Sets up the environment for cuda to find the appropriate folder locations. 
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
-    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
-
-ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
-
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=11.2 brand=tesla,driver>=418,driver<419 brand=tesla,driver>=440,driver<441 driver>=450"
-ENV NCCL_VERSION 2.8.4
-
-RUN yum localinstall -y                                       \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-nvrtc-11-2-11.2.67-1.x86_64.rpm            \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcublas-11-2-11.3.1.68-1.x86_64.rpm           \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcufft-11-2-10.4.0.72-1.x86_64.rpm            \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcurand-11-2-10.2.3.68-1.x86_64.rpm           \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcusolver-11-2-11.0.2.68-1.x86_64.rpm         \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcusparse-11-2-11.3.1.68-1.x86_64.rpm         \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnpp-11-2-11.2.1.68-1.x86_64.rpm              \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvjpeg-11-2-11.3.1.68-1.x86_64.rpm
-
-RUN yum localinstall -y                                       \
-    /tmp/repo/cuda-libraries-11-2-11.2.0-1*.rpm               \
-    /tmp/repo/cuda-nvtx-11-2-11.2.67-1*.rpm                   \
-    /tmp/repo/libnccl-2.8.4-1+cuda11.2*.rpm                && \
-    rm -rf /var/cache/yum/*
-
-RUN yum localinstall -y                                       \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-cuobjdump-11-2-11.2.67-1.x86_64.rpm        \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-cuxxfilt-11-2-11.2.67-1.x86_64.rpm         \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-nvcc-11-2-11.2.67-1.x86_64.rpm             \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-nvprune-11-2-11.2.67-1.x86_64.rpm
-
-RUN yum localinstall -y                                       \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-cupti-11-2-11.2.67-1.x86_64.rpm            \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-gdb-11-2-11.2.67-1.x86_64.rpm              \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-memcheck-11-2-11.2.67-1.x86_64.rpm         \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-nvdisasm-11-2-11.2.67-1.x86_64.rpm         \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-sanitizer-11-2-11.2.67-1.x86_64.rpm        \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-driver-devel-11-2-11.2.72-1.x86_64.rpm     \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-nvrtc-devel-11-2-11.2.67-1.x86_64.rpm      \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcufft-devel-11-2-10.4.0.72-1.x86_64.rpm      \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcurand-devel-11-2-10.2.3.68-1.x86_64.rpm     \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcusolver-devel-11-2-11.0.2.68-1.x86_64.rpm   \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcusparse-devel-11-2-11.3.1.68-1.x86_64.rpm   \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvjpeg-devel-11-2-11.3.1.68-1.x86_64.rpm     \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-compiler-11-2-11.2.0-1.x86_64.rpm
-
-RUN yum localinstall -y                                       \
-    /tmp/repo/cuda-command-line-tools-11-2-11.2.0-1*.rpm      \
-    /tmp/repo/cuda-libraries-devel-11-2-11.2.0-1*.rpm         \
-    /tmp/repo/cuda-minimal-build-11-2-11.2.0-1*.rpm           \
-    /tmp/repo/cuda-cudart-devel-11-2-11.2.72-1*.rpm           \
-    /tmp/repo/cuda-nvprof-11-2-11.2.67-1*.rpm                 \
-    /tmp/repo/cuda-nvml-devel-11-2-11.2.67-1*.rpm             \
-    /tmp/repo/libcublas-devel-11-2-11.3.1.68-1*.rpm           \
-    /tmp/repo/libnpp-devel-11-2-11.2.1.68-1*.rpm              \
-    /tmp/repo/libnccl-devel-2.8.4-1+cuda11.2*.rpm          && \
-    yum clean all                                          && \
-    rm -rf /var/cache/yum/*
-
-ENV LIBRARY_PATH /usr/local/cuda/lib64/stubs
-
-RUN yum localinstall -y                                      \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libcudnn8-8.1.1.33-1.cuda11.2.x86_64.rpm          && \
-    yum clean all                                         && \
-    rm -rf /var/cache/yum/*
-
+        make      
 
 # Install python packages
 RUN python3.8 -m pip install --upgrade  \
-        pip                          && \
-    python3.8 -m pip install            \
+        pip
+RUN python3.8 -m pip install            \
         wheel                           \
         pbr                             \
         tensorflow                      \ 
@@ -113,16 +24,18 @@ RUN python3.8 -m pip install --upgrade  \
         Keras                           \
         fastai                          \
         cudnnenv                        \
-        gluon                        && \
-    pip uninstall tf-nightly         && \
-    pip install --upgrade --force-reinstall     \
-        tensorflow                           && \
-    python3.8 -m pip install --upgrade          \
+        gluon
+RUN pip uninstall tf-nightly
+RUN pip install --upgrade --force-reinstall     \
+        tensorflow
+RUN python3.8 -m pip install --upgrade          \
         click                                   \
-        SQLAlchemy
-# uninstalling tf-nightly resolves keras.utils.generic_utils
+        SQLAlchemy        
 
-RUN yum remove gcc -y  && \
+# Clean up & Cleanup
+RUN rm -f *.rpm        && \
+    yum remove gcc -y  && \
+    yum clean all      && \
     rm -rf /tmp/repo      \
               /opt/python/venv/lib/python3.8/site-packages/oslo_service/tests/ssl_cert/ca.key \
               /opt/python/venv/lib/python3.8/site-packages/oslo_service/tests/ssl_cert/privatekey.key \
@@ -139,8 +52,65 @@ RUN yum remove gcc -y  && \
               /usr/share/doc/perl-Net-SSLeay/examples/server_key.pem \
     && chmod g-s /usr/libexec/openssh/ssh-keysign
 
-RUN usermod -u 1002 python
-RUN usermod -u 1001 jovyan
+########################################
+# START ASE UPDDATE
+########################################
+# install cuda
+ENV NVARCH x86_64
+ENV NVIDIA_REQUIRE_CUDA "cuda>=11.4 brand=tesla,driver>=418,driver<419 brand=tesla,driver>=440,driver<441 driver>=450"
+ENV NV_CUDA_CUDART_VERSION 11.4.108-1
+COPY cuda.repo-x86_64 /etc/yum.repos.d/cuda.repo
+
+RUN NVIDIA_GPGKEY_SUM=d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5 && \
+    curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${NVARCH}/7fa2af80.pub | sed '/^Version/d' > /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA && \
+    echo "$NVIDIA_GPGKEY_SUM  /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA" | sha256sum -c --strict -
+ENV CUDA_VERSION 11.4.1
+## For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
+RUN yum upgrade -y && yum install -y \
+    cuda-cudart-11-4-${NV_CUDA_CUDART_VERSION} \
+    cuda-compat-11-4 \
+    && ln -s cuda-11.4 /usr/local/cuda \
+    && yum clean all \
+    && rm -rf /var/cache/yum/*
+## nvidia-docker 1.0
+RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
+    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+## nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+
+# install runtime (cudnn)
+ENV NV_CUDA_LIB_VERSION 11.4.1-1
+ENV NV_NVTX_VERSION 11.4.100-1
+ENV NV_LIBNPP_VERSION 11.4.0.90-1
+ENV NV_LIBCUBLAS_VERSION 11.5.4.8-1
+ENV NV_LIBNCCL_PACKAGE_NAME libnccl
+ENV NV_LIBNCCL_PACKAGE_VERSION 2.10.3-1
+ENV NV_LIBNCCL_VERSION 2.10.3
+ENV NCCL_VERSION 2.10.3
+ENV NV_LIBNCCL_PACKAGE ${NV_LIBNCCL_PACKAGE_NAME}-${NV_LIBNCCL_PACKAGE_VERSION}+cuda11.4
+RUN yum install -y \
+    cuda-libraries-11-4-${NV_CUDA_LIB_VERSION} \
+    cuda-nvtx-11-4-${NV_NVTX_VERSION} \
+    libnpp-11-4-${NV_LIBNPP_VERSION} \
+    libcublas-11-4-${NV_LIBCUBLAS_VERSION} \
+    ${NV_LIBNCCL_PACKAGE} \
+    && yum clean all \
+    && rm -rf /var/cache/yum/*
+ENV NV_CUDNN_VERSION 8.2.2.26-1
+ENV NV_CUDNN_PACKAGE libcudnn8-${NV_CUDNN_VERSION}.cuda11.4
+RUN yum install -y ${NV_CUDNN_PACKAGE} \
+    && yum clean all \
+    && rm -rf /var/cache/yum/*
+
+ENV LD_LIBRARY_PATH /usr/local/cuda-11.4/targets/x86_64-linux/lib
+RUN cp /usr/local/cuda-11.4/compat/libcuda.so.1 /usr/local/cuda-11.4/targets/x86_64-linux/lib/
+########################################
+# END ASE UPDDATE
+########################################
+
 USER jovyan
 
 RUN . $VIRTUAL_ENV/bin/activate
@@ -148,6 +118,7 @@ RUN . $VIRTUAL_ENV/bin/activate
 WORKDIR $HOME
 
 ENTRYPOINT ["tini", "-g", "--"]
+
 CMD ["start-notebook.sh"]
 
 EXPOSE 8888
