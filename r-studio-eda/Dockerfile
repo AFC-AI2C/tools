@@ -7,6 +7,9 @@ USER root
 COPY --from=base /usr/local/bin/ /usr/local/bin/
 COPY --from=base /usr/local/lib/ /usr/local/lib/
 COPY --from=base /opt/python/ /opt/python/
+COPY --from=base /opt/R /opt/R
+
+RUN yum install -y openssl-libs
 
 RUN yum install -y curl openssl openssl-libs
 RUN curl -LO https://github.com/krallin/tini/releases/download/v0.19.0/tini
