@@ -41,6 +41,8 @@ RUN yum localinstall --nogpgcheck -y              \
     # dnf -y install --downloadonly --downloaddir=./ cairo cairo-devel fontconfig freetype freetype-devel harfbuzz-devel http-parser libgit2 libgit2-devel libXext-devel libXrender-devel pixman-devel protobuf-devel udunits2 gdal-libs gpsbabel ImageMagick-c++ ImageMagick-devel udunits2 cfitsio freexl gdal hdf5 netcdf ogdi proj xerces-c
 RUN curl -LO http://13.89.34.249/R_AIML_Deps.tar.gz
 RUN tar xvf R_AIML_Deps.tar.gz
+
+RUN yum localinstall -y --nogpgcheck http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/glib2-2.56.4-10.el8_4.x86_64.rpm
 RUN yum localinstall -y ./repo/*.rpm --nogpgcheck
 
 # R package dependencies within standard repos
@@ -138,6 +140,12 @@ RUN Rscript --no-save ai-ml-packages.R \
     timetk           \
     xgboost
 
+#Sets path so R reticulate knows where python is located
+RUN R -e "Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python')"
+
+# Used to check if path is set correctly
+#R -e "reticulate::py_config()""
+
 USER root
 
 # Upgrading vulnerable binaries
@@ -150,7 +158,7 @@ RUN yum upgrade -y --skip-broken --allowerasing   \
         perl-IO          \
         libwebp
 
-# Removing un-needed vulnerable binaries
+#Removing un-needed vulnerable binaries
 RUN rpm -e --nodeps      \
         avahi-libs       \
         binutils         \
