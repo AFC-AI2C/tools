@@ -16,8 +16,7 @@ COPY scripts/app.py $HOME/app.py
 RUN pip install    \
         pip        \
         pandas     \
-        dash       \
-        gunicorn
+        dash
 
 # Removing identified secrets
 RUN rm /opt/python/venv/lib/python3.8/site-packages/future/backports/test/*.pem
