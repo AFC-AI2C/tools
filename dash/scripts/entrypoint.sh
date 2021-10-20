@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# expects your custom app.py to be mounted into /home/python3/apps, otherwise it will run the 
-# provided app.py in /home/python3/app.py
+# expects your custom app.py to be mounted into /home/python3/apps, otherwise it
+# will run the provided app.py in /home/python3/app.py
 
 if [ "$(ls -A $HOME/apps)" ] 
 then 
@@ -11,9 +11,4 @@ else
     cd $HOME
 fi
 
-gunicorn -b 0.0.0.0:8050 app:server
-
-
-
-
-
+python app.py
