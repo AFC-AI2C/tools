@@ -2,7 +2,7 @@ FROM afcai2c/jlab-dl:latest
 
 USER root
 
-RUN curl -LO http://13.89.34.249/graphviz-devel.tar.gz   && \
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/graphviz-devel.tar.gz   && \
     tar xvf graphviz-devel.tar.gz                        && \
     yum localinstall -y ./graphviz-devel/*.rpm           && \
     yum install -y gcc
