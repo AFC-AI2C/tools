@@ -18,9 +18,6 @@ RUN pip install    \
         pandas     \
         dash
 
-# Removing identified secrets
-RUN rm /opt/python/venv/lib/python3.8/site-packages/future/backports/test/*.pem
-
 # cleanup downloaded packages
 RUN rm -rf $HOME/repo
 
