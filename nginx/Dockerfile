@@ -48,8 +48,7 @@ RUN chown -R nginx:nginx /docker-entrypoint.d && \
      chmod o-w docker-entrypoint.d/20-envsubst-on-templates.sh && \
      chmod o-w docker-entrypoint.sh 
     
-     
-
+RUN usermod -u 1001 nginx
 
 USER nginx
 
