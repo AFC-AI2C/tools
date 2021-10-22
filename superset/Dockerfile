@@ -30,14 +30,11 @@ RUN python3.6 -m pip install --upgrade   \
         psycopg2-binary                  \
         apache-superset
 
-# Copy supserset config into python path
+# Copy superset config into python path
 # All the parameters and default values defined in https://github.com/apache/incubator-superset/blob/master/superset/config.py can be altered in your local superset_config.py
-COPY ./scripts/superset_config.py /usr/local/lib/python3.8/site-packages/
-
-RUN superset db upgrade
-
-RUN export FLASK_APP=superset
-
+RUN mkdir /superset
+COPY ./scripts/superset_config.py /superset
+ENV PYTHONPATH /superset
 COPY ./scripts/init_superset.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/init_superset.sh
@@ -52,4 +49,3 @@ HEALTHCHECK --interval=10s --timeout=1s CMD curl --fail http://127.0.0.1:8088 ||
 
 # Example docker run:
 # docker run -it --rm -p 8088:8088 -e USERNAME='username'' -e PASSWORD='password' afcai2c/superset:latest
-
