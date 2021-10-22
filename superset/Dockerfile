@@ -26,6 +26,8 @@ RUN python3.6 -m pip install --upgrade   \
         wheel                            \
         Pillow                           \
         dataclasses                      \
+        gunicorn                         \
+        psycopg2-binary                  \
         apache-superset
 
 # Copy supserset config into python path
