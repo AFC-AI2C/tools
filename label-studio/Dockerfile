@@ -17,6 +17,9 @@ ENV LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK=true
 COPY scripts/docker-entrypoint.sh /docker-entrypoint.sh
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/templates  /etc/nginx/templates
+
+ENV TLS_CONFIG disabled
 
 RUN dnf upgrade -y && \
     # Install package
@@ -49,17 +52,18 @@ RUN cp -r /usr/share/nginx/html /etc/nginx && \
 
 COPY scripts/10-listen-on-ipv6-by-default.sh scripts/20-envsubst-on-templates.sh scripts/30-tune-worker-processes.sh /docker-entrypoint.d/
 
+RUN usermod -u 1002 python  && \
+    usermod -u 1001 nginx
+
 RUN chown -R nginx:nginx /docker-entrypoint.d && \
      # Remove Write permission
 #     chmod o-w etc/pki/ca-trust/source/anchors/Certificates_PKCS7_v5.7_DoD.pem && \
+     chown -R nginx:nginx /etc/nginx && \
      chmod o-w etc/nginx/nginx.conf && \
      chmod o-w docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
      chmod o-w docker-entrypoint.d/30-tune-worker-processes.sh && \
      chmod o-w docker-entrypoint.d/20-envsubst-on-templates.sh && \
      chmod o-w docker-entrypoint.sh 
-    
-RUN usermod -u 1002 python  && \
-    usermod -u 1001 nginx
 
 USER nginx
 
