@@ -1,0 +1,3 @@
+upstream labelstudio {
+    server localhost:8088;
+}
