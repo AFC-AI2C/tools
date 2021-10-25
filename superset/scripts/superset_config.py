@@ -91,13 +91,19 @@ MAPBOX_API_KEY = ""
 # Allows you to use sqlite databases
 PREVENT_UNSAFE_DB_CONNECTIONS = False
 
-# Superset Improvement Proposal 15 aims to ensure that time intervals are handled in a consistent and transparent manner for both the Druid and SQLAlchemy connectors.
-# Prior to SIP-15 SQLAlchemy used inclusive endpoints however these may behave like exclusive for string columns (due to lexicographical ordering) if no formatting was defined and the column formatting did not conform to an ISO 8601 date-time (refer to the SIP for details).
+# Superset Improvement Proposal 15 aims to ensure that time intervals are
+# handled in a consistent and transparent manner for both the Druid and
+# SQLAlchemy connectors. Prior to SIP-15 SQLAlchemy used inclusive endpoints
+# however these may behave like exclusive for string columns (due to
+# lexicographical ordering) if no formatting was defined and the column
+# formatting did not conform to an ISO 8601 date-time (refer to the SIP for
+# details).
 SIP_15_ENABLED = True
 
 
-# # For chart data, Superset goes up a “timeout search path”, from a slice's configuration to the datasource’s, the database’s, then ultimately falls back to the global default defined in DATA_CACHE_CONFIG.
-# DATA_CACHE_CONFIG = {
+# For chart data, Superset goes up a “timeout search path”, from a slice's
+# configuration to the datasource’s, the database’s, then ultimately falls back
+# to the global default defined in DATA_CACHE_CONFIG. DATA_CACHE_CONFIG = {
 #     'CACHE_TYPE': 'redis',
 #     'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24, # 1 day default (in secs)
 #     'CACHE_KEY_PREFIX': 'superset_results',
