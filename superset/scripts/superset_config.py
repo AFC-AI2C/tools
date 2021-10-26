@@ -1,10 +1,10 @@
-#################################################################################
-#                                                                               #
-#  All the parameters and default values defined in                             #
-#  https://github.com/apache/incubator-superset/blob/master/superset/config.py  #
-#  can be altered in your local superset_config.py                              #
-#                                                                               #
-#################################################################################
+################################################################################
+#                                                                              #
+#  All the parameters and default values defined in                            #
+#  https://github.com/apache/incubator-superset/blob/master/superset/config.py #
+#  can be altered in your local superset_config.py                             #
+#                                                                              #
+################################################################################
 
 import os
 
@@ -13,9 +13,9 @@ if "SUPERSET_HOME" in os.environ:
 else:
     DATA_DIR = os.path.join(os.path.expanduser("~"), ".superset")
 
-#---------------------------------------------------------
+# ---------------------------------------------------------
 # Superset specific config
-#---------------------------------------------------------
+# ---------------------------------------------------------
 ROW_LIMIT = 50000
 
 VIZ_ROW_LIMIT = 10000
@@ -47,11 +47,13 @@ CUSTOM_SECURITY_MANAGER = None
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-#---------------------------------------------------------
+# ---------------------------------------------------------
 # Flask App Builder configuration
-#---------------------------------------------------------
+# ---------------------------------------------------------
 # Your App secret key
-#SECRET_KEY = '\2\1thisismyscretkey\1\2\\e\\y\\y\\h'
+SECRET_KEY = os.getenv(
+    "SUPERSET_SECRET_KEY", default="\2\1thisismyscretkey\1\2\\e\\y\\y\\h"
+)
 
 # The SQLAlchemy connection string to your database backend
 # This connection defines the path to the database that stores your
@@ -59,8 +61,9 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 # Note that the connection information to connect to the datasources
 # you want to explore are managed directly in the web UI
 # SQLALCHEMY_DATABASE_URI = 'sqlite:////path/to/superset.db'
-SQLALCHEMY_DATABASE_URI = "sqlite:////home/superset.db"
-# SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
+SQLALCHEMY_DATABASE_URI = "sqlite:////" + os.path.join(
+    DATA_DIR, "superset.sqlite"
+)
 
 # In order to hook up a custom password store for all SQLACHEMY connections
 # implement a function that takes a single argument of type 'sqla.engine.url',
@@ -82,25 +85,27 @@ WTF_CSRF_EXEMPT_LIST = []
 WTF_CSRF_TIME_LIMIT = 60 * 60 * 24 * 365
 
 # Set this API key to enable Mapbox visualizations
-MAPBOX_API_KEY = ''
+MAPBOX_API_KEY = ""
 
 
 # Allows you to use sqlite databases
 PREVENT_UNSAFE_DB_CONNECTIONS = False
 
-# Superset Improvement Proposal 15 aims to ensure that time intervals are handled in a consistent and transparent manner for both the Druid and SQLAlchemy connectors.
-# Prior to SIP-15 SQLAlchemy used inclusive endpoints however these may behave like exclusive for string columns (due to lexicographical ordering) if no formatting was defined and the column formatting did not conform to an ISO 8601 date-time (refer to the SIP for details).
+# Superset Improvement Proposal 15 aims to ensure that time intervals are
+# handled in a consistent and transparent manner for both the Druid and
+# SQLAlchemy connectors. Prior to SIP-15 SQLAlchemy used inclusive endpoints
+# however these may behave like exclusive for string columns (due to
+# lexicographical ordering) if no formatting was defined and the column
+# formatting did not conform to an ISO 8601 date-time (refer to the SIP for
+# details).
 SIP_15_ENABLED = True
 
 
-# # For chart data, Superset goes up a “timeout search path”, from a slice's configuration to the datasource’s, the database’s, then ultimately falls back to the global default defined in DATA_CACHE_CONFIG.
-# DATA_CACHE_CONFIG = {
+# For chart data, Superset goes up a “timeout search path”, from a slice's
+# configuration to the datasource’s, the database’s, then ultimately falls back
+# to the global default defined in DATA_CACHE_CONFIG. DATA_CACHE_CONFIG = {
 #     'CACHE_TYPE': 'redis',
 #     'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24, # 1 day default (in secs)
 #     'CACHE_KEY_PREFIX': 'superset_results',
 #     'CACHE_REDIS_URL': 'redis://localhost:6379/0',
 # }
-
-
-
-
