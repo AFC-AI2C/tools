@@ -1,3 +1,3 @@
 upstream labelstudio {
-    server localhost:8088;
+    server localhost:${LABEL_STUDIO_PORT};
 }
