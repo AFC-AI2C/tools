@@ -20,7 +20,7 @@ else
     gunicorn                         \
         -w 10                        \
         --timeout 120                \
-        -b 0.0.0.0:8088              \
+        -b 0.0.0.0:8080              \
         --limit-request-line 0       \
         --limit-request-field_size 0 \
         "superset.app:create_app()"
