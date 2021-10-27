@@ -1,11 +1,6 @@
 #!/bin/sh
 # vim:sw=4:ts=4:et
 
-### Label Studio ###
-
-exec label-studio start -p 8088 --log-level DEBUG &
-
-
 ### nginx ###
 
 set -e
@@ -42,4 +37,9 @@ if [ "$1" = "nginx" -o "$1" = "nginx-debug" ]; then
     fi
 fi
 
-exec "$@"
+exec "$@" &
+
+
+### Label Studio ###
+
+exec label-studio start -p 8088 --log-level DEBUG

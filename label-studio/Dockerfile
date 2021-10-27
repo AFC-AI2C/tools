@@ -4,15 +4,19 @@ FROM afcai2c/python38-ai:latest
 ARG LABEL_STUDIO_USERNAME
 ARG LABEL_STUDIO_PASSWORD
 
-RUN python3.8 -m pip install label-studio 
-
-#ENV LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK=true
-
 USER root
 
-RUN ln -s /home/default/.local/bin/label-studio /bin
-
+# Install label studio
+RUN python3.8 -m pip install label-studio 
 ENV LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK=true
+ENV LABEL_STUDIO_PORT 8088
+RUN mkdir /label-studio
+RUN cp -r /opt/python/venv/lib/python3.8/site-packages/label_studio /label-studio
+
+
+# Install NGINX
+
+RUN ln -s /home/default/.local/bin/label-studio /bin
 
 COPY scripts/docker-entrypoint.sh /docker-entrypoint.sh
 
@@ -50,21 +54,22 @@ RUN dnf upgrade -y && \
 RUN cp -r /usr/share/nginx/html /etc/nginx && \
     rm /etc/nginx/conf.d/default.conf
 
-COPY scripts/10-listen-on-ipv6-by-default.sh scripts/20-envsubst-on-templates.sh scripts/30-tune-worker-processes.sh /docker-entrypoint.d/
+COPY scripts/10-listen-on-ipv6-by-default.sh scripts/15-copy-static-data.sh scripts/20-envsubst-on-templates.sh scripts/30-tune-worker-processes.sh scripts/90-replace-subpath.sh /docker-entrypoint.d/
 
 RUN usermod -u 1002 python  && \
     usermod -u 1001 nginx
 
 RUN chown -R nginx:nginx /docker-entrypoint.d && \
-     # Remove Write permission
-#     chmod o-w etc/pki/ca-trust/source/anchors/Certificates_PKCS7_v5.7_DoD.pem && \
-     chown -R nginx:nginx /etc/nginx && \
-     chmod o-w etc/nginx/nginx.conf && \
-     chmod o-w docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
-     chmod o-w docker-entrypoint.d/30-tune-worker-processes.sh && \
-     chmod o-w docker-entrypoint.d/20-envsubst-on-templates.sh && \
-     chmod o-w docker-entrypoint.sh 
+    chown -R nginx:nginx /etc/nginx && \
+    chmod o-w etc/nginx/nginx.conf && \
+    chmod o-w docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
+    chmod o-w docker-entrypoint.d/15-copy-static-data.sh && \
+    chmod o-w docker-entrypoint.d/20-envsubst-on-templates.sh && \
+    chmod o-w docker-entrypoint.d/30-tune-worker-processes.sh && \
+    chmod o-w docker-entrypoint.d/90-replace-subpath.sh && \
+    chmod o-w docker-entrypoint.sh 
 
+# set non-root user
 USER nginx
 
 EXPOSE 8080 8443

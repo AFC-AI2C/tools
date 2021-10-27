@@ -1,6 +1,7 @@
 server {
     listen 8080;
-    server_name ${SERVER_NAME};
+    server_name _;
 
+    include /etc/nginx/conf.d/shared_server.conf;
     include /etc/nginx/conf.d/shared_locations.conf;
 }
