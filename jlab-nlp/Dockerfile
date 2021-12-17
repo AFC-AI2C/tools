@@ -26,9 +26,9 @@ RUN rm -f /opt/python/venv/lib/python3.8/site-packages/future/backports/test/bad
           /opt/python/venv/lib/python3.8/site-packages/future/backports/test/ssl_key.passwd.pem   \
           /opt/python/venv/lib/python3.8/site-packages/future/backports/test/ssl_key.pem
 
-USER jovyan
+USER 1001
 
-WORKDIR $HOME
+WORKDIR ~
 
 ENTRYPOINT ["tini", "-g", "--"]
 

@@ -15,15 +15,14 @@ RUN python3.8 -m pip install   \
         texttable              \
         pygraphviz 
 
-
 RUN yum remove -y gcc   && \
     yum update -y
 
 RUN . $VIRTUAL_ENV/bin/activate
 
-USER jovyan
+USER 1001
 
-WORKDIR $HOME
+WORKDIR ~
 
 ENTRYPOINT ["tini", "-g", "--"]
 

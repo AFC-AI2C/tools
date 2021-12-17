@@ -4,9 +4,6 @@ USER root
 
 WORKDIR /tmp/repo
 
-#COPY *.whl .
-#COPY *.tar.gz .
-
 RUN python3.8 -m pip install   \
         # required for imutils
         opencv-python   \
@@ -18,7 +15,7 @@ RUN yum install -y mesa-libGL
 
 RUN . $VIRTUAL_ENV/bin/activate
 
-RUN  chmod g-s /usr/libexec/openssh/ssh-keysign \
+RUN chmod g-s /usr/libexec/openssh/ssh-keysign \
     && rm -rf /tmp/repo \
               /opt/jupyter/venv/lib/python3.8/site-packages/bleach/_vendor/{Django-1.11.29.dist-info,django} \
               /opt/python/venv/lib/python3.8/site-packages/bleach/_vendor/{Django-1.11.29.dist-info,django} \
@@ -36,9 +33,9 @@ RUN  chmod g-s /usr/libexec/openssh/ssh-keysign \
               /usr/share/doc/perl-IO-Socket-SSL/example/simulate_proxy.pl \
               /usr/share/doc/perl-Net-SSLeay/examples/server_key.pem 
 
-USER jovyan
+USER 1001
 
-WORKDIR $HOME
+WORKDIR ~
 
 ENTRYPOINT ["tini", "-g", "--"]
 

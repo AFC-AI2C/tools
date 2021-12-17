@@ -1,6 +1,6 @@
 -----python38-ai
 -----jupyterlab
-jlab-eda
+-----jlab-eda
 jlab-dl
 jlab-network
 jlab-nlp
