@@ -87,6 +87,6 @@ USER $NB_UID
 
 HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1
 
-WORKDIR $HOME
+WORKDIR ~
 
 EXPOSE 8888
