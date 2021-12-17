@@ -24,7 +24,7 @@ RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
     chmod -R 775 /home/jovyan                                            
 
 # Install tini
-COPY tini /usr/local/bin/tini
+COPY ./tini /usr/local/bin/tini
 RUN chmod +x /usr/local/bin/tini
 
 RUN mkdir /opt/jupyter
