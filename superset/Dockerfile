@@ -33,13 +33,13 @@ RUN python3.6 -m pip install --upgrade   \
 # Copy superset config into python path
 # All the parameters and default values defined in https://github.com/apache/incubator-superset/blob/master/superset/config.py can be altered in your local superset_config.py
 RUN mkdir /superset
-COPY ./scripts/superset_config.py /superset
+COPY ./superset/scripts/superset_config.py /superset
 ENV PYTHONPATH /superset
-COPY ./scripts/init_superset.sh /usr/local/bin/
+COPY ./superset/scripts/init_superset.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/init_superset.sh
 
-WORKDIR $HOME
+WORKDIR ~
 
 ENTRYPOINT ["bash","/usr/local/bin/init_superset.sh"]
 

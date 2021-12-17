@@ -14,6 +14,7 @@ RUN useradd metabase && \
         http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/dejavu-sans-fonts-2.35-7.el8.noarch.rpm
 
 WORKDIR /etc/pki/ca-trust/source/anchors/
+
 RUN chown metabase:metabase /etc/pki/ca-trust/source/anchors/ && \
     curl -LO https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem && \
     curl -LO https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem && \
@@ -25,7 +26,9 @@ RUN chown metabase:metabase /etc/pki/ca-trust/source/anchors/ && \
 USER 1001
 
 WORKDIR /app/
-COPY ./scripts/entrypoint.sh .
+
+COPY ./metabase/scripts/entrypoint.sh .
+
 RUN curl -LO https://downloads.metabase.com/v0.41.1/metabase.jar
 
 WORKDIR /home/metabase
