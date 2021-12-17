@@ -16,9 +16,6 @@ RUN yum upgrade -y      && \
 RUN mkdir -p /opt/python/repo
 RUN chown -R 1001:users /opt/python
 
-COPY *.tar.gz /opt/python/repo
-COPY *.whl /opt/python/repo
-
 USER 1001
 
 ENV VIRTUAL_ENV=/opt/python/venv
