@@ -12,6 +12,7 @@ for image in $(cat < $IMAGES); do
     echo "####################################################################################################"
     echo ""
     echo ""
+    docker rmi -f $(docker images | grep "^<none>" | tr -s " " | cut -d " " -f 3)
     eval "docker build -t 'afcai2c/$image' --no-cache './$image'"
     eval "docker push 'afcai2c/$image:latest'"
 
