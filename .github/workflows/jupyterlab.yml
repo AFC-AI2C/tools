@@ -1,4 +1,4 @@
-name: Docker Build python38-ai
+name: Docker Build jupyterlab
 
 on:
   push:
@@ -22,9 +22,9 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --tag afcai2c/python38-ai:$(date +%s) --tag afcai2c/python38-ai:latest --file ./python38-ai/Dockerfile .
+        docker build --tag afcai2c/jupyterlab:$(date +%s) --tag afcai2c/jupyterlab:latest --file ./jupyterlab/Dockerfile .
     - name: Docker Push
       run: |
-        docker push afcai2c/python38-ai --all-tags
+        docker push afcai2c/jupyterlab --all-tags
         
         
