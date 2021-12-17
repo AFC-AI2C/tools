@@ -2,7 +2,7 @@ FROM afcai2c/ubi8:latest
 
 USER root
 
-COPY scripts/docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./scripts/docker-entrypoint.sh /docker-entrypoint.sh
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN dnf upgrade -y && \
