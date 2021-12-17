@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Build jlab-cv
 
 on:
   push:
@@ -22,9 +22,9 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --tag afcai2c/python38-ai:$(date +%s) --tag afcai2c/python38-ai:latest --file ./python38-ai/Dockerfile .
+        docker build --tag afcai2c/jlab-cv:$(date +%s) --tag afcai2c/jlab-cv:latest --file ./jlab-cv/Dockerfile .
     - name: Docker Push
       run: |
-        docker push afcai2c/python38-ai --all-tags
+        docker push afcai2c/jlab-cv --all-tags
         
         
