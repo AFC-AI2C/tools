@@ -38,13 +38,13 @@ RUN rm -rf /usr/share/doc/perl-IO-Socket-SSL/certs/                             
     rm -rf /opt/python/venv/lib/python3.8/site-packages/tornado/test/test.key   && \
     chmod g-s /usr/libexec/openssh/ssh-keysign
 
-USER jovyan
+USER 1001
 
 # Needed to use packges from multi-stage build in Jupyterlab
 # A new kernel is displayed and available for use within JupyterLab
 RUN python3.8 -m ipykernel install --name='AI_Packages' --user
 
-WORKDIR $HOME
+WORKDIR ~
 
 EXPOSE 8888
 
