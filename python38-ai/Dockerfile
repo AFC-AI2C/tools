@@ -68,6 +68,6 @@ RUN rm -rf /opt/python/repo
 
 USER 1001
 
-WORKDIR $HOME
+WORKDIR ~
 
 HEALTHCHECK --interval=10s --timeout=1s CMD python.3.8 -c 'print("up")' || exit 1
