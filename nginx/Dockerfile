@@ -2,8 +2,8 @@ FROM afcai2c/ubi8:latest
 
 USER root
 
-COPY ./scripts/docker-entrypoint.sh /docker-entrypoint.sh
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./r-base/scripts/docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./r-base/conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN dnf upgrade -y && \
     # Install package
@@ -50,7 +50,7 @@ RUN chown -R nginx:nginx /docker-entrypoint.d && \
     
 RUN usermod -u 1001 nginx
 
-USER nginx
+USER 1001
 
 EXPOSE 8080 8443
 

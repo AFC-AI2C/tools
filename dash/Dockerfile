@@ -8,7 +8,9 @@ RUN chmod +x /entrypoint.sh
 USER 1001
 
 ENV HOME=/home/python
+
 WORKDIR ~
+
 RUN mkdir repo apps scripts
 
 COPY ./dash/scripts/app.py $HOME/app.py

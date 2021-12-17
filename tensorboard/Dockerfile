@@ -1,6 +1,6 @@
 FROM afcai2c/jlab-dl:latest
 
-COPY scripts/entrypoint.sh /entrypoint.sh
+COPY ./tensorboard/scripts/entrypoint.sh /entrypoint.sh
 
 USER 1001
 

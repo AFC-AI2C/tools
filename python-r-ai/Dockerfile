@@ -71,7 +71,7 @@ RUN R CMD javareconf
 USER 1001
 
 # R Script to install pacakges and provides a stop error if in installation fails
-COPY scripts/ai-ml-packages.R .
+COPY ./r-base/scripts/ai-ml-packages.R .
 
 # R Packages can have a slow build time because they compile during installation
     # If you don't run R as root, you won't have permission to write packages into the default system-wide location and you will be prompted to create a personal library accessible by your userid. You can accept the personal library path chosen by R, or specify the library location by passing parameters to the install.packages function. For example, to create an R package repository in your home directory: R> install.packages("arules", lib="/home/username/Rpackages")
@@ -210,7 +210,7 @@ RUN yum clean all   && \
 
 USER 1001
 
-WORKDIR $HOME
+WORKDIR ~
 
 # every 10 seconds execute the R command specified to show 'healthy'
 HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1

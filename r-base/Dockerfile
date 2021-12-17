@@ -10,7 +10,7 @@ RUN mkdir /repo ${HOME}
 WORKDIR /repo
 RUN curl -O https://cdn.rstudio.com/r/centos-8/pkgs/R-${R_VERSION}-1-1.x86_64.rpm
 
-COPY ./scripts /
+COPY ./r-base/scripts /
 RUN chmod +x /fix-permissions
 
 # Install R and create simlinks to default system PATH for Rscripting and R repl
@@ -44,7 +44,7 @@ ENV USER=default
 
 USER 1001
 
-WORKDIR ${HOME}
+WORKDIR ~
 
 ENTRYPOINT [ "R" ]
 

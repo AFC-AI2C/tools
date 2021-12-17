@@ -1,4 +1,4 @@
-name: Docker Build jlab-cv
+name: Docker Build r-base
 
 on:
   push:
@@ -22,9 +22,9 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --tag afcai2c/jlab-cv:$(date +%s) --tag afcai2c/jlab-cv:latest --file ./jlab-cv/Dockerfile .
+        docker build --tag afcai2c/r-base:$(date +%s) --tag afcai2c/r-base:latest --file ./r-base/Dockerfile .
     - name: Docker Push
       run: |
-        docker push afcai2c/jlab-cv --all-tags
+        docker push afcai2c/r-base --all-tags
         
         
