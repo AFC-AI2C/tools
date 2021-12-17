@@ -1,4 +1,4 @@
-name: Docker Build r-shiniy
+name: Docker Build r-shiny
 
 on:
   push:
@@ -22,9 +22,9 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --tag afcai2c/r-shiniy:$(date +%s) --tag afcai2c/r-shiniy:latest --file ./r-shiniy/Dockerfile .
+        docker build --tag afcai2c/r-shiny:$(date +%s) --tag afcai2c/r-shiny:latest --file ./r-shiny/Dockerfile .
     - name: Docker Push
       run: |
-        docker push afcai2c/r-shiniy --all-tags
+        docker push afcai2c/r-shiny --all-tags
         
         
