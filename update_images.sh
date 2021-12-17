@@ -2,6 +2,11 @@
 
 IMAGES=./image-build-order.txt
 for image in $(cat < $IMAGES); do
+    echo "##################################################"
+    echo "##################################################"
+    echo "$image"
+    echo "##################################################"
+    echo "##################################################"
     eval "docker build -t 'afcai2c/$image' --no-cache './$image'"
     eval "docker push 'afcai2c/$image:latest'"
 
