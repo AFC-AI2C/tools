@@ -22,7 +22,7 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build . --file Dockerfile --tag afcai2c/python38-ai:$(date +%s)
+        docker build --tag afcai2c/python38-ai:$(date +%s) --file Dockerfile .
     - name: Docker Push
       run: |
         docker push ${{secrets.DOCKER_USER}}/afcai2c
