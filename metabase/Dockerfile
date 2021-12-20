@@ -7,7 +7,7 @@ ARG MB_EDITION=oss
 
 RUN useradd metabase && \
     usermod -u 1001 metabase && \
-    yum update && \
+    yum update -y && \
     yum install -y fontconfig && \
     yum localinstall -y --nogpgcheck \
         http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/ca-certificates-2020.2.41-80.0.el8_2.noarch.rpm \

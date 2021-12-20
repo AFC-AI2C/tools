@@ -39,7 +39,7 @@ RUN yum localinstall --nogpgcheck -y              \
 # These rpms are required for the following packages
 # The R_AIML_Deps.tar.gz contains multiple dependency rpms
     # dnf -y install --downloadonly --downloaddir=./ cairo cairo-devel fontconfig freetype freetype-devel harfbuzz-devel http-parser libgit2 libgit2-devel libXext-devel libXrender-devel pixman-devel protobuf-devel udunits2 gdal-libs gpsbabel ImageMagick-c++ ImageMagick-devel udunits2 cfitsio freexl gdal hdf5 netcdf ogdi proj xerces-c
-RUN curl -LO http://13.89.34.249/R_AIML_Deps.tar.gz
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_AIML_Deps.tar.gz
 RUN tar xvf R_AIML_Deps.tar.gz
 
 RUN yum localinstall -y --nogpgcheck http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/glib2-2.56.4-10.el8_4.x86_64.rpm
@@ -62,7 +62,7 @@ RUN yum install -y                    \
     yum clean packages
 
 # install pandoc
-RUN curl -LO http://13.89.34.249/pandoc-2.13-linux-amd64.tar.gz
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pandoc-2.13-linux-amd64.tar.gz
 RUN tar xvzf pandoc-2.13-linux-amd64.tar.gz --strip-components 1 -C /usr/local
 
 # needed by RJDBC package
@@ -71,7 +71,7 @@ RUN R CMD javareconf
 USER 1001
 
 # R Script to install pacakges and provides a stop error if in installation fails
-COPY ./r-base/scripts/ai-ml-packages.R .
+COPY ./python-r-ai/scripts/ai-ml-packages.R .
 
 # R Packages can have a slow build time because they compile during installation
     # If you don't run R as root, you won't have permission to write packages into the default system-wide location and you will be prompted to create a personal library accessible by your userid. You can accept the personal library path chosen by R, or specify the library location by passing parameters to the install.packages function. For example, to create an R package repository in your home directory: R> install.packages("arules", lib="/home/username/Rpackages")
