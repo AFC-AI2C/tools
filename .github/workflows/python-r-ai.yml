@@ -24,7 +24,7 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --tag afcai2c/python-r-ai:$(date +%s) --tag afcai2c/python-r-ai:latest --file ./python-r-ai/Dockerfile .
+        docker build --build-arg REDHAT_USERNAME=${{secrets.REDHAT_USERNAME}} --build-arg REDHAT_PASSWORD=${{secrets.REDHAT_PASSWORD}} --tag afcai2c/python-r-ai:$(date +%s) --tag afcai2c/python-r-ai:latest --file ./python-r-ai/Dockerfile .
     - name: Docker Push
       run: |
         docker push afcai2c/python-r-ai --all-tags

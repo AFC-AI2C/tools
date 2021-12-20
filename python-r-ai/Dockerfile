@@ -30,11 +30,19 @@ RUN yum update -y       && \
         openssl-devel      \
         libxml2-devel
 
+# Add repository, the UBI8 base image doesn't have this repository available and is not allowed within our CI/CD pipeline, thus needed here for the public version
+ARG REDHAT_USERNAME
+ARG REDHAT_PASSWORD
+RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD} && \
+    subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                            && \
+    dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm      && \
+    yum clean expire-cache && dnf update -y
+
 # R package dependencies within standard repos
 # libsodium is required for the following packages
-RUN yum localinstall --nogpgcheck -y              \
-        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/l/libsodium-1.0.18-2.el8.x86_64.rpm         \
-        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/l/libsodium-devel-1.0.18-2.el8.x86_64.rpm            
+RUN dnf install -y \
+        libsodium \
+        libsodium-devel
 
 # These rpms are required for the following packages
 # The R_AIML_Deps.tar.gz contains multiple dependency rpms
@@ -42,17 +50,15 @@ RUN yum localinstall --nogpgcheck -y              \
 RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_AIML_Deps.tar.gz
 RUN tar xvf R_AIML_Deps.tar.gz
 
-RUN yum localinstall -y --nogpgcheck http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/glib2-2.56.4-156.el8.x86_64.rpm
+RUN install -y glib2
 #RUN yum localinstall -y ./repo/*.rpm --nogpgcheck
 
 # R package dependencies within standard repos
-RUN yum localinstall --nogpgcheck -y                       \
-        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/g/gdal-libs-3.0.4-8.el8.x86_64.rpm                   \
-        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/g/gdal-3.0.4-8.el8.x86_64.rpm                        \
-        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/i/ImageMagick-c++-devel-6.9.10.86-1.el8.x86_64.rpm   \
-        https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/u/udunits2-devel-2.2.26-5.el8.x86_64.rpm
-
-RUN yum install -y                    \
+RUN dnf install -y \
+        gdal-libs \
+        gdal \
+        ImageMagick-c++-devel \
+        udunits2-devel \
         fontconfig-devel              \
         libpng                        \
         libpng-devel                  \
@@ -61,9 +67,11 @@ RUN yum install -y                    \
         java-1.8.0-openjdk-devel   && \
     yum clean packages
 
+RUN subscription-manager unregister
+
 # install pandoc
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pandoc-2.13-linux-amd64.tar.gz
-RUN tar xvzf pandoc-2.13-linux-amd64.tar.gz --strip-components 1 -C /usr/local
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pandoc-2.13-linux-amd64.tar.gz && \
+    tar xvzf pandoc-2.13-linux-amd64.tar.gz --strip-components 1 -C /usr/local
 
 # needed by RJDBC package
 RUN R CMD javareconf
@@ -71,7 +79,7 @@ RUN R CMD javareconf
 USER 1001
 
 # R Script to install pacakges and provides a stop error if in installation fails
-COPY ./python-r-ai/scripts/ai-ml-packages.R .
+COPY scripts/ai-ml-packages.R .
 
 # R Packages can have a slow build time because they compile during installation
     # If you don't run R as root, you won't have permission to write packages into the default system-wide location and you will be prompted to create a personal library accessible by your userid. You can accept the personal library path chosen by R, or specify the library location by passing parameters to the install.packages function. For example, to create an R package repository in your home directory: R> install.packages("arules", lib="/home/username/Rpackages")
