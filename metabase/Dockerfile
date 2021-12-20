@@ -23,13 +23,13 @@ RUN chown metabase:metabase /etc/pki/ca-trust/source/anchors/ && \
     mkdir -p /plugins && \
     chmod a+rwx /plugins
 
-RUN mkdir /app/ && curl -L https://downloads.metabase.com/v0.41.1/metabase.jar -o  /app/
-
-USER 1001
-
 WORKDIR /app/
 
 COPY ./metabase/scripts/entrypoint.sh .
+
+RUN curl -LO https://downloads.metabase.com/v0.41.1/metabase.jar
+
+USER 1001
 
 WORKDIR /home/metabase
 
