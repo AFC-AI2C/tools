@@ -23,44 +23,66 @@ RUN dnf update -y                  && \
         libaec                     && \
     dnf -y clean all
 
-############################################################################################
-# Install Base Supporting RPMS                                                             #
-# sources:                                                                                 #
-# https://github.com/CrunchyData/crunchy-containers/blob/master/build/base-ext/Dockerfile  #
-# https://github.com/CrunchyData/crunchy-containers/blob/master/build/base/Dockerfile      #
-############################################################################################
+# Add repository, the UBI8 base image doesn't have this repository available and is not allowed within our CI/CD pipeline, thus needed here for the public version
+ARG REDHAT_USERNAME='komnick'
+ARG REDHAT_PASSWORD='muKZ!uNcw3CBaA7'
+RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD} && \
+    subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                            && \
+    dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm      && \
+    yum clean expire-cache && dnf update -y
 
-WORKDIR /opt
-
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/base-generic-supporting-rpms.tar.gz
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/base-epel-supporting-rpms.tar.gz
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/crunchy-postgres-rpms.tar.gz
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/crunchy-postgis-rpms.tar.gz
-
-#COPY *tar.gz /opt
-#RUN tar xf base-generic-supporting-rpms.tar.gz 
-#RUN tar xf base-epel-supporting-rpms.tar.gz
-#RUN dnf localinstall -qy base-generic-supporting-rpms/*.rpm 
-#RUN dnf localinstall -qy base-epel-supporting-rpms/*.rpm 
+RUN dnf -y install --nogpgcheck https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+RUN dnf -y module disable postgresql
+RUN dnf -y install epel-release
 
 
-############################################################################################
-# Install Postgres-base Supporting RPMS                                                    #
-# sources:                                                                                 #
-# https://github.com/CrunchyData/crunchy-containers/blob/master/build/postgres/Dockerfile  #
-############################################################################################
+RUN dnf install -y \
+    postgresql \
+    postgis
 
-RUN tar xf crunchy-postgres-rpms.tar.gz 
-RUN dnf localinstall -y --nogpgcheck crunchy-postgres-rpms/*.rpm 
+COPY scripts/ai-ml-packages.R .
+RUN Rscript --no-save ai-ml-packages.R \
+    rgdal \
+    rasterio \
+    geopy \
+    sarpy
+# RUN Rscript --no-save ai-ml-packages.R \
+#     maps
+# RUN Rscript --no-save ai-ml-packages.R \
+#     leaflet
+# RUN Rscript --no-save ai-ml-packages.R \
+#     sf
+# RUN Rscript --no-save ai-ml-packages.R \
+#     sp
+# RUN Rscript --no-save ai-ml-packages.R \
+#     raster
+# RUN Rscript --no-save ai-ml-packages.R \
+#     stars
+# RUN Rscript --no-save ai-ml-packages.R \
+#     maptools
+# RUN Rscript --no-save ai-ml-packages.R \
+#     spatstat
+# RUN Rscript --no-save ai-ml-packages.R \
+#     inimisc
+# RUN Rscript --no-save ai-ml-packages.R \
+#     rgdal
+# RUN Rscript --no-save ai-ml-packages.R \
+#     ggmap
+# RUN Rscript --no-save ai-ml-packages.R \
+#     rwordmap
+# RUN Rscript --no-save ai-ml-packages.R \
+#     Rgooglemaps
+# RUN Rscript --no-save ai-ml-packages.R \
+#     rnaturalearth
+# RUN Rscript --no-save ai-ml-packages.R \
+#     terra
+# RUN Rscript --no-save ai-ml-packages.R \
+#     ggplot2
+# RUN Rscript --no-save ai-ml-packages.R \
+#     munging
 
-###############################################################################################
-# Install Postgis RPMS                                                                        #
-# sources:                                                                                    #
-# https://github.com/CrunchyData/crunchy-containers/blob/master/build/postgres-gis/Dockerfile #
-###############################################################################################
-
-RUN tar xf crunchy-postgis-rpms.tar.gz 
-RUN dnf localinstall -y --nogpgcheck crunchy-postgis-rpms/*.rpm
+# Removes the subscription to the repositories added above
+RUN subscription-manager unregister
 
 USER 1001
 

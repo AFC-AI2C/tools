@@ -1,4 +1,4 @@
-name: Docker Build r-studio-geo
+name: Docker Build jlab-nlp
 
 on:
   push:
@@ -24,9 +24,9 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --build-arg REDHAT_USERNAME=${{secrets.REDHAT_USERNAME}} --build-arg REDHAT_PASSWORD=${{secrets.REDHAT_PASSWORD}} --tag afcai2c/r-studio-geo:$(date +%s) --tag afcai2c/r-studio-geo:latest --file ./r-studio-geo/Dockerfile .
+        docker build --tag afcai2c/jlab-nlp:$(date +%s) --tag afcai2c/jlab-nlp:latest --file ./jlab-nlp/Dockerfile .
     - name: Docker Push
       run: |
-        docker push afcai2c/r-studio-geo --all-tags
+        docker push afcai2c/jlab-nlp --all-tags
         
         

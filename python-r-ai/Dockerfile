@@ -67,6 +67,7 @@ RUN dnf install -y \
         java-1.8.0-openjdk-devel   && \
     yum clean packages
 
+# Removes the subscription to the repositories added above
 RUN subscription-manager unregister
 
 # install pandoc
