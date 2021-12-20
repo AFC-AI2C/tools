@@ -11,8 +11,6 @@ ENV HOME=/home/python
 
 WORKDIR ~
 
-RUN mkdir repo apps scripts
-
 COPY ./dash/scripts/app.py ~/app.py
 
 RUN pip install    \

@@ -9,7 +9,7 @@ RUN dnf upgrade -y && \
     # Install package
 
     rpm --import https://nginx.org/keys/nginx_signing.key && \
-    yum localinstall -y https://nginx.org/packages/mainline/centos/8/x86_64/RPMS/nginx-1.21.1-1.el8.ngx.x86_64.rpm && \
+    yum localinstall -y --nogpgcheck https://nginx.org/packages/mainline/centos/8/x86_64/RPMS/nginx-1.21.1-1.el8.ngx.x86_64.rpm && \
     dnf install -y gettext && \
 
     # Create necessary directories

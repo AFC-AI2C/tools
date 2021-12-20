@@ -32,10 +32,10 @@ RUN dnf update -y                  && \
 
 WORKDIR /opt
 
-RUN curl -LO http://13.89.34.249/base-generic-supporting-rpms.tar.gz
-RUN curl -LO http://13.89.34.249/base-epel-supporting-rpms.tar.gz
-RUN curl -LO http://13.89.34.249/crunchy-postgres-rpms.tar.gz
-RUN curl -LO http://13.89.34.249/crunchy-postgis-rpms.tar.gz
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/base-generic-supporting-rpms.tar.gz
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/base-epel-supporting-rpms.tar.gz
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/crunchy-postgres-rpms.tar.gz
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/crunchy-postgis-rpms.tar.gz
 
 #COPY *tar.gz /opt
 #RUN tar xf base-generic-supporting-rpms.tar.gz 

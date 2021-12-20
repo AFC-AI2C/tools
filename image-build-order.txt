@@ -9,12 +9,11 @@
 -----r-base
 --tensorboard
 --python-r-ai
-r-studio-eda
-r-studio-dl
-r-studio-geo
-r-studio-valex
---r-shiny
+--r-studio-eda
+--r-studio-dl
+--r-studio-geo
+-----r-shiny
 --label-studio
 --metabase
 --nginx
---superset
+-----superset
