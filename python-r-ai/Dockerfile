@@ -50,7 +50,7 @@ RUN dnf install -y \
 RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_AIML_Deps.tar.gz
 RUN tar xvf R_AIML_Deps.tar.gz
 
-RUN install -y glib2
+RUN dnf install -y glib2
 #RUN yum localinstall -y ./repo/*.rpm --nogpgcheck
 
 # R package dependencies within standard repos
