@@ -24,8 +24,8 @@ RUN dnf update -y                  && \
     dnf -y clean all
 
 # Add repository, the UBI8 base image doesn't have this repository available and is not allowed within our CI/CD pipeline, thus needed here for the public version
-ARG REDHAT_USERNAME='komnick'
-ARG REDHAT_PASSWORD='muKZ!uNcw3CBaA7'
+ARG REDHAT_USERNAME
+ARG REDHAT_PASSWORD
 RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD} && \
     subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                            && \
     dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm      && \
@@ -40,7 +40,7 @@ RUN dnf install -y \
     postgresql \
     postgis
 
-COPY scripts/ai-ml-packages.R .
+COPY ./r-studio-geo/scripts/ai-ml-packages.R .
 RUN Rscript --no-save ai-ml-packages.R \
     rgdal \
     rasterio \
