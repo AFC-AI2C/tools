@@ -43,7 +43,7 @@ RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_A
 RUN tar xvf R_AIML_Deps.tar.gz
 
 RUN yum localinstall -y --nogpgcheck http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/glib2-2.56.4-156.el8.x86_64.rpm
-RUN yum localinstall -y ./repo/*.rpm --nogpgcheck
+#RUN yum localinstall -y ./repo/*.rpm --nogpgcheck
 
 # R package dependencies within standard repos
 RUN yum localinstall --nogpgcheck -y                       \
