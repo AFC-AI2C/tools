@@ -61,12 +61,12 @@ RUN usermod -u 1002 python  && \
 RUN chown -R nginx:nginx /docker-entrypoint.d && \
     chown -R nginx:nginx /etc/nginx && \
     chmod o-w /etc/nginx/nginx.conf && \
-    chmod o-w docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
-    chmod o-w docker-entrypoint.d/15-copy-static-data.sh && \
-    chmod o-w docker-entrypoint.d/20-envsubst-on-templates.sh && \
-    chmod o-w docker-entrypoint.d/30-tune-worker-processes.sh && \
-    chmod o-w docker-entrypoint.d/90-replace-subpath.sh && \
-    chmod o-w docker-entrypoint.sh 
+    chmod o-w /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
+    chmod o-w /docker-entrypoint.d/15-copy-static-data.sh && \
+    chmod o-w /docker-entrypoint.d/20-envsubst-on-templates.sh && \
+    chmod o-w /docker-entrypoint.d/30-tune-worker-processes.sh && \
+    chmod o-w /docker-entrypoint.d/90-replace-subpath.sh && \
+    chmod o-w /docker-entrypoint.sh 
 
 # set non-root user
 USER 1001
