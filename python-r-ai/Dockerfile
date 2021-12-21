@@ -31,12 +31,14 @@ RUN yum update -y       && \
         libxml2-devel
 
 # Add repository, the UBI8 base image doesn't have this repository available and is not allowed within our CI/CD pipeline, thus needed here for the public version
-ARG REDHAT_USERNAME
-ARG REDHAT_PASSWORD
+ARG REDHAT_USERNAME='komnick'
+ARG REDHAT_PASSWORD='muKZ!uNcw3CBaA7'
 RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD} && \
     subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                            && \
     dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm      && \
     yum clean expire-cache && dnf update -y
+
+# RUN dnf install epel-release epel-next-release
 
 # R package dependencies within standard repos
 # libsodium is required for the following packages
@@ -50,18 +52,19 @@ RUN dnf install -y \
 RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_AIML_Deps.tar.gz
 RUN tar xvf R_AIML_Deps.tar.gz
 
-RUN dnf install -y glib2
-#RUN yum localinstall -y ./repo/*.rpm --nogpgcheck
+# RUN dnf install -y glib2
+RUN yum localinstall -y ./repo/*.rpm --nogpgcheck
 
 # R package dependencies within standard repos
 RUN dnf install -y \
-        gdal-libs \
-        gdal \
-        gdtools \
+        #glib2 \
+        #gdal-libs \
+        #gdal \
+        #gdtools \
         ImageMagick-c++-devel \
         udunits2-devel \
         fontconfig-devel              \
-        libpng                        \
+        #libpng                        \
         libpng-devel                  \
         libxslt-devel                 \
         java-1.8.0-openjdk            \
