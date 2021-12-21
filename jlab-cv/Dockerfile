@@ -35,7 +35,7 @@ RUN chmod g-s /usr/libexec/openssh/ssh-keysign \
 
 USER 1001
 
-WORKDIR ~
+WORKDIR /home/jovyan
 
 ENTRYPOINT ["tini", "-g", "--"]
 

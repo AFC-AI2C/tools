@@ -1,4 +1,4 @@
-name: Docker Build label-studio
+name: Docker Build jlab-eda
 
 on:
   push:
@@ -24,9 +24,9 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --tag afcai2c/label-studio:$(date +%s) --tag afcai2c/label-studio:latest --file ./label-studio/Dockerfile .
+        docker build --tag afcai2c/jlab-eda:$(date +%s) --tag afcai2c/jlab-eda:latest --file ./jlab-eda/Dockerfile .
     - name: Docker Push
       run: |
-        docker push afcai2c/label-studio --all-tags
+        docker push afcai2c/jlab-eda --all-tags
         
         

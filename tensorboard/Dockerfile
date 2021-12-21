@@ -4,7 +4,7 @@ COPY ./tensorboard/scripts/entrypoint.sh /entrypoint.sh
 
 USER 1001
 
-WORKDIR $HOME
+WORKDIR /home/jovyan
 
 ENTRYPOINT ["sh", "-c", "/entrypoint.sh"]
 

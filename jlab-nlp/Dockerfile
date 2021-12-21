@@ -28,7 +28,7 @@ RUN rm -f /opt/python/venv/lib/python3.8/site-packages/future/backports/test/bad
 
 USER 1001
 
-WORKDIR ~
+WORKDIR /home/jovyan
 
 ENTRYPOINT ["tini", "-g", "--"]
 

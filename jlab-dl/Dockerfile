@@ -115,7 +115,7 @@ USER 1001
 
 RUN . $VIRTUAL_ENV/bin/activate
 
-WORKDIR ~
+WORKDIR /home/jovyan
 
 ENTRYPOINT ["tini", "-g", "--"]
 
