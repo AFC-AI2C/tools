@@ -59,7 +59,7 @@ RUN rm -f *.rpm        && \
 ENV NVARCH x86_64
 ENV NVIDIA_REQUIRE_CUDA "cuda>=11.4 brand=tesla,driver>=418,driver<419 brand=tesla,driver>=440,driver<441 driver>=450"
 ENV NV_CUDA_CUDART_VERSION 11.4.108-1
-COPY ./jlab-dl/cuda.repo-x86_64 /etc/yum.repos.d/cuda.repo
+COPY cuda.repo-x86_64 /etc/yum.repos.d/cuda.repo
 
 RUN NVIDIA_GPGKEY_SUM=d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5 && \
     curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${NVARCH}/7fa2af80.pub | sed '/^Version/d' > /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA && \
@@ -110,9 +110,6 @@ RUN cp /usr/local/cuda-11.4/compat/libcuda.so.1 /usr/local/cuda-11.4/targets/x86
 ########################################
 # END ASE UPDDATE
 ########################################
-
-RUN usermod -u 1002 python  && \
-    usermod -u 1001 jovyan
 
 USER 1001
 
