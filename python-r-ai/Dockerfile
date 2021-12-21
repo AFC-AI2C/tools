@@ -57,6 +57,7 @@ RUN dnf install -y glib2
 RUN dnf install -y \
         gdal-libs \
         gdal \
+        gdtools \
         ImageMagick-c++-devel \
         udunits2-devel \
         fontconfig-devel              \

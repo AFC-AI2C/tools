@@ -111,7 +111,10 @@ RUN cp /usr/local/cuda-11.4/compat/libcuda.so.1 /usr/local/cuda-11.4/targets/x86
 # END ASE UPDDATE
 ########################################
 
-USER jovyan
+RUN usermod -u 1002 python  && \
+    usermod -u 1001 jovyan
+
+USER 1001
 
 RUN . $VIRTUAL_ENV/bin/activate
 
