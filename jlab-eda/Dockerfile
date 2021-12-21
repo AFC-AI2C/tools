@@ -42,6 +42,9 @@ RUN rm -rf /usr/share/doc/perl-IO-Socket-SSL/certs/                             
 # A new kernel is displayed and available for use within JupyterLab
 RUN python3.8 -m ipykernel install --name='AI_Packages' --user
 
+RUN usermod -u 1002 python  && \
+    usermod -u 1001 jovyan
+
 USER 1001
 
 WORKDIR ~
