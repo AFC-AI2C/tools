@@ -1,4 +1,4 @@
-name: Docker Build label-studio
+name:  label-studio
 
 on:
   push:
@@ -6,14 +6,11 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: '00 06,18 * * *'
+    - cron: '00 22 * * *'
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Docker Login

@@ -1,4 +1,5 @@
-FROM afcai2c/r-studio-eda:latest
+# FROM afcai2c/r-studio-eda:latest
+FROM r-studio-eda:latest
 
 USER root
 
@@ -40,12 +41,26 @@ RUN dnf install -y \
     postgresql \
     postgis
 
-COPY ./r-studio-geo/scripts/ai-ml-packages.R .
-RUN Rscript --no-save ai-ml-packages.R \
-    rgdal \
-    rasterio \
-    geopy \
-    sarpy
+# COPY ./r-studio-geo/scripts/ai-ml-packages.R .
+COPY ./scripts/ai-ml-packages.R .
+
+# RUN Rscript -e "install.packages('leafem', dependencies=TRUE, repos='https://packagemanager.rstudio.com/all/latest');"
+# RUN Rscript -e "install.packages('leafem', dependencies=TRUE);"
+  
+# RUN Rscript --no-save ai-ml-packages.R \
+#     satellite
+# RUN Rscript --no-save ai-ml-packages.R \
+#     leafpop
+
+RUN Rscript -e "install.packages('rgdal', dependencies=TRUE, repos='https://packagemanager.rstudio.com/all/latest');"
+# RUN Rscript --no-save ai-ml-packages.R \
+#     rgdal 
+# RUN Rscript --no-save ai-ml-packages.R \
+    # rasterio 
+# RUN Rscript --no-save ai-ml-packages.R \
+    # geopy 
+# RUN Rscript --no-save ai-ml-packages.R \
+    # sarpy
 # RUN Rscript --no-save ai-ml-packages.R \
 #     maps
 # RUN Rscript --no-save ai-ml-packages.R \
@@ -81,15 +96,15 @@ RUN Rscript --no-save ai-ml-packages.R \
 # RUN Rscript --no-save ai-ml-packages.R \
 #     munging
 
-# Removes the subscription to the repositories added above
-RUN subscription-manager unregister
+# # Removes the subscription to the repositories added above
+# RUN subscription-manager unregister
 
-USER 1001
+# USER 1001
 
-EXPOSE 8787
+# EXPOSE 8787
 
-ENTRYPOINT ["tini", "-g", "--"]
+# ENTRYPOINT ["tini", "-g", "--"]
 
-CMD ["rstudio-server", "start"]
+# CMD ["rstudio-server", "start"]
 
-HEALTHCHECK --start-period=60s CMD rstudio-server status | grep -e "running"
+# HEALTHCHECK --start-period=60s CMD rstudio-server status | grep -e "running"
