@@ -41,6 +41,8 @@ RUN dnf install -y \
     postgresql \
     postgis
 
+USER 1001
+
 # COPY ./r-studio-geo/scripts/ai-ml-packages.R .
 COPY ./scripts/ai-ml-packages.R .
 
