@@ -2,9 +2,8 @@ FROM afcai2c/python-r-ai:latest
 
 USER root
 
-RUN yum update -y         && \ 
-    yum clean all -y      && \
-    yum install -y           \
+#dnf remove -y epel-release
+RUN dnf install -y           \
         binutils             \
         glibc-devel          \
         glibc-headers        \
@@ -13,7 +12,8 @@ RUN yum update -y         && \
 USER 1001
 
 # R Script to install pacakges and provides a stop error if in installation fails
-COPY ./r-shiny/scripts/web_install.R .
+#COPY ./r-shiny/scripts/web_install.R .
+COPY scripts/web_install.R .
 
 # Requested packages
 RUN Rscript --no-save web_install.R   \
@@ -40,7 +40,8 @@ RUN mkdir -p /var/log/shiny-server /var/lib/shiny-server/bookmarks              
 	chown 1001 -R /opt/shiny-server/samples/sample-apps /var/lib/shiny-server/bookmarks   && \
 	chmod 755 -R /opt/shiny-server/samples/sample-apps
 
-COPY ./r-shiny/scripts/shiny-customized.config /etc/shiny-server/shiny-server.conf
+#COPY ./r-shiny/scripts/shiny-customized.config /etc/shiny-server/shiny-server.conf
+COPY scripts/shiny-customized.config /etc/shiny-server/shiny-server.conf
 
 USER 1001
 
