@@ -25,10 +25,9 @@ RUN Rscript --no-save web_install.R   \
     rmarkdown        \
     flexdashboard
 
+USER root
 
 RUN curl -O https://download3.rstudio.org/centos7/x86_64/shiny-server-1.5.16.958-x86_64.rpm
-
-USER root
 
 RUN yum install -y --nogpgcheck shiny-server-1.5.16.958-x86_64.rpm   && \
 	rm -f shiny-server-1.5.16.958-x86_64.rpm
