@@ -1,7 +1,9 @@
 name:  dash
 
 on:
-#  push:
+  push:
+    paths:
+    - './dash//**'
 #    branches: [ main ]
 #  pull_request:
 #    branches: [ main ]
