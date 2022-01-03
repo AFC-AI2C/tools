@@ -12,7 +12,7 @@ ENV LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK=true
 ENV LABEL_STUDIO_PORT 8088
 RUN mkdir /label-studio
 RUN cp -r /opt/python/venv/lib/python3.8/site-packages/label_studio /label-studio
-
+RUN chown -R 1001:0 /label-studio
 
 # Install NGINX
 
@@ -24,10 +24,15 @@ COPY ./label-studio/conf/templates  /etc/nginx/templates
 
 ENV TLS_CONFIG disabled
 
+ENV NGINX_RPM nginx-1.21.1-1.el8.ngx.x86_64.rpm
+
 RUN dnf upgrade -y && \
     # Install package
+    dnf install -y wget && \
     rpm --import https://nginx.org/keys/nginx_signing.key && \
-    yum localinstall -y https://nginx.org/packages/mainline/centos/8/x86_64/RPMS/nginx-1.21.1-1.el8.ngx.x86_64.rpm && \
+    wget -O /tmp/$NGINX_RPM https://nginx.org/packages/mainline/centos/8/x86_64/RPMS/nginx-1.21.1-1.el8.ngx.x86_64.rpm && \
+    yum localinstall -y /tmp/$NGINX_RPM && \
+    dnf update && \
     dnf install -y gettext && \
 
     # Create necessary directories
@@ -41,11 +46,11 @@ RUN dnf upgrade -y && \
     chown -R nginx:nginx /etc/nginx && \
     chown -R nginx:nginx /var/cache/nginx/nginx.pid && \
     chown -R nginx:nginx /docker-entrypoint.d && \
-   
+
     # Cleanup installation
     dnf clean all && \
     rm -rf /var/cache/dnf && \
-
+ 
     # Forward nginx logs to stdout and stderr
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
