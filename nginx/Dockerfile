@@ -39,6 +39,7 @@ RUN cp -r /usr/share/nginx/html /etc/nginx && \
 
 COPY ./nginx/scripts/10-listen-on-ipv6-by-default.sh ./nginx/scripts/20-envsubst-on-templates.sh ./nginx/scripts/30-tune-worker-processes.sh /docker-entrypoint.d/
 RUN chown -R nginx:nginx /docker-entrypoint.d && \
+     chown -R nginx:nginx /docker-entrypoint.sh && \
 
      # Remove Write permission
 #     chmod o-w etc/pki/ca-trust/source/anchors/Certificates_PKCS7_v5.7_DoD.pem && \
