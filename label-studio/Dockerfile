@@ -64,6 +64,7 @@ RUN usermod -u 1002 python  && \
     usermod -u 1001 nginx
 
 RUN chown -R nginx:nginx /docker-entrypoint.d && \
+    chown -R nginx:nginx /docker-entrypoint.sh && \
     chown -R nginx:nginx /etc/nginx && \
     chmod o-w /etc/nginx/nginx.conf && \
     chmod o-w /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
