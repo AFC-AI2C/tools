@@ -1,5 +1,5 @@
 # FROM afcai2c/r-studio-eda:latest
-FROM r-studio-eda:latest
+FROM afcai2c/r-studio-eda:latest
 
 USER root
 
