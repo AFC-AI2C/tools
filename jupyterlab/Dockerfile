@@ -9,10 +9,6 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
 
-# nodejs typically installed here to check the status of jlab
-# we've removed it due to cve's
-# we have also removed bzip2 install as its provided by the python36 base image
-# we've removed it and the lang pack installations due to cve's
 RUN yum update -yq        && \
     yum install -yq          \
         git                  \
@@ -20,12 +16,15 @@ RUN yum update -yq        && \
         ca-certificates   && \
     yum clean all
 
+RUN curl -sL https://rpm.nodesource.com/setup_14.x | bash -   && \
+    yum install -y nodejs
+
 RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
     chmod -R 775 /home/jovyan                                            
 
 # Install tini
 #RUN curl -L http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/tini --output /usr/local/bin/tini
-COPY ./jupyterlab/tini /usr/local/bin/tini
+COPY tini /usr/local/bin/tini
 RUN chmod +x /usr/local/bin/tini
 
 RUN mkdir /opt/jupyter
@@ -53,7 +52,8 @@ RUN . $VIRTUAL_ENV/bin/activate   && \
         pip                          \
         jupyterlab                   \
         jupyterlab-git               \
-        jupyterhub
+        jupyterhub                   \
+        lckr-jupyterlab-variableinspector
 
 # for downstream accessibility surrounding jupyterhub 
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
@@ -67,8 +67,8 @@ ENV JUPYTER_ENABLE_LAB=1
 ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
-COPY ./jupyterlab/scripts/start.sh ./jupyterlab/scripts/start-notebook.sh ./jupyterlab/scripts/start-singleuser.sh /usr/local/bin/
-COPY ./jupyterlab/scripts/jupyter_server_config.py /etc/jupyter/
+COPY scripts/start.sh scripts/start-notebook.sh scripts/start-singleuser.sh /usr/local/bin/
+COPY scripts/jupyter_server_config.py /etc/jupyter/
 
 USER root
 
