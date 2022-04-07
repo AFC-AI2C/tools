@@ -8,11 +8,13 @@ ARG MB_EDITION=oss
 RUN useradd metabase && \
     usermod -u 1001 metabase && \
     yum update -y && \
-    yum install -y fontconfig && \
-    yum localinstall -y --nogpgcheck \
+    yum install -y fontconfig
+RUN yum localinstall -y --nogpgcheck \
         http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/ca-certificates-2020.2.41-80.0.el8_2.noarch.rpm \
-        http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/dejavu-sans-fonts-2.35-7.el8.noarch.rpm
+        https://vault.centos.org/centos/8/BaseOS/x86_64/os/Packages/dejavu-sans-fonts-2.35-7.el8.noarch.rpm
 
+        #http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/dejavu-sans-fonts-2.35-7.el8.noarch.rpm
+        
 WORKDIR /etc/pki/ca-trust/source/anchors/
 
 RUN chown metabase:metabase /etc/pki/ca-trust/source/anchors/ && \
@@ -25,7 +27,7 @@ RUN chown metabase:metabase /etc/pki/ca-trust/source/anchors/ && \
 
 WORKDIR /app/
 
-COPY ./metabase/scripts/entrypoint.sh .
+COPY ./scripts/entrypoint.sh .
 
 RUN curl -LO https://downloads.metabase.com/v0.41.1/metabase.jar
 
