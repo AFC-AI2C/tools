@@ -18,12 +18,14 @@ RUN yum localinstall -y --nogpgcheck \
 WORKDIR /etc/pki/ca-trust/source/anchors/
 
 RUN chown metabase:metabase /etc/pki/ca-trust/source/anchors/ && \
-    curl -LO https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem && \
-    curl -LO https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem && \
     update-ca-trust force-enable && \
     update-ca-trust extract && \
     mkdir -p /plugins && \
     chmod a+rwx /plugins
+
+# for reference
+#    curl -LO https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem && \
+#    curl -LO https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem && \
 
 WORKDIR /app/
 
