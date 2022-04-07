@@ -23,7 +23,7 @@ RUN chown metabase:metabase /etc/pki/ca-trust/source/anchors/ && \
     mkdir -p /plugins && \
     chmod a+rwx /plugins
 
-# for reference
+# for reference, not needed
 #    curl -LO https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem && \
 #    curl -LO https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem && \
 
