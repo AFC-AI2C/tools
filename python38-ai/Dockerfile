@@ -40,7 +40,11 @@ RUN pip install          \
         statsmodels      \
         django           \
         flask            \
-        prophet
+        prophet          \
+        dvc              \
+        mlflow           \
+        alibi            \
+        alibi-detect     
 
 USER root
 
