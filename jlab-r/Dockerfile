@@ -10,8 +10,8 @@ ARG R_VERSION=4.0.3
 RUN ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R                 && \
     ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript
 
-#COPY ./jlab-r/scripts /
-COPY ./scripts/fix-permissions /fix-permissions
+COPY ./jlab-r/scripts/fix-permissions /fix-permissions
+# COPY ./scripts/fix-permissions /fix-permissions
 RUN chmod +x /fix-permissions                         && \
     /fix-permissions ${HOME} -P                       && \
     chmod -R 775 /opt/R/${R_VERSION}/lib/R/           && \
@@ -23,6 +23,7 @@ RUN yum install -y \
     # needed when displaying plot graphs that use fonts
     fontconfig
 
+COPY ./jlab-r/ai-ml-packages.R /ai-ml-packages.R
 COPY ./scripts/ai-ml-packages.R /ai-ml-packages.R
 
 # https://github.com/IRkernel/IRkernel
@@ -35,6 +36,7 @@ RUN R -e "IRkernel::installspec()"
 
 RUN curl -sL https://rpm.nodesource.com/setup_14.x | bash -   && \
     yum install -y nodejs
+
 # for RStudio’s shortcuts
 RUN jupyter labextension install @techrah/text-shortcuts  
 
@@ -49,10 +51,6 @@ RUN yum install -y \
 #RUN R -e "IRkernel::installspec(name = 'ir40', displayname = 'R ${R_VERSION}')"
 
 USER 1001
-
-# # Needed to use packges from multi-stage build in Jupyterlab
-# # A new kernel is displayed and available for use within JupyterLab
-# RUN python3.8 -m ipykernel install --name='AI_Packages' --user
 
 WORKDIR /home/jovyan
 
