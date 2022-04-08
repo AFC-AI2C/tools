@@ -49,11 +49,9 @@ RUN dnf install -y \
 # These rpms are required for the following packages
 # The R_AIML_Deps.tar.gz contains multiple dependency rpms
     # dnf -y install --downloadonly --downloaddir=./ cairo cairo-devel fontconfig freetype freetype-devel harfbuzz-devel http-parser libgit2 libgit2-devel libXext-devel libXrender-devel pixman-devel protobuf-devel udunits2 gdal-libs gpsbabel ImageMagick-c++ ImageMagick-devel udunits2 cfitsio freexl gdal hdf5 netcdf ogdi proj xerces-c
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_AIML_Deps.tar.gz
-RUN tar xvf R_AIML_Deps.tar.gz
-
-# RUN dnf install -y glib2
-RUN yum localinstall -y ./repo/*.rpm --nogpgcheck
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_AIML_Deps.tar.gz     && \
+    tar xvf R_AIML_Deps.tar.gz                                                                      && \
+    yum localinstall -y ./repo/*.rpm --nogpgcheck
 
 # R package dependencies within standard repos
 RUN dnf install -y \
@@ -75,11 +73,10 @@ RUN dnf install -y \
 RUN subscription-manager unregister
 
 # install pandoc
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pandoc-2.13-linux-amd64.tar.gz && \
-    tar xvzf pandoc-2.13-linux-amd64.tar.gz --strip-components 1 -C /usr/local
-
+RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pandoc-2.13-linux-amd64.tar.gz     && \
+    tar xvzf pandoc-2.13-linux-amd64.tar.gz --strip-components 1 -C /usr/local                                  && \
 # needed by RJDBC package
-RUN R CMD javareconf
+    R CMD javareconf
 
 USER 1001
 
@@ -100,8 +97,7 @@ RUN Rscript --no-save ai-ml-packages.R \
     feather          \
     flexdashboard    \
     flextable        \
-    forcats          
-RUN Rscript --no-save ai-ml-packages.R \
+    forcats          \
     foreign          \
     ggiraph          \
     gt               \
@@ -111,8 +107,7 @@ RUN Rscript --no-save ai-ml-packages.R \
     kableExtra       \
     kernlab          \
     kknn             \
-    knitr            
-RUN Rscript --no-save ai-ml-packages.R \
+    knitr            \
     lattice          \
     leaflet          \
     lubridate        \
@@ -122,8 +117,7 @@ RUN Rscript --no-save ai-ml-packages.R \
     nlme             \
     nnet             \
     openxlsx         \
-    packrat
-RUN Rscript --no-save ai-ml-packages.R \
+    packrat          \
     parsnip          \
     plotly           \
     plotROC          \
@@ -133,8 +127,7 @@ RUN Rscript --no-save ai-ml-packages.R \
     readr            \
     readxl           \
     reticulate       \
-    RJDBC
-RUN Rscript --no-save ai-ml-packages.R \
+    RJDBC            \
     rmarkdown        \
     roxygen2         \
     rvest            \
@@ -144,8 +137,7 @@ RUN Rscript --no-save ai-ml-packages.R \
     shinyWidgets     \
     sparklyr         \
     stringr          \
-    testthat
-RUN Rscript --no-save ai-ml-packages.R \
+    testthat         \
     themis           \
     tidymodels       \
     tidytext         \
@@ -153,8 +145,10 @@ RUN Rscript --no-save ai-ml-packages.R \
     timetk           \
     xgboost
 
+# Install reticulate miniconda packages, apparently not included when R installing reticulate
+RUN R -e "reticulate::install_miniconda()"                          && \
 #Sets path so R reticulate knows where python is located
-RUN R -e "Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python')"
+    R -e "Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python')"
 
 # Used to check if path is set correctly
 #R -e "reticulate::py_config()""
@@ -169,10 +163,9 @@ RUN yum upgrade -y --skip-broken --allowerasing   \
         libkadm5         \
         perl-libs        \
         perl-IO          \
-        libwebp
-
+        libwebp       && \
 #Removing un-needed vulnerable binaries
-RUN rpm -e --nodeps      \
+    rpm -e --nodeps      \
         avahi-libs       \
         binutils         \
         cups-libs        \
@@ -196,10 +189,9 @@ RUN rpm -e --nodeps      \
         pcre-utf32       \
         pcre-cpp         \
         pcre-devel       \
-        pcre2-devel
-
+        pcre2-devel   && \
 # Removing secrets as identified in anchor scan
-RUN rm -f /usr/share/doc/perl-IO-Socket-SSL/certs/client-key.enc        \
+    rm -f /usr/share/doc/perl-IO-Socket-SSL/certs/client-key.enc        \
           /usr/share/doc/perl-IO-Socket-SSL/certs/client-key.pem        \
           /usr/share/doc/perl-IO-Socket-SSL/certs/proxyca.pem           \
           /usr/share/doc/perl-IO-Socket-SSL/certs/server2-key.pem       \
@@ -212,13 +204,11 @@ RUN rm -f /usr/share/doc/perl-IO-Socket-SSL/certs/client-key.enc        \
           /usr/share/doc/perl-Net-SSLeay/examples/server_key.pem
 
 # Removing identified SUID files
-RUN chmod g-s /usr/libexec/openssh/ssh-keysign
-
+RUN chmod g-s /usr/libexec/openssh/ssh-keysign          && \
 # Removing vuln npm
-RUN rm -rf /opt/R/4.0.3/lib/R/library/webshot/casperjs
-
+    rm -rf /opt/R/4.0.3/lib/R/library/webshot/casperjs  && \
 # Cleanup and Finalize #
-RUN yum clean all   && \
+    yum clean all                                       && \
     rm -rf ~/repo *.tar.gz *.R
 
 USER 1001

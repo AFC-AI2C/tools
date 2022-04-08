@@ -25,8 +25,8 @@ RUN dnf update -y                  && \
     dnf -y clean all
 
 # Add repository, the UBI8 base image doesn't have this repository available and is not allowed within our CI/CD pipeline, thus needed here for the public version
-ARG REDHAT_USERNAME
-ARG REDHAT_PASSWORD
+ARG REDHAT_USERNAME='komnick'
+ARG REDHAT_PASSWORD='muKZ!uNcw3CBaA7'
 RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD} && \
     subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                            && \
     dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm      && \
@@ -54,9 +54,9 @@ COPY ./scripts/ai-ml-packages.R .
 # RUN Rscript --no-save ai-ml-packages.R \
 #     leafpop
 
-RUN Rscript -e "install.packages('rgdal', dependencies=TRUE, repos='https://packagemanager.rstudio.com/all/latest');"
-# RUN Rscript --no-save ai-ml-packages.R \
-#     rgdal 
+#RUN Rscript -e "install.packages('rgdal', dependencies=TRUE, repos='https://packagemanager.rstudio.com/all/latest');"
+RUN Rscript --no-save ai-ml-packages.R \
+    rgdal 
 # RUN Rscript --no-save ai-ml-packages.R \
     # rasterio 
 # RUN Rscript --no-save ai-ml-packages.R \
