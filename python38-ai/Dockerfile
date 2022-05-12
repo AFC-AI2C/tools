@@ -44,7 +44,8 @@ RUN pip install          \
         dvc              \
         mlflow           \
         alibi            \
-        alibi-detect     
+        alibi-detect     \
+        boto3
 
 USER root
 
