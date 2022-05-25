@@ -1,6 +1,6 @@
 FROM afcai2c/ubi8:latest
 
-ARG R_VERSION=4.0.3
+ARG R_VERSION=4.1.3
 
 ENV HOME=/home/default
 
