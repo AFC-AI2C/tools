@@ -38,17 +38,15 @@ RUN cp -r /usr/share/nginx/html /etc/nginx && \
     rm /etc/nginx/conf.d/default.conf
 
 COPY ./nginx/scripts/10-listen-on-ipv6-by-default.sh ./nginx/scripts/20-envsubst-on-templates.sh ./nginx/scripts/30-tune-worker-processes.sh /docker-entrypoint.d/
-RUN chown -R nginx:nginx /docker-entrypoint.d && \
-     chown -R nginx:nginx /docker-entrypoint.sh && \
 
-     # Remove Write permission
-#     chmod o-w etc/pki/ca-trust/source/anchors/Certificates_PKCS7_v5.7_DoD.pem && \
-     chmod o-w etc/nginx/nginx.conf && \
-     chmod o-w docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
-     chmod o-w docker-entrypoint.d/30-tune-worker-processes.sh && \
-     chmod o-w docker-entrypoint.d/20-envsubst-on-templates.sh && \
-     chmod o-w docker-entrypoint.sh 
-    
+RUN chown -R nginx:nginx /docker-entrypoint.d && \
+    chown -R nginx:nginx /docker-entrypoint.sh && \
+    chmod o-w etc/nginx/nginx.conf && \
+    chmod o-w docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
+    chmod o-w docker-entrypoint.d/30-tune-worker-processes.sh && \
+    chmod o-w docker-entrypoint.d/20-envsubst-on-templates.sh && \
+    chmod o-w,o-x docker-entrypoint.sh 
+
 RUN usermod -u 1001 nginx
 
 USER 1001
