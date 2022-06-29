@@ -72,7 +72,7 @@ RUN chown -R nginx:nginx /docker-entrypoint.d && \
     chmod o-w /docker-entrypoint.d/20-envsubst-on-templates.sh && \
     chmod o-w /docker-entrypoint.d/30-tune-worker-processes.sh && \
     chmod o-w /docker-entrypoint.d/90-replace-subpath.sh && \
-    chmod o-w /docker-entrypoint.sh 
+    chmod o-w,o-x /docker-entrypoint.sh 
 
 # set non-root user
 USER 1001
