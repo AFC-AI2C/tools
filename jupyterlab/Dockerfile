@@ -16,7 +16,7 @@ RUN yum update -yq        && \
         ca-certificates   && \
     yum clean all
 
-RUN curl -sL https://rpm.nodesource.com/setup_14.x | bash -   && \
+RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash -   && \
     yum install -y nodejs
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
