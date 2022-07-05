@@ -9,9 +9,10 @@ USER 1001
 
 ENV HOME=/home/python
 
-WORKDIR /home/jovyan
+WORKDIR /home/python
+RUN mkdir repo apps scripts
 
-COPY ./dash/scripts/app.py ~/app.py
+COPY ./dash/scripts/app.py $HOME/app.py
 
 RUN pip install    \
         pip        \
