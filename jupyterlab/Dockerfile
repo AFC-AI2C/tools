@@ -19,7 +19,7 @@ RUN yum update -yq        && \
 RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash -   && \
     yum install -yq nodejs
     
-RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && \
+RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo   && \
     yum install -yq yarn
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
