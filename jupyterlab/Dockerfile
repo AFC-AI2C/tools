@@ -70,7 +70,7 @@ ENV JUPYTER_ENABLE_LAB=1
 ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
-COPY ./jupyterlab/scripts/start.sh scripts/start-notebook.sh scripts/start-singleuser.sh /usr/local/bin/
+COPY ./jupyterlab/scripts/start.sh ./jupyterlab/scripts/start-notebook.sh ./jupyterlab/scripts/start-singleuser.sh /usr/local/bin/
 COPY ./jupyterlab/scripts/jupyter_server_config.py /etc/jupyter/
 
 USER root
