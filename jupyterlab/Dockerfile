@@ -17,10 +17,10 @@ RUN yum update -yq        && \
     yum clean all
 
 RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash -   && \
-    yum install -y nodejs
+    yum install -yq nodejs
     
 RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && \
-    yum install yarn
+    yum install -yq yarn
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
     chmod -R 775 /home/jovyan                                            
