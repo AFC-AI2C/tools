@@ -2,9 +2,8 @@ name:  jupyterlab
 
 on:
   push:
-    tags:
-      - 'update'
-#    branches: [ main ]
+    branches: [ jupyterlab ]
+#  branches: [ main ]
 #  pull_request:
 #    branches: [ main ]
   schedule:
