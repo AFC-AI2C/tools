@@ -24,7 +24,7 @@ RUN yum install -y \
     fontconfig
 
 COPY ./jlab-r/ai-ml-packages.R /ai-ml-packages.R
-COPY ./scripts/ai-ml-packages.R /ai-ml-packages.R
+COPY ./jlab-r/scripts/ai-ml-packages.R /ai-ml-packages.R
 
 # https://github.com/IRkernel/IRkernel
 RUN Rscript --no-save /ai-ml-packages.R \
