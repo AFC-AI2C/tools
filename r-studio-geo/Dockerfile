@@ -102,7 +102,6 @@ RUN Rscript --no-save ai-ml-packages.R \
 # RUN subscription-manager unregister
 
 # USER 1001
-
 # EXPOSE 8787
 
 # ENTRYPOINT ["tini", "-g", "--"]
