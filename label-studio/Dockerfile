@@ -77,6 +77,7 @@ RUN chown -R nginx:nginx /docker-entrypoint.d && \
 # set non-root user
 USER 1001
 
+
 EXPOSE 8080 8443
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=1m --retries=5 CMD curl -I -f --max-time 5 http://localhost:8080 || curl -fsk https://localhost:8443 || exit 1
