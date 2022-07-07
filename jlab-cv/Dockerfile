@@ -10,7 +10,8 @@ RUN python3.8 -m pip install   \
         imutils         \
         pytesseract     \
         pytorchcv       \
-        scikit-image
+        scikit-image    \
+        onnx
 RUN yum install -y mesa-libGL
 
 RUN . $VIRTUAL_ENV/bin/activate

@@ -1,7 +1,8 @@
 name:  jlab-cv
 
 on:
-#  push:
+  push:
+    branches: [ jlab-cv ]
 #    branches: [ main ]
 #  pull_request:
 #    branches: [ main ]
