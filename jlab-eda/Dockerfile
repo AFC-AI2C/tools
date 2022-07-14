@@ -41,11 +41,18 @@ RUN rm -rf /usr/share/doc/perl-IO-Socket-SSL/certs/                             
 RUN usermod -u 1002 python  && \
     usermod -u 1001 jovyan
 
-USER 1001
+USER root
 
-# Needed to use packges from multi-stage build in Jupyterlab
-# A new kernel is displayed and available for use within JupyterLab
-RUN python3.8 -m ipykernel install --name='AI_Packages' --user
+# The following does not produce the desired results
+  # jupyter kernelspec uninstall python3 -y
+  # jupyter kernelspec list
+# No longer needed, modified kernel.json file instead
+  # python3.8 -m ipykernel install --name='AI_Packages' --display-name 'Python3.8 (AI_Packages)' --user
+
+RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
+COPY kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
+
+USER 1001
 
 WORKDIR /home/jovyan
 
