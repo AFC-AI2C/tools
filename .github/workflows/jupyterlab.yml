@@ -3,9 +3,8 @@ name:  jupyterlab
 on:
   push:
     branches: [ jupyterlab ]
-#  branches: [ main ]
-#  pull_request:
-#    branches: [ main ]
+#   branches: [ main ]
+
   schedule:
     - cron: '00 22 * * *'
 

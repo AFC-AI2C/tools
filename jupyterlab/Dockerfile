@@ -17,10 +17,10 @@ RUN yum update -yq        && \
     yum clean all
 
 RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash -   && \
-    yum install -y nodejs
+    yum install -yq nodejs
     
-RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-    yum install yarn
+RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo   && \
+    yum install -yq yarn
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
     chmod -R 775 /home/jovyan                                            
@@ -31,8 +31,8 @@ COPY ./jupyterlab/tini /usr/local/bin/tini
 
 RUN chmod +x /usr/local/bin/tini
 
-RUN mkdir /opt/jupyter
-RUN chown -R jovyan:users /opt/jupyter
+RUN mkdir /opt/jupyter && \
+    chown -R jovyan:users /opt/jupyter
 
 USER $NB_UID
 
@@ -71,7 +71,7 @@ ENV JUPYTER_ENABLE_LAB=1
 ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
-COPY ./jupyterlab/scripts/start.sh scripts/start-notebook.sh scripts/start-singleuser.sh /usr/local/bin/
+COPY ./jupyterlab/scripts/start.sh ./jupyterlab/scripts/start-notebook.sh ./jupyterlab/scripts/start-singleuser.sh /usr/local/bin/
 COPY ./jupyterlab/scripts/jupyter_server_config.py /etc/jupyter/
 
 USER root
