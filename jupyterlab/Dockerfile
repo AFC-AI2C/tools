@@ -46,7 +46,6 @@ ENV SHELL=/bin/bash         \
     HOME=/home/$NB_USER
 
 # configure and install within virtual env for downstream multi-stage build copies
-
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV VIRTUAL_ENV=/opt/jupyter/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"

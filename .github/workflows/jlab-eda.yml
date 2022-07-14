@@ -1,7 +1,8 @@
 name:  jlab-eda
 
 on:
-#  push:
+  push:
+    branches: [ jlab-eda ]
 #    branches: [ main ]
 #  pull_request:
 #    branches: [ main ]
