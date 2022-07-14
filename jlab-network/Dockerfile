@@ -15,8 +15,7 @@ RUN python3.8 -m pip install   \
         texttable              \
         pygraphviz 
 
-RUN yum remove -y gcc   && \
-    yum update -y
+RUN yum remove -y gcc
 
 RUN . $VIRTUAL_ENV/bin/activate
 
