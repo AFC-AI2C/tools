@@ -49,8 +49,9 @@ ENV SHELL=/bin/bash         \
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV VIRTUAL_ENV=/opt/jupyter/venv
-RUN python3.8 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN python3.8 -m venv $VIRTUAL_ENV
 RUN . $VIRTUAL_ENV/bin/activate   && \
     pip install                      \
         pip                          \
