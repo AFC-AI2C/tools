@@ -56,6 +56,9 @@ USER 1001
 
 WORKDIR /home/jovyan
 
+ENTRYPOINT ["tini", "-g", "--"]
+CMD ["start-notebook.sh"]
+
 EXPOSE 8888
 
 HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1
