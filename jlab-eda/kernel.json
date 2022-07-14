@@ -6,7 +6,7 @@
   "-f",
   "{connection_file}"
  ],
- "display_name": "Python3.8 (AI_Packages)",
+ "display_name": "Python 3 (AI_Packages)",
  "language": "python",
  "metadata": {
   "debugger": true
