@@ -49,7 +49,8 @@ USER root
 # No longer needed, modified kernel.json file instead
   # python3.8 -m ipykernel install --name='AI_Packages' --display-name 'Python3.8 (AI_Packages)' --user
 
-RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
+RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json   && \
+    rmdir $HOME/work
 COPY kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 
 USER 1001
