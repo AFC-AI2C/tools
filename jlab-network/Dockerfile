@@ -13,7 +13,8 @@ RUN python3.8 -m pip install     \
         networkx                 \
         scikit_network           \
         texttable                \
-        pygraphviz 
+        pygraphviz               \
+        scapy
 
 RUN yum remove -y gcc                     && \
     rm -rf /home/jovyan/graphviz-devel*   && \
