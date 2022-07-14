@@ -30,8 +30,8 @@ RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
 COPY ./jupyterlab/tini /usr/local/bin/tini
 RUN chmod +x /usr/local/bin/tini
 
-RUN mkdir /opt/jupyter
-RUN chown -R jovyan:users /opt/jupyter
+RUN mkdir /opt/jupyter && \
+    chown -R jovyan:users /opt/jupyter
 
 USER $NB_UID
 
