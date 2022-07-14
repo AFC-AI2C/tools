@@ -7,17 +7,17 @@ RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/gra
     yum localinstall -y ./graphviz-devel/*.rpm           && \
     yum install -y gcc
 
-RUN python3.8 -m pip install   \
-        decorator              \
-        python-igraph          \
-        networkx               \
-        scikit_network         \
-        texttable              \
+RUN python3.8 -m pip install     \
+        decorator                \
+        python-igraph            \
+        networkx                 \
+        scikit_network           \
+        texttable                \
         pygraphviz 
 
-RUN yum remove -y gcc
-
-RUN . $VIRTUAL_ENV/bin/activate
+RUN yum remove -y gcc                     && \
+    rm -rf /home/jovyan/graphviz-devel*   && \
+    . $VIRTUAL_ENV/bin/activate
 
 USER 1001
 
