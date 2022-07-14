@@ -1,9 +1,5 @@
 FROM afcai2c/python38-ai:latest
 
-
-ARG LABEL_STUDIO_USERNAME
-ARG LABEL_STUDIO_PASSWORD
-
 USER root
 
 # Install label studio
@@ -18,9 +14,9 @@ RUN chown -R 1001:0 /label-studio
 
 RUN ln -s /home/default/.local/bin/label-studio /bin
 
-COPY ./label-studio/scripts/docker-entrypoint.sh /docker-entrypoint.sh
-COPY ./label-studio/conf/nginx.conf /etc/nginx/nginx.conf
-COPY ./label-studio/conf/templates  /etc/nginx/templates
+COPY ./scripts/docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./conf/templates  /etc/nginx/templates
 
 ENV TLS_CONFIG disabled
 
@@ -58,25 +54,27 @@ RUN dnf upgrade -y && \
 RUN cp -r /usr/share/nginx/html /etc/nginx && \
     rm /etc/nginx/conf.d/default.conf
 
-COPY ./label-studio/scripts/10-listen-on-ipv6-by-default.sh ./label-studio/scripts/15-copy-static-data.sh ./label-studio/scripts/20-envsubst-on-templates.sh ./label-studio/scripts/30-tune-worker-processes.sh ./label-studio/scripts/90-replace-subpath.sh /docker-entrypoint.d/
+COPY ./scripts/10-listen-on-ipv6-by-default.sh ./scripts/15-copy-static-data.sh ./scripts/20-envsubst-on-templates.sh ./scripts/30-tune-worker-processes.sh ./scripts/90-replace-subpath.sh /docker-entrypoint.d/
 
 RUN usermod -u 1002 python  && \
-    usermod -u 1001 nginx
+    usermod -u 1001 nginx   && \
 
-RUN chown -R nginx:nginx /docker-entrypoint.d && \
-    chown nginx:nginx /docker-entrypoint.sh && \
-    chown -R nginx:nginx /etc/nginx && \
-    chmod o-w /etc/nginx/nginx.conf && \
-    chmod o-w /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh && \
-    chmod o-w /docker-entrypoint.d/15-copy-static-data.sh && \
-    chmod o-w /docker-entrypoint.d/20-envsubst-on-templates.sh && \
-    chmod o-w /docker-entrypoint.d/30-tune-worker-processes.sh && \
-    chmod o-w /docker-entrypoint.d/90-replace-subpath.sh && \
+    chown -R nginx:nginx /docker-entrypoint.d   && \
+    chown nginx:nginx /docker-entrypoint.sh     && \
+    chown -R nginx:nginx /etc/nginx             && \
+    chmod o-w /etc/nginx/nginx.conf             && \
+    chmod o-w /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh   && \
+    chmod o-w /docker-entrypoint.d/15-copy-static-data.sh            && \
+    chmod o-w /docker-entrypoint.d/20-envsubst-on-templates.sh       && \
+    chmod o-w /docker-entrypoint.d/30-tune-worker-processes.sh       && \
+    chmod o-w /docker-entrypoint.d/90-replace-subpath.sh             && \
     chmod o-w,o-x /docker-entrypoint.sh 
 
 # set non-root user
 USER 1001
 
+ENV LABEL_STUDIO_USERNAME="username@coeus.mil"
+ENV LABEL_STUDIO_PASSWORD="password"
 
 EXPOSE 8080 8443
 
