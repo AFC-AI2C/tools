@@ -112,6 +112,9 @@ RUN cp /usr/local/cuda-11.4/compat/libcuda.so.1 /usr/local/cuda-11.4/targets/x86
 # END ASE UPDDATE
 ########################################
 
+# Not yet supported in current jupyterlab version... try again later
+    #RUN jupyter labextension install jupyterlab_tensorboard
+
 USER 1001
 
 RUN . $VIRTUAL_ENV/bin/activate
@@ -125,6 +128,21 @@ EXPOSE 8888
 
 HEALTHCHECK --interval=10s --timeout=1s CMD python.3.6 -c 'print("up")' || exit 1
 
+# jupyter --version
+# Selected Jupyter core packages...
+# IPython          : 8.4.0
+# ipykernel        : 6.15.1
+# ipywidgets       : not installed
+# jupyter_client   : 7.3.4
+# jupyter_core     : 4.11.1
+# jupyter_server   : not installed
+# jupyterlab       : not installed
+# nbclient         : 0.6.6
+# nbconvert        : 6.5.0
+# nbformat         : 5.4.0
+# notebook         : 6.4.12
+# qtconsole        : not installed
+# traitlets        : 5.3.0
 
 ##################
 # Testing Packages
