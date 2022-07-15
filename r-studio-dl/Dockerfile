@@ -13,7 +13,6 @@ RUN yum install -y                          \
     binutils                                \
     glibc-devel                             \
     glibc-headers                           \
-    libX11                                  \
     kernel-headers
 
 ########################################

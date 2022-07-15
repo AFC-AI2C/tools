@@ -16,6 +16,10 @@ RUN curl -LO https://github.com/krallin/tini/releases/download/v0.19.0/tini
 RUN mv tini /usr/local/bin/tini
 RUN chmod +x /usr/local/bin/tini
 
+# required to run rstudio hist commands, ex: hist(rnorm(100))
+RUN yum install -y                          \
+    libX11
+
 USER 1001
 
 EXPOSE 8787
