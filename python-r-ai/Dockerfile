@@ -33,9 +33,9 @@ RUN yum update -y       && \
 # Add repository, the UBI8 base image doesn't have this repository available and is not allowed within our CI/CD pipeline, thus needed here for the public version
 ARG REDHAT_USERNAME
 ARG REDHAT_PASSWORD
-RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD} && \
-    subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                            && \
-    dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm      && \
+RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD}   && \
+    subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                              && \
+    dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm        && \
     yum clean expire-cache && dnf update -y
 
 # RUN dnf install epel-release epel-next-release
@@ -81,69 +81,112 @@ RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pan
 USER 1001
 
 # R Script to install pacakges and provides a stop error if in installation fails
-COPY ./python-r-ai/scripts/ai-ml-packages.R .
+COPY ./scripts/ai-ml-packages.R .
 
 # R Packages can have a slow build time because they compile during installation
     # If you don't run R as root, you won't have permission to write packages into the default system-wide location and you will be prompted to create a personal library accessible by your userid. You can accept the personal library path chosen by R, or specify the library location by passing parameters to the install.packages function. For example, to create an R package repository in your home directory: R> install.packages("arules", lib="/home/username/Rpackages")
     # The ai-ml-packages.R script's purpose is to produce an error and stops the build if the R packages doesn't install
-    # install.packages(c('broom','C50','cli','DT','ECharts2Shiny','feather','flexdashboard','forcats','foreign','gt','highcharter','htmlwidgets','httr','kernlab','kknn','knitr','lattice','lubridate','magrittr','Matrix','mlbench','nlme','nnet','openxlsx','packrat','parsnip','plotly','plotROC','randomForest','RCurl','rmarkdown','roxygen2','rvest','scales','shiny','shinydashboard','shinyWidgets','sparklyr','stringr','testthat','tidymodels','tidytext','xgboost','readr','readxl','tidyverse','timetk','devtools','ggiraph','flextable','kableExtra','leaflet','plumber','reticulate','rgdal','RJDBC','xpm'), dependencies=TRUE, repos='https://packagemanager.rstudio.com/all/latest')
 RUN Rscript --no-save ai-ml-packages.R \
+    # 62.8 minutes // 3756s
     broom            \
     C50              \
     cli              \
     devtools         \
-    DT               \
+    DT               
+RUN Rscript --no-save ai-ml-packages.R \
+    # 4.8 minutes // 290s
     ECharts2Shiny    \
     feather          \
     flexdashboard    \
     flextable        \
-    forcats          \
+    forcats          
+RUN Rscript --no-save ai-ml-packages.R \
+    # 8.7 minutes // 526s
     foreign          \
     ggiraph          \
     gt               \
     highcharter      \
-    htmlwidgets      \
+    htmlwidgets      
+RUN Rscript --no-save ai-ml-packages.R \
+    # 4.1 minutes // 249
     httr             \
     kableExtra       \
     kernlab          \
     kknn             \
-    knitr            \
+    knitr            
+RUN Rscript --no-save ai-ml-packages.R \
+    # 2.8 minutes // 171s
     lattice          \
     leaflet          \
     lubridate        \
     magrittr         \
-    Matrix           \
+    Matrix           
+RUN Rscript --no-save ai-ml-packages.R \
+    # 1.7 minutes // 105s
     mlbench          \
     nlme             \
     nnet             \
     openxlsx         \
-    packrat          \
+    packrat          
+RUN Rscript --no-save ai-ml-packages.R \
+    # 21.1 minutes // 1267s
     parsnip          \
     plotly           \
     plotROC          \
     plumber          \
-    randomForest     \
+    randomForest     
+RUN Rscript --no-save ai-ml-packages.R \
+    # 1.9 minutes // 116s
     RCurl            \
     readr            \
     readxl           \
     reticulate       \
-    RJDBC            \
+    RJDBC            
+RUN Rscript --no-save ai-ml-packages.R \
+    # 1.5 minutes // 95s
     rmarkdown        \
     roxygen2         \
     rvest            \
     scales           \
-    shiny            \
+    shiny            
+RUN Rscript --no-save ai-ml-packages.R \
+    # 2.2 minutes // 132s
     shinydashboard   \
     shinyWidgets     \
     sparklyr         \
     stringr          \
-    testthat         \
+    testthat         
+RUN Rscript --no-save ai-ml-packages.R \
+    # 26.7 minutes // 1604s
     themis           \
     tidymodels       \
     tidytext         \
     tidyverse        \
-    timetk           \
-    xgboost
+    timetk           
+RUN Rscript --no-save ai-ml-packages.R \
+    # 7.1 minutes // 430s
+    xgboost                \
+    # Additional package install request 15Jul22
+    dygraphs               \
+    PerformanceAnalytics   \
+    xts                    \
+    zoo                    
+RUN Rscript --no-save ai-ml-packages.R \
+    # 31.0 minutes // 1865s 
+    arrow                  \
+    janitor                \
+    glue                   \
+    reactable              \
+    rhandsontable          
+RUN Rscript --no-save ai-ml-packages.R \
+    # 3.0 minutes // 181s
+    RSQLite                \
+    dplyr                  \
+    shinyalert             \
+    tidyr                  \
+    purrr
+
+## Total time to install R libraries... 3 hours //  179.7 minutes // 10,787s
 
 # Install reticulate miniconda packages, apparently not included when R installing reticulate
 RUN R -e "reticulate::install_miniconda()"                          && \
