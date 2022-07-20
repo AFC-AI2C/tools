@@ -37,10 +37,10 @@ RUN python3.8 -m pip install    \
         fastai                  \
         cudnnenv                \
         gluon	 		        \
-		    jupyterlab		        \
-   		  jupyterlab-git	 		\
+	jupyterlab		        \
+   	jupyterlab-git	 		\
       	matplotlib	 		\
-   		  geopandas	 		\
+   	geopandas	 		\
         geojson	 			\
         pysal	 			\
         mapclassify	 		\
@@ -50,7 +50,7 @@ RUN python3.8 -m pip install    \
       	rasterio	 	        \	
       	contextily	 	        \
       	folium	 			\
-   		  mplleaflet	                \
+   	mplleaflet	                \
         bokeh				\
         sphinx				 \	
         recommonmark		        \
