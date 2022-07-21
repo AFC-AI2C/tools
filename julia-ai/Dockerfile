@@ -5,10 +5,11 @@ RUN dnf upgrade -y --nodocs && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
-RUN mkdir -p /tmp/ai-packages/ && cd /tmp/ai-packages/
+RUN mkdir -p /ai-packages/
+WORKDIR /ai-packages/
 RUN curl http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/julia/julia-ai-packages.tar.gz --output julia-ai-packages.tar.gz
-RUN tar xvf /tmp/ai-packages/julia-ai-packages.tar.gz --strip-components=2 -C /home/joules/
-RUN rm -rf /tmp/ai-packages/
+RUN tar xvf /ai-packages/julia-ai-packages.tar.gz --strip-components=2 -C /home/joules/
+RUN rm -rf /ai-packages/
 
 RUN rm -f \
 /home/joules/.julia/packages/HTTP/aTjcj/test/resources/key.pem \
