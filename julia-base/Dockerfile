@@ -12,9 +12,9 @@ RUN dnf upgrade -y --nodocs && \
 # Install julia
 RUN mkdir /julia/
 WORKDIR /julia/
-RUN curl https://julialang-s3.julialang.org/bin/linux/x64/1.7/julia-1.7.3-linux-x86_64.tar.gz --output julia-1.7.3-linux-x86_64.tar.gz
-RUN tar zxvf /julia/julia-1.7.3-linux-x86_64.tar.gz -C /julia/
-RUN rm -f /julia/julia-1.7.3-linux-x86_64.tar.gz
+RUN curl https://julialang-s3.julialang.org/bin/linux/x64/1.7/julia-1.7.3-linux-x86_64.tar.gz --output julia-1.7.3-linux-x86_64.tar.gz && \
+    tar zxvf /julia/julia-1.7.3-linux-x86_64.tar.gz -C /julia/ && \
+    rm -f /julia/julia-1.7.3-linux-x86_64.tar.gz
 
 # Add default user
 RUN useradd -m -s /bin/bash -N -u $UID -g $GID $USER   \
