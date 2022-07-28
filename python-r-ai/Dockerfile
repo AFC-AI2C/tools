@@ -121,76 +121,76 @@ USER 1001
     # The ai-ml-packages.R script's purpose is to produce an error and stops the build if the R packages doesn't install
 # RUN Rscript --no-save ai-ml-packages.R \
 # LIST PACKAGES
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c("broom", "C50", "cli", "devtools", "DT"))'
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c("broom", "C50", "cli", "devtools", "DT"))'
     # 62.8 minutes // 3756s
 
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c("ECharts2Shiny", "feather", "flexdashboard", "flextable", "forcats"))'
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c("ECharts2Shiny", "feather", "flexdashboard", "flextable", "forcats"))'
     # 4.8 minutes // 290s
     
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 8.7 minutes // 526s
     "foreign",          \
     "ggiraph",          \
     "gt",               \
     "highcharter",      \
     "htmlwidgets"))'      
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 4.1 minutes // 249
     "httr",             \
     "kableExtra",       \
     "kernlab",          \
     "kknn",             \
     "knitr"))'            
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 2.8 minutes // 171s
     "lattice",          \
     "leaflet",          \
     "lubridate",        \
     "magrittr",         \
     "Matrix"))'           
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 1.7 minutes // 105s
     "mlbench",          \
     "nlme",             \
     "nnet",             \
     "openxlsx",         \
     "packrat"))'          
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 21.1 minutes // 1267s
     "parsnip",          \
     "plotly",           \
     "plotROC",          \
     "plumber",          \
     "randomForest"))'     
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 1.9 minutes // 116s
     "RCurl",            \
     "readr",            \
     "readxl",           \
     "reticulate",       \
     "RJDBC"))'     
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 1.5 minutes // 95s
     "rmarkdown",        \
     "roxygen2",         \
     "rvest",            \
     "scales",           \
     "shiny"))'            
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 2.2 minutes // 132s
     "shinydashboard",   \
     "shinyWidgets",     \
     "sparklyr",         \
     "stringr",          \
     "testthat"))'         
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 26.7 minutes // 1604s
     "themis",           \
     "tidymodels",       \
     "tidytext",         \
     "tidyverse",        \
     "timetk"))'         
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 7.1 minutes // 430s
     "xgboost",                \
     # Additional package install request 15Jul22
@@ -198,14 +198,14 @@ RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_op
     "PerformanceAnalytics",   \
     "xts",                    \
     "zoo"))'                    
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 31.0 minutes // 1865s 
     "arrow",                  \
     "janitor",                \
     "glue",                   \
     "reactable",              \
     "rhandsontable"))'          
-RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
+RUN R -e 'chooseCRANmirror(graphics=FALSE, ind=102); install.packages(INSTALL_opts="--no-lock", c( \
     # 3.0 minutes // 181s
     "RSQLite",                \
     "dplyr",                  \
