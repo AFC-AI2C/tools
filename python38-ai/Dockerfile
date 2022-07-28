@@ -2,16 +2,17 @@ FROM afcai2c/python38
 
 USER root
 
-RUN yum upgrade -y      && \
-    yum clean all -y    && \
-    yum install -y         \
+RUN dnf upgrade -y      && \
+    dnf install -y         \
         vim                \
         zip                \
         unzip              \
         net-tools          \
         curl               \
         git                \
-        gcc-c++
+        gcc-c++         && \
+    dnf clean all -y    && \
+    rm -rf /var/cache/dnf
 
 RUN mkdir -p /opt/python/repo
 RUN chown -R 1001:users /opt/python
