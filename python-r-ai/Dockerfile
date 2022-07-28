@@ -36,7 +36,7 @@ RUN dnf upgrade -y       && \
 # Add repository, the UBI8 base image doesn't have this repository available and is not allowed within our CI/CD pipeline, thus needed here for the public version
 ARG REDHAT_USERNAME
 ARG REDHAT_PASSWORD
-RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD}   && \
+RUN subscription-manager register --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD} --auto-attach   && \
     subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                              && \
     dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm        && \
     dnf clean expire-cache && dnf upgrade -y
@@ -100,7 +100,10 @@ RUN dnf install -y \
     dnf clean packages
 
 # Removes the subscription to the repositories added above
-RUN subscription-manager unregister
+RUN subscription-manager remove --all && \
+    subscription-manager unregister   && \
+    subscription-manager clean
+
 
 # install pandoc
 RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pandoc-2.13-linux-amd64.tar.gz     && \
