@@ -25,7 +25,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install          \
         pip              \
-        wheel
+        wheel            \
         plotly           \
         pandas           \
         matplot          \
