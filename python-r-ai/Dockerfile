@@ -11,15 +11,15 @@ USER root
 ENV PATH="/opt/python/venv/bin:$PATH"
 
 #yum install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-RUN yum update -y       && \
-    yum install -y         \
+RUN dnf upgrade -y       && \
+    dnf install -y         \
         vim                \
         zip                \
         unzip              \
         curl               \
         net-tools          \
         git                \
-        # Needed to install various R packages
+### Needed to install various R packages ###
         gcc-c++            \
         binutils           \
         glibc-devel        \
@@ -28,7 +28,10 @@ RUN yum update -y       && \
         libX11-common  	   \
         kernel-headers     \
         openssl-devel      \
-        libxml2-devel
+        libxml2-devel   && \
+    dnf clean all       && \
+    rm -rf /var/cache/dnf
+
 
 # Add repository, the UBI8 base image doesn't have this repository available and is not allowed within our CI/CD pipeline, thus needed here for the public version
 ARG REDHAT_USERNAME
@@ -36,7 +39,7 @@ ARG REDHAT_PASSWORD
 RUN subscription-manager register --auto-attach --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD}   && \
     subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms                              && \
     dnf install --nogpgcheck -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm        && \
-    yum clean expire-cache && dnf update -y
+    dnf clean expire-cache && dnf upgrade -y
 
 # RUN dnf install epel-release epel-next-release
 
@@ -48,10 +51,37 @@ RUN dnf install -y \
 
 # These rpms are required for the following packages
 # The R_AIML_Deps.tar.gz contains multiple dependency rpms
-    # dnf -y install --downloadonly --downloaddir=./ cairo cairo-devel fontconfig freetype freetype-devel harfbuzz-devel http-parser libgit2 libgit2-devel libXext-devel libXrender-devel pixman-devel protobuf-devel udunits2 gdal-libs gpsbabel ImageMagick-c++ ImageMagick-devel udunits2 cfitsio freexl gdal hdf5 netcdf ogdi proj xerces-c
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_AIML_Deps.tar.gz     && \
-    tar xvf R_AIML_Deps.tar.gz                                                                      && \
-    yum localinstall -y ./repo/*.rpm --nogpgcheck
+RUN dnf install -y \
+                    cairo \
+                    cairo-devel \
+                    fontconfig \
+                    freetype \
+                    freetype-devel \
+                    harfbuzz-devel \
+                    http-parser \
+                    libgit2 \
+                    libgit2-devel \
+                    libXext-devel \
+                    libXrender-devel \
+                    pixman-devel \
+                    protobuf-devel \
+                    udunits2 \
+                    gdal-libs \
+                    gpsbabel \
+                    ImageMagick-c++ \
+                    ImageMagick-devel \
+                    udunits2 \
+                    cfitsio \
+                    freexl \
+                    gdal \
+                    hdf5 \
+                    netcdf \
+                    ogdi \
+                    proj \
+                    xerces-c
+#RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/R_AIML_Deps.tar.gz     && \
+#    tar xvf R_AIML_Deps.tar.gz                                                                      && \
+#    yum localinstall -y ./repo/*.rpm --nogpgcheck
 
 # R package dependencies within standard repos
 RUN dnf install -y \
@@ -67,7 +97,7 @@ RUN dnf install -y \
         libxslt-devel                 \
         java-1.8.0-openjdk            \
         java-1.8.0-openjdk-devel   && \
-    yum clean packages
+    dnf clean packages
 
 # Removes the subscription to the repositories added above
 RUN subscription-manager unregister
@@ -80,7 +110,7 @@ RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pan
 
 USER 1001
 
-# R Script to install pacakges and provides a stop error if in installation fails
+# R Script to install pacakges and provides a stop error if an installation fails
 COPY ./scripts/ai-ml-packages.R .
 
 # R Packages can have a slow build time because they compile during installation
@@ -199,7 +229,7 @@ RUN R -e "reticulate::install_miniconda()"                          && \
 USER root
 
 # Upgrading vulnerable binaries
-RUN yum upgrade -y --skip-broken --allowerasing   \
+RUN dnf upgrade -y --skip-broken --allowerasing   \
         glibc            \
         glibc-common     \
         libdb            \
@@ -251,7 +281,7 @@ RUN chmod g-s /usr/libexec/openssh/ssh-keysign          && \
 # Removing vuln npm
     rm -rf /opt/R/4.0.3/lib/R/library/webshot/casperjs  && \
 # Cleanup and Finalize #
-    yum clean all                                       && \
+    dnf clean all                                       && \
     rm -rf ~/repo *.tar.gz *.R
 
 USER 1001
