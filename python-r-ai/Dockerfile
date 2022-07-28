@@ -114,110 +114,112 @@ RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pan
 USER 1001
 
 # R Script to install pacakges and provides a stop error if an installation fails
-COPY ./scripts/ai-ml-packages.R .
+# COPY ./scripts/ai-ml-packages.R .
 
 # R Packages can have a slow build time because they compile during installation
     # If you don't run R as root, you won't have permission to write packages into the default system-wide location and you will be prompted to create a personal library accessible by your userid. You can accept the personal library path chosen by R, or specify the library location by passing parameters to the install.packages function. For example, to create an R package repository in your home directory: R> install.packages("arules", lib="/home/username/Rpackages")
     # The ai-ml-packages.R script's purpose is to produce an error and stops the build if the R packages doesn't install
-RUN Rscript --no-save ai-ml-packages.R \
+# RUN Rscript --no-save ai-ml-packages.R \
+# LIST PACKAGES
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 62.8 minutes // 3756s
-    broom            \
-    C50              \
-    cli              \
-    devtools         \
-    DT               
-RUN Rscript --no-save ai-ml-packages.R \
+    "broom",            \
+    "C50",              \
+    "cli",              \
+    "devtools",         \
+    "DT"))"
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 4.8 minutes // 290s
-    ECharts2Shiny    \
-    feather          \
-    flexdashboard    \
-    flextable        \
-    forcats          
-RUN Rscript --no-save ai-ml-packages.R \
+    "ECharts2Shiny",    \
+    "feather",          \
+    "flexdashboard",    \
+    "flextable",        \
+    "forcats"))"          
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 8.7 minutes // 526s
-    foreign          \
-    ggiraph          \
-    gt               \
-    highcharter      \
-    htmlwidgets      
-RUN Rscript --no-save ai-ml-packages.R \
+    "foreign",          \
+    "ggiraph",          \
+    "gt",               \
+    "highcharter",      \
+    "htmlwidgets"))"      
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 4.1 minutes // 249
-    httr             \
-    kableExtra       \
-    kernlab          \
-    kknn             \
-    knitr            
-RUN Rscript --no-save ai-ml-packages.R \
+    "httr",             \
+    "kableExtra",       \
+    "kernlab",          \
+    "kknn",             \
+    "knitr"))"            
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 2.8 minutes // 171s
-    lattice          \
-    leaflet          \
-    lubridate        \
-    magrittr         \
-    Matrix           
-RUN Rscript --no-save ai-ml-packages.R \
+    "lattice",          \
+    "leaflet",          \
+    "lubridate",        \
+    "magrittr",         \
+    "Matrix"))"           
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 1.7 minutes // 105s
-    mlbench          \
-    nlme             \
-    nnet             \
-    openxlsx         \
-    packrat          
-RUN Rscript --no-save ai-ml-packages.R \
+    "mlbench",          \
+    "nlme",             \
+    "nnet",             \
+    "openxlsx",         \
+    "packrat"))"          
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 21.1 minutes // 1267s
-    parsnip          \
-    plotly           \
-    plotROC          \
-    plumber          \
-    randomForest     
-RUN Rscript --no-save ai-ml-packages.R \
+    "parsnip",          \
+    "plotly",           \
+    "plotROC",          \
+    "plumber",          \
+    "randomForest"))"     
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 1.9 minutes // 116s
-    RCurl            \
-    readr            \
-    readxl           \
-    reticulate       \
-    RJDBC            
-RUN Rscript --no-save ai-ml-packages.R \
+    "RCurl",            \
+    "readr",            \
+    "readxl",           \
+    "reticulate",       \
+    "RJDBC"))"            
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 1.5 minutes // 95s
-    rmarkdown        \
-    roxygen2         \
-    rvest            \
-    scales           \
-    shiny            
-RUN Rscript --no-save ai-ml-packages.R \
+    "rmarkdown",        \
+    "roxygen2",         \
+    "rvest",            \
+    "scales",           \
+    "shiny"))"            
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 2.2 minutes // 132s
-    shinydashboard   \
-    shinyWidgets     \
-    sparklyr         \
-    stringr          \
-    testthat         
-RUN Rscript --no-save ai-ml-packages.R \
+    "shinydashboard",   \
+    "shinyWidgets",     \
+    "sparklyr",         \
+    "stringr",          \
+    "testthat",         
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 26.7 minutes // 1604s
-    themis           \
-    tidymodels       \
-    tidytext         \
-    tidyverse        \
-    timetk           
-RUN Rscript --no-save ai-ml-packages.R \
+    "themis",           \
+    "tidymodels",       \
+    "tidytext",         \
+    "tidyverse",        \
+    "timetk"))"           
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 7.1 minutes // 430s
-    xgboost                \
+    "xgboost",                \
     # Additional package install request 15Jul22
-    dygraphs               \
-    PerformanceAnalytics   \
-    xts                    \
-    zoo                    
-RUN Rscript --no-save ai-ml-packages.R \
+    "dygraphs",               \
+    "PerformanceAnalytics",   \
+    "xts",                    \
+    "zoo"))"                    
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 31.0 minutes // 1865s 
-    arrow                  \
-    janitor                \
-    glue                   \
-    reactable              \
-    rhandsontable          
-RUN Rscript --no-save ai-ml-packages.R \
+    "arrow",                  \
+    "janitor",                \
+    "glue",                   \
+    "reactable",              \
+    "rhandsontable"))"          
+RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 3.0 minutes // 181s
-    RSQLite                \
-    dplyr                  \
-    shinyalert             \
-    tidyr                  \
-    purrr
+    "RSQLite",                \
+    "dplyr",                  \
+    "shinyalert",             \
+    "tidyr",                  \
+    "purrr"))"
 
 ## Total time to install R libraries... 3 hours //  179.7 minutes // 10,787s
 
