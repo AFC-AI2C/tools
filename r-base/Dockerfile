@@ -14,13 +14,14 @@ COPY ./r-base/scripts /
 RUN chmod +x /fix-permissions
 
 # Install R and create simlinks to default system PATH for Rscripting and R repl
-RUN yum update -y                                                    && \
-    yum install -y --nogpgcheck                                         \
+RUN dnf upgrade -y                                                    && \
+    dnf install -y --nogpgcheck                                         \
     less                                                                \
     /repo/R-${R_VERSION}-1-1.x86_64.rpm                              && \
     ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R                 && \
     ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript     && \
-    yum clean all
+    dnf clean all                                                    && \
+    rm -rf /var/cache/dnf
 
 # remove vulnerable packages installed by the RPM
 # libcurl-7.61.1-14.el8_3.1.x86_64 is not removed as it is the same version as what is included in the base ubi8 image.
