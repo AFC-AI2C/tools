@@ -190,7 +190,7 @@ RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_op
     "shinyWidgets",     \
     "sparklyr",         \
     "stringr",          \
-    "testthat",         
+    "testthat"))"         
 RUN R -e "chooseCRANmirror(graphics=FALSE, ind=101); install.packages(INSTALL_opts="--no-lock", c( \
     # 26.7 minutes // 1604s
     "themis",           \
