@@ -99,12 +99,6 @@ RUN dnf install -y \
         java-1.8.0-openjdk-devel   && \
     dnf clean packages
 
-# Removes the subscription to the repositories added above
-RUN subscription-manager remove --all && \
-    subscription-manager unregister   && \
-    subscription-manager clean
-
-
 # install pandoc
 RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/pandoc-2.13-linux-amd64.tar.gz     && \
     tar xvzf pandoc-2.13-linux-amd64.tar.gz --strip-components 1 -C /usr/local                                  && \
@@ -280,6 +274,11 @@ RUN chmod g-s /usr/libexec/openssh/ssh-keysign          && \
 # Cleanup and Finalize #
     dnf clean all                                       && \
     rm -rf ~/repo *.tar.gz *.R
+
+# Removes the subscription to the repositories added above
+RUN subscription-manager remove --all && \
+    subscription-manager unregister   && \
+    subscription-manager clean
 
 USER 1001
 
