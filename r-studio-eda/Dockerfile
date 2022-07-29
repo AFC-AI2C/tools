@@ -9,16 +9,18 @@ COPY --from=base /usr/local/lib/ /usr/local/lib/
 COPY --from=base /opt/python/ /opt/python/
 COPY --from=base /opt/R /opt/R
 
-RUN yum install -y openssl-libs
+RUN dnf upgrade -y --nodocs && \
+    dnf install -y openssl-libs curl openssl && \
+    dnf clean all && \
+    rm -rf /var/cache/dnf
 
-RUN yum install -y curl openssl openssl-libs
+
 RUN curl -LO https://github.com/krallin/tini/releases/download/v0.19.0/tini
 RUN mv tini /usr/local/bin/tini
 RUN chmod +x /usr/local/bin/tini
 
 # required to run rstudio hist commands, ex: hist(rnorm(100))
-RUN yum install -y                          \
-    libX11
+RUN dnf install -y libX11
 
 USER 1001
 
