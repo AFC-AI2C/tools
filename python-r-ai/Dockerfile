@@ -243,10 +243,10 @@ RUN dnf upgrade -y --skip-broken --allowerasing   \
         libxml2-devel    \
         perl-macros      \
         openssl-devel    \
-        libtiff-devel    \
-        jasper-devel     \
+        #libtiff-devel    \
+        #jasper-devel     \
         glib2-devel      \
-        libwebp-devel    \
+        #libwebp-devel    \
         libX11-xcb       \
         libX11-devel     \
         pcre-utf16       \
