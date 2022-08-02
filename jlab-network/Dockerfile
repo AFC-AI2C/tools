@@ -2,10 +2,9 @@ FROM afcai2c/jlab-dl:latest
 
 USER root
 
-RUN curl -LO http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/graphviz-devel.tar.gz   && \
-    tar xvf graphviz-devel.tar.gz                        && \
-    yum localinstall -y ./graphviz-devel/*.rpm           && \
-    yum install -y gcc
+RUN dnf install -y graphviz gcc && \
+    dnf clean all               && \
+    rm -rf /var/cache/dnf
 
 RUN python3.8 -m pip install     \
         decorator                \
@@ -16,8 +15,7 @@ RUN python3.8 -m pip install     \
         pygraphviz               \
         scapy
 
-RUN yum remove -y gcc                     && \
-    rm -rf /home/jovyan/graphviz-devel*   && \
+RUN dnf remove -y gcc                     && \
     . $VIRTUAL_ENV/bin/activate
 
 USER 1001
