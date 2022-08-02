@@ -9,18 +9,17 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
 
-RUN yum update -yq        && \
-    yum install -yq          \
-        git                  \
-        procps               \
-        ca-certificates   && \
-    yum clean all
-
-RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash -   && \
-    yum install -yq nodejs
+RUN dnf upgrade -y --nodocs         && \
+    dnf install -y                     \
+        git                            \
+        procps                 	       \
+        ca-certificates     	    && \
+    dnf module install -y nodejs:16 && \
+    dnf clean all	    	    && \
+    rm -rf /var/cache/dnf
     
 RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo   && \
-    yum install -yq yarn
+    dnf install -yq yarn
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
     chmod -R 775 /home/jovyan                                            
@@ -81,7 +80,7 @@ RUN chmod -R 775 /etc/jupyter                   && \
     chmod g-s /usr/libexec/openssh/ssh-keysign  && \
     chmod go-w /usr/local/bin/start.sh /usr/local/bin/start-singleuser.sh /usr/local/bin/start-notebook.sh
 
-RUN yum remove perl -y
+RUN dnf remove perl -y
 
 # destroy /usr/share/doc/perl* and tornado test.key as they contain 'secrets' flagged by IB
 RUN rm -rf                                                                  \
