@@ -3,7 +3,6 @@ FROM afcai2c/jlab-dl:latest
 USER root
 
 RUN dnf install -y graphviz gcc && \
-    dnf --enablerepo=powertools install -y graphviz-devel && \
     dnf clean all               && \
     rm -rf /var/cache/dnf
 
@@ -13,7 +12,7 @@ RUN python3.8 -m pip install     \
         networkx                 \
         scikit_network           \
         texttable                \
-        pygraphviz               \
+# PYGRAPHVIZ IS PROBLEMATIC pygraphviz               \
         scapy
 
 RUN dnf remove -y gcc && \
