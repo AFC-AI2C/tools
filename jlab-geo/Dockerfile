@@ -46,8 +46,7 @@ RUN python3.8 -m pip install wheel \
 			     bumpversion \
 			     sphinx-markdown-tables \
 			     imagecodecs \
-			     albumentations \
-			     pyrosm
+			     albumentations
 
 USER 1001
 WORKDIR $HOME
