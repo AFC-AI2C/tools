@@ -6,7 +6,8 @@ RUN dnf install -y graphviz gcc && \
     dnf clean all               && \
     rm -rf /var/cache/dnf
 
-RUN python3.8 -m pip install     \
+RUN . $VIRTUAL_ENV/bin/activate && \
+    python3.8 -m pip install     \
         decorator                \
         python-igraph            \
         networkx                 \
@@ -15,8 +16,7 @@ RUN python3.8 -m pip install     \
         pygraphviz               \
         scapy
 
-RUN dnf remove -y gcc                     && \
-    . $VIRTUAL_ENV/bin/activate
+RUN dnf remove -y gcc
 
 USER 1001
 
