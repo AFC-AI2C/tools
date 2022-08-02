@@ -3,11 +3,11 @@ FROM afcai2c/jlab-dl:latest
 USER root
 
 RUN dnf install -y graphviz gcc && \
+    dnf --enablerepo=powertools install -y graphviz-devel && \
     dnf clean all               && \
     rm -rf /var/cache/dnf
 
-RUN . $VIRTUAL_ENV/bin/activate && \
-    python3.8 -m pip install     \
+RUN python3.8 -m pip install     \
         decorator                \
         python-igraph            \
         networkx                 \
@@ -16,7 +16,8 @@ RUN . $VIRTUAL_ENV/bin/activate && \
         pygraphviz               \
         scapy
 
-RUN dnf remove -y gcc
+RUN dnf remove -y gcc && \
+    . $VIRTUAL_ENV/bin/activate
 
 USER 1001
 
