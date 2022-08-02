@@ -6,12 +6,10 @@ RUN dnf clean all && \
     rm -rf /var/cache/dnf
 
 RUN python3.8 -m pip install wheel \
-			     pip	\
 			     pbr \
 			     pygeos \
 			     cython \
 			     pyrobuf \
-			     cykhash \
 			     jupyterlab \
 			     jupyterlab-git \
 			     matplotlib \
