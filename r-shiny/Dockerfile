@@ -3,11 +3,14 @@ FROM afcai2c/python-r-ai:latest
 USER root
 
 #dnf remove -y epel-release
-RUN dnf install -y           \
-        binutils             \
-        glibc-devel          \
-        glibc-headers        \
-        kernel-headers
+RUN dnf upgrade -y --nodocs && \
+    dnf install -y             \
+        binutils               \
+        glibc-devel            \
+        glibc-headers          \
+        kernel-headers	    && \
+    dnf clean all 	    && \
+    rm -rf /var/cache/dnf
 
 USER 1001
 
@@ -27,12 +30,11 @@ RUN Rscript --no-save web_install.R   \
 
 USER root
 
-RUN curl -O https://download3.rstudio.org/centos7/x86_64/shiny-server-1.5.16.958-x86_64.rpm
+RUN curl -O https://download3.rstudio.org/centos7/x86_64/shiny-server-1.5.16.958-x86_64.rpm && \
+    dnf	install -y --nogpgcheck shiny-server-1.5.16.958-x86_64.rpm   			    && \
+    rm -f shiny-server-1.5.16.958-x86_64.rpm
 
-RUN yum install -y --nogpgcheck shiny-server-1.5.16.958-x86_64.rpm   && \
-	rm -f shiny-server-1.5.16.958-x86_64.rpm
-
-RUN mkdir -p /var/log/shiny-server /var/lib/shiny-server/bookmarks                        && \
+RUN mkdir -p /var/log/shiny-server /var/lib/shiny-server/bookmarks                            && \
 	chown 1001 /var/log/shiny-server /var/lib/shiny-server/bookmarks                      && \
 	chown 1001 -R /srv/shiny-server                                                       && \
 	chmod 755 -R /srv/shiny-server                                                        && \
