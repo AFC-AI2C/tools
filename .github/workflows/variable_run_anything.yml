@@ -1,12 +1,12 @@
 ###USE THIS WORKFLOW TO RUN ANY OTHER ONE, JUST REPASTE DESIRED .yml TEXT HERE, UNCOMMENT THE ON AND PUSH, THEN SEND IT
 
-name:  jupyterlab
+name:  jlab-eda
 
 on:
   push:
-#   branches: [ jupyterlab ]
     branches: [ main ]
-
+#  pull_request:
+#    branches: [ main ]
   schedule:
     - cron: '00 22 * * *'
 
@@ -23,9 +23,8 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --tag afcai2c/jupyterlab:$(date +%s) --tag afcai2c/jupyterlab:latest --file ./jupyterlab/Dockerfile .
+        docker build --tag afcai2c/jlab-eda:$(date +%s) --tag afcai2c/jlab-eda:latest --file ./jlab-eda/Dockerfile .
     - name: Docker Push
       run: |
-        docker push afcai2c/jupyterlab --all-tags
-        
+        docker push afcai2c/jlab-eda --all-tags
         
