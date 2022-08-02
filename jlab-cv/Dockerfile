@@ -4,6 +4,11 @@ USER root
 
 WORKDIR /tmp/repo
 
+RUN dnf upgrade -y --nodocs   && \
+    dnf install -y mesa-libGL && \
+    dnf clean all             && \
+    rm -rf /var/cache/dnf
+
 RUN python3.8 -m pip install   \
         # required for imutils
         opencv-python   \
@@ -11,28 +16,18 @@ RUN python3.8 -m pip install   \
         pytesseract     \
         pytorchcv       \
         scikit-image
-RUN yum install -y mesa-libGL
 
 RUN . $VIRTUAL_ENV/bin/activate
 
-RUN chmod g-s /usr/libexec/openssh/ssh-keysign \
-    && rm -rf /tmp/repo \
-              /opt/jupyter/venv/lib/python3.8/site-packages/bleach/_vendor/{Django-1.11.29.dist-info,django} \
-              /opt/python/venv/lib/python3.8/site-packages/bleach/_vendor/{Django-1.11.29.dist-info,django} \
-              /opt/python/venv/lib/python3.8/site-packages/oslo_service/tests/ssl_cert/ca.key \
-              /opt/python/venv/lib/python3.8/site-packages/oslo_service/tests/ssl_cert/privatekey.key \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/client-key.enc \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/client-key.pem \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/proxyca.pem \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/server2-key.pem \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/server-ecc-key.pem \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/server-key.enc \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/server-key.pem \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/server-wildcard.pem \
-              /usr/share/doc/perl-IO-Socket-SSL/certs/sub-server.pem \
-              /usr/share/doc/perl-IO-Socket-SSL/example/simulate_proxy.pl \
-              /usr/share/doc/perl-Net-SSLeay/examples/server_key.pem 
-
+RUN chmod g-s /usr/libexec/openssh/ssh-keysign && \
+    rm -rf /tmp/repo \
+           /opt/jupyter/venv/lib/python3.8/site-packages/bleach/_vendor/{Django-1.11.29.dist-info,django} \
+           /opt/python/venv/lib/python3.8/site-packages/bleach/_vendor/{Django-1.11.29.dist-info,django}  \
+           /opt/python/venv/lib/python3.8/site-packages/oslo_service/tests/                               \
+           /usr/share/doc/perl-IO-Socket-SSL/certs/                                                       \
+           /usr/share/doc/perl-IO-Socket-SSL/example/                                                     \
+           /usr/share/doc/perl-Net-SSLeay/examples/
+              
 USER 1001
 
 WORKDIR /home/jovyan
