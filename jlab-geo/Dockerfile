@@ -9,7 +9,6 @@ RUN python3.8 -m pip install wheel \
 			     pbr \
 			     pygeos \
 			     cython \
-			     pyrobuf \
 			     jupyterlab \
 			     jupyterlab-git \
 			     matplotlib \
