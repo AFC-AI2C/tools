@@ -1,6 +1,7 @@
 ###USE THIS WORKFLOW TO RUN ANY OTHER ONE, JUST REPASTE DESIRED .yml TEXT HERE, UNCOMMENT THE ON AND PUSH, THEN SEND IT
 
-name:  r-studio-eda
+
+name:  r-shiny
 
 on:
   push:
@@ -23,9 +24,8 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run: |
-        docker build --tag afcai2c/r-studio-eda:$(date +%s) --tag afcai2c/r-studio-eda:latest --file ./r-studio-eda/Dockerfile .
+        docker build --tag afcai2c/r-shiny:$(date +%s) --tag afcai2c/r-shiny:latest --file ./r-shiny/Dockerfile .
     - name: Docker Push
       run: |
-        docker push afcai2c/r-studio-eda --all-tags
+        docker push afcai2c/r-shiny --all-tags
         
-
