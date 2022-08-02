@@ -8,23 +8,24 @@ ENV PATH="/opt/python/venv/bin:$PATH"
 
 USER root
 #Workaround for perl issue preventing yum upgrade
-RUN yum remove -y perl-threads
-RUN yum upgrade -y     && \
-    yum clean all -y   && \
-    yum install -y        \
-        vim               \
-        zip               \
-        unzip             \
-        net-tools         \
-        # gcc is needed for prophet
-        gcc-c++           \
-        git
+RUN dnf upgrade -y --nodocs && \
+    dnf install -y             \
+        vim                    \
+        zip                    \
+        unzip                  \
+        net-tools              \
+      # gcc is needed for prophet
+        gcc-c++                \
+        gcc                    \
+        git                 && \
+    dnf clean all           && \
+    rm -rf /var/cache/dnf
 
 # Needed to use packges from multi-stage build in Jupyterlab
 RUN python3.8 -m pip install ipykernel
 
 # Removing unneeded vulnerable binaries
-RUN yum remove -y    \
+RUN dnf remove -y    \
     binutils         \
     glibc-devel      \
     glibc-headers    \
