@@ -4,8 +4,7 @@ USER root
 
 WORKDIR /tmp/repo
 
-RUN dnf upgrade -y --nodocs   && \
-    dnf install -y mesa-libGL && \
+RUN dnf install -y mesa-libGL && \
     dnf clean all             && \
     rm -rf /var/cache/dnf
 
