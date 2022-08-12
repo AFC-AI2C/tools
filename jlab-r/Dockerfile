@@ -10,7 +10,7 @@ ARG R_VERSION=4.0.3
 RUN ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R                 && \
     ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript
 
-COPY ./jlab-r/scripts/fix-permissions /fix-permissions
+COPY ./scripts/fix-permissions /fix-permissions
 # COPY ./scripts/fix-permissions /fix-permissions
 RUN chmod +x /fix-permissions                         && \
     /fix-permissions ${HOME} -P                       && \
@@ -23,8 +23,8 @@ RUN yum install -y \
     # needed when displaying plot graphs that use fonts
     fontconfig
 
-COPY ./jlab-r/ai-ml-packages.R /ai-ml-packages.R
-COPY ./jlab-r/scripts/ai-ml-packages.R /ai-ml-packages.R
+COPY ./ai-ml-packages.R /ai-ml-packages.R
+COPY ./scripts/ai-ml-packages.R /ai-ml-packages.R
 
 # https://github.com/IRkernel/IRkernel
 RUN Rscript --no-save /ai-ml-packages.R \

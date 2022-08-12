@@ -52,7 +52,7 @@ USER root
 
 RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json   && \
     rmdir $HOME/work
-COPY ./jlab-eda/kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
+COPY ./kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 
 USER 1001
 

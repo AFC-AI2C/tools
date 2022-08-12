@@ -1,4 +1,4 @@
-python38-ai
+#python38-ai
 jupyterlab
 jlab-eda
 jlab-dl
