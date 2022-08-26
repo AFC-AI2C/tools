@@ -3,6 +3,7 @@
 clear
 IMAGES=./image-build-order.txt
 for image in $(cat < $IMAGES); do
+
     echo ""
     echo ""
     echo "####################################################################################################"
@@ -15,6 +16,7 @@ for image in $(cat < $IMAGES); do
     docker rmi -f $(docker images | grep "^<none>" | tr -s " " | cut -d " " -f 3)
     eval "docker build -t 'afcai2c/$image' --no-cache './$image'"
     eval "docker push 'afcai2c/$image:latest'"xyx
+
 done
 
 # for file in */ ; do 
