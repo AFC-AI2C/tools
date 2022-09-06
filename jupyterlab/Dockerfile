@@ -10,10 +10,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 USER root
 
 RUN dnf upgrade -y --nodocs         && \
-    dnf install -y                     \
-        git                            \
-        procps                 	       \
-        ca-certificates     	    && \
+    dnf install -y git                 \
+        	   procps              \
+        	   ca-certificates  && \
     dnf module install -y nodejs:16 && \
     dnf clean all	    	    && \
     rm -rf /var/cache/dnf
@@ -22,7 +21,7 @@ RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.re
     dnf install -yq yarn
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER   && \
-    chmod -R 775 /home/jovyan                                            
+    chmod -R 500 /home/jovyan                                            
 
 # Install tini
 #RUN curl -L http://coeusfileserver.usgovvirginia.cloudapp.usgovcloudapi.net/tini --output /usr/local/bin/tini
@@ -76,7 +75,7 @@ COPY ./scripts/jupyter_server_config.py /etc/jupyter/
 
 USER root
 
-RUN chmod -R 775 /etc/jupyter                   && \
+RUN chmod -R 500 /etc/jupyter                   && \
     chmod g-s /usr/libexec/openssh/ssh-keysign  && \
     chmod go-w /usr/local/bin/start.sh /usr/local/bin/start-singleuser.sh /usr/local/bin/start-notebook.sh
 
