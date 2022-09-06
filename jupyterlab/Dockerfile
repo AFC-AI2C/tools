@@ -61,9 +61,6 @@ RUN . $VIRTUAL_ENV/bin/activate   && \
 # for downstream accessibility surrounding jupyterhub 
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
 
-# Setup work directory for backward-compatibility
-RUN mkdir /home/$NB_USER/work
-
 # critical env variable to enable jupyter lab GUI (default is the old interface)
 ENV JUPYTER_ENABLE_LAB=1
 
@@ -74,6 +71,9 @@ COPY ./scripts/start.sh ./scripts/start-notebook.sh ./scripts/start-singleuser.s
 COPY ./scripts/jupyter_server_config.py /etc/jupyter/
 
 USER root
+
+# set up work directory for backward-compatability
+RUN mkdir /home/$NB_USER/work
 
 RUN chmod -R 500 /etc/jupyter                   && \
     chmod g-s /usr/libexec/openssh/ssh-keysign  && \
