@@ -52,13 +52,16 @@ USER root
 
 RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json   && \
     rmdir $HOME/work
-COPY ./kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
-
-USER 1001
 
 WORKDIR /home/jovyan
 
+COPY ./files/kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
+COPY ./files/README.md .
+
+USER 1001
+
 ENTRYPOINT ["tini", "-g", "--"]
+
 CMD ["start-notebook.sh"]
 
 EXPOSE 8888
