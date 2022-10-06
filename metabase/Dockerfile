@@ -29,7 +29,7 @@ RUN chown metabase:metabase /etc/pki/ca-trust/source/anchors/ && \
 
 WORKDIR /app/
 
-COPY ./metabase/scripts/entrypoint.sh .
+COPY scripts/entrypoint.sh .
 
 RUN curl -LO https://downloads.metabase.com/v0.41.1/metabase.jar
 
