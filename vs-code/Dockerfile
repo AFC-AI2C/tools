@@ -53,17 +53,15 @@ USER root
 RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json   && \
     rmdir $HOME/work
 
+WORKDIR /home/jovyan
 
 COPY ./files/kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 COPY ./files/README.md .
 
 # Start VS Code
-USER root
-RUN cd ~
 RUN curl -fsSL https://code-server.dev/install.sh | sh
-RUN echo "/bin/code-server --bind-addr 0.0.0.0:8080 --auth none --cert false &" >> ./start-notebook.sh
-
-WORKDIR /home/jovyan
+COPY ./start.sh /usr/local/bin/start.sh
+# End VS Code
 
 USER 1001
 
