@@ -16,7 +16,8 @@ RUN python3.8 -m pip install  \
     patterns     \
     PyNLPl       \
     yake         \
-    dateparser
+    dateparser   \
+    pdfminer.six 
 
 RUN rm -f /opt/python/venv/lib/python3.8/site-packages/future/backports/test/badcert.pem          \
           /opt/python/venv/lib/python3.8/site-packages/future/backports/test/badkey.pem           \
