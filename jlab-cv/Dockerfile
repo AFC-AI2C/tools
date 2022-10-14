@@ -14,7 +14,8 @@ RUN python3.8 -m pip install   \
         imutils         \
         pytesseract     \
         pytorchcv       \
-        scikit-image
+        scikit-image    \
+        fiftyone
 
 RUN . $VIRTUAL_ENV/bin/activate
 
