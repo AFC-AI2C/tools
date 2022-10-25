@@ -19,4 +19,4 @@ RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER && \
     chown -R lumi:users /.config/
 USER $NB_UID
 EXPOSE 8080
-ENTRYPOINT ["/bin/code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "--cert", "false"]
+ENTRYPOINT ["/bin/code-server"]
