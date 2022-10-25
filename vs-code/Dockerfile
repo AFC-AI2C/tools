@@ -3,7 +3,7 @@ from redhat/ubi8:latest
 USER root
 
 ARG NB_USER="lumi"
-ARG NB_UID="1000"
+ARG NB_UID="1001"
 ARG NB_GID="100"
 
 RUN dnf upgrade -y --nodocs         && \
