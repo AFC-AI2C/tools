@@ -21,6 +21,12 @@ fi
 # if root, we need to check some permissions in order to exec metabase with a non-root user
 # In that case, the container is run as root, metabase is run as a non-root user
 if [ $(id -u) -ne 0 ]; then
+    # Ensure that any additional plugin files are loaded on startup
+    if [[ "$(ls /plugins)" != "" ]]; then
+        mkdir -p $HOME/plugins
+        cp /plugins/* $HOME/plugins
+    fi
+
     # Launch the application
     # exec is here twice on purpose to  ensure that metabase runs as PID 1 (the init process)
     # and thus receives signals sent to the container. This allows it to shutdown cleanly on exit
