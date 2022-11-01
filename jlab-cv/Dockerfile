@@ -4,7 +4,8 @@ USER root
 
 WORKDIR /tmp/repo
 
-RUN dnf install -y mesa-libGL && \
+RUN dnf upgrade -y --nodocs   && \
+    dnf install -y mesa-libGL && \
     dnf clean all             && \
     rm -rf /var/cache/dnf
 
@@ -14,13 +15,12 @@ RUN python3.8 -m pip install   \
         imutils         \
         pytesseract     \
         pytorchcv       \
-        scikit-image    \
-        fiftyone
+        scikit-image
 
 RUN . $VIRTUAL_ENV/bin/activate
 
-RUN chmod g-s /usr/libexec/openssh/ssh-keysign && \
-    rm -rf /tmp/repo \
+RUN chmod g-s /usr/libexec/openssh/ssh-keysign                                                         && \
+    rm -rf /tmp/repo                                                                                      \
            /opt/jupyter/venv/lib/python3.8/site-packages/bleach/_vendor/{Django-1.11.29.dist-info,django} \
            /opt/python/venv/lib/python3.8/site-packages/bleach/_vendor/{Django-1.11.29.dist-info,django}  \
            /opt/python/venv/lib/python3.8/site-packages/oslo_service/tests/                               \
