@@ -2,7 +2,8 @@ FROM afcai2c/jlab-dl:latest
 
 USER root
 
-RUN dnf install -y graphviz gcc && \
+RUN dnf upgrade -y --nodocs     && \
+    dnf install -y graphviz gcc && \
     dnf clean all               && \
     rm -rf /var/cache/dnf
 
