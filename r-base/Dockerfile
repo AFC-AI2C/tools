@@ -1,6 +1,6 @@
 FROM afcai2c/ubi8:latest
 
-ARG R_VERSION=4.1.3
+ARG R_VERSION=4.2.1
 
 ENV HOME=/home/default
 
@@ -14,7 +14,7 @@ COPY ./scripts /
 RUN chmod +x /fix-permissions
 
 # Install R and create simlinks to default system PATH for Rscripting and R repl
-RUN dnf upgrade -y                                                    && \
+RUN dnf upgrade -y --nodocs                                          && \
     dnf install -y --nogpgcheck                                         \
     less                                                                \
     /repo/R-${R_VERSION}-1-1.x86_64.rpm                              && \
