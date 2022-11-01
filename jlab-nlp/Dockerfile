@@ -2,8 +2,9 @@ FROM afcai2c/jlab-dl:latest
 
 USER root
 
-#RUN dnf update -y          && \
-#    dnf clean all -y
+RUN dnf upgrade -y --nodocs && \
+    dnf clean all -y        && \
+    rm -rf /var/cache/dnf/
 
 RUN python3.8 -m pip install  \
     wheel        \
