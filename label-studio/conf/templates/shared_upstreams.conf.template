@@ -1,3 +1,0 @@
-upstream labelstudio {
-    server localhost:${LABEL_STUDIO_PORT};
-}
