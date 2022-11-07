@@ -39,9 +39,11 @@ RUN find /usr/local -depth \
     echo '/usr/local/lib' >> /etc/ld.so.conf && \
     ldconfig
 
-COPY requirements.txt . 
+COPY requirements.txt .
 
-RUN pip3.8 install -r requirements.txt 
+RUN python3.8 -m pip install --upgrade pip
+
+RUN pip3.8 install -r requirements.txt
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
