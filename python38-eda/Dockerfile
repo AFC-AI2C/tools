@@ -13,7 +13,6 @@ RUN dnf upgrade -y --nodocs    && \
 COPY requirements.txt /opt/python/
 RUN python3 -m pip install wheel==0.38.2 mmh3==3.0.0
 RUN python3 -m pip install -r /opt/python/requirements.txt
-RUN . $VIRTUAL_ENV/bin/activate
 
 USER 1001
 
