@@ -1,13 +1,12 @@
 ARG BASE_REGISTRY=afcai2c
 ARG BASE_IMAGE=python38
-ARG BASE_TAG=initial
+ARG BASE_TAG=latest
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as build
 
 USER root
 
 RUN dnf upgrade -y --nodocs    && \
-    dnf install -y gcc gcc-c++ &&   \
     dnf clean all               &&  \
     rm -rf /var/cache/dnf/
 
