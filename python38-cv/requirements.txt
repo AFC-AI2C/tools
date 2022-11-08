@@ -1,0 +1,5 @@
+opencv-python
+imutils
+pytesseract
+pytorchcv
+scikit-image
