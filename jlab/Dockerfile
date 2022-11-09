@@ -1,10 +1,10 @@
-ARG BASE_REGISTRY=afcai2c
-ARG BASE_IMAGE=python38
-ARG BASE_TAG=04nov22
+ARG BASE_REGISTRY=registry1.dso.mil
+ARG BASE_IMAGE=ironbank/opensource/python/python38
+ARG BASE_TAG=3.8
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
-ARG NB_USER="joy"
+ARG NB_USER="jovyan"
 ARG NB_UID="1000"
 ARG NB_GID="100"
 
@@ -24,18 +24,17 @@ RUN dnf upgrade -y --nodocs                       && \
     rm -rf /var/cache/dnf
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER && \
-    chmod -R 0750 /home/joy                                            
+    chmod -R 0750 /home/jovyan/
 
 # Install tini
 COPY tini /usr/local/bin/tini
 RUN chmod +x /usr/local/bin/tini
 
 RUN mkdir /opt/jupyter/
-RUN chown -R joy:users /opt/jupyter/
+RUN chown -R jovyan:users /opt/jupyter/
 
 USER $NB_UID
 
-# Configure environment
 ENV SHELL=/bin/bash         \
     NB_USER=$NB_USER        \
     NB_UID=$NB_UID          \
@@ -55,7 +54,7 @@ RUN . $VIRTUAL_ENV/bin/activate && \
                 jupyterlab-git  \
                 jupyterhub
 
-# for downstream accessibility surrounding jupyterhub 
+# for downstream accessibility surrounding jupyterhub
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
 
 # Setup work directory for backward-compatibility
@@ -64,14 +63,20 @@ RUN mkdir /home/$NB_USER/work
 # critical env variable to enable jupyter lab GUI (default is the old interface)
 ENV JUPYTER_ENABLE_LAB=1
 
+ENTRYPOINT ["tini", "-g", "--"]
+CMD ["start-notebook.sh"]
+
 COPY scripts/start.sh scripts/start-notebook.sh scripts/start-singleuser.sh /usr/local/bin/
 COPY scripts/jupyter_server_config.py /etc/jupyter/
 
 # begin cleanup and organizing of container
 USER root
 
-RUN chmod -R 0750 /etc/jupyter                       && \
+RUN chmod -R 775 /etc/jupyter                       && \
+    chmod -R 0750 /home/jovyan                      && \
     chmod g-s /usr/libexec/openssh/ssh-keysign      && \
+    chmod g-s /usr/bin/write                        && \
+    chgrp -R $NB_GID /home/jovyan/                  && \
     chmod go-w /usr/local/bin/start.sh /usr/local/bin/start-singleuser.sh /usr/local/bin/start-notebook.sh
 
 RUN rm -rf /usr/share/doc/perl-IO-Socket-SSL/                     \
@@ -83,14 +88,13 @@ RUN rm -f /opt/jupyter/venv/share/jupyterhub/static/components/moment/package.js
 # update vulnerable npm packages to latest available
 RUN npm i -g ansi-regex minimatch
 
-# Switch back to joy to avoid accidental container runs as root
+# Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
 
 HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1
 WORKDIR $HOME
 EXPOSE 8888
-ENTRYPOINT ["tini", "-g", "--"]
-CMD ["start-notebook.sh"]
+
 
 #########
 # Usage #
