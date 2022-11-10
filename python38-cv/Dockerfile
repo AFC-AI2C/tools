@@ -12,8 +12,13 @@ RUN dnf upgrade -y --nodocs    && \
     rm -rf /var/cache/dnf/
 
 COPY requirements.txt /opt/python/
-RUN python3.8 -m pip install wheel==0.38.2 mmh3==3.0.0
-RUN python3.8 -m pip install -r /opt/python/requirements.txt
+
+USER 1001
+
+ENV VIRTUAL_ENV=/opt/python/venv
+RUN python3.8 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN pip install -r /opt/python/requirements.txt
 
 USER 1001
 

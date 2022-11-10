@@ -6,15 +6,19 @@ FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
 USER root
 
-RUN dnf upgrade -y --nodocs    && \
-    dnf install -y gcc gcc-c++ && \
-    dnf clean all              && \
-    rm -rf /var/cache/dnf/
+RUN dnf upgrade -y         && \
+    dnf clean all          && \
+    rm -rf /var/cache/dnf
 
 COPY requirements.txt /opt/python/
-RUN python3.8 -m pip install wheel==0.38.2 mmh3==3.0.0
-RUN python3.8 -m pip install -r /opt/python/requirements.txt
 
 USER 1001
 
-CMD ["python3"]
+ENV VIRTUAL_ENV=/opt/python/venv
+RUN python3.8 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN pip install -r /opt/python/requirements.txt
+
+USER 1001
+WORKDIR $HOME
+HEALTHCHECK --interval=10s --timeout=1s CMD python3.8 -c 'print("up")' || exit 1
