@@ -1,5 +1,5 @@
-FROM afcai2c/python38-ai:latest AS multi-stage
-FROM afcai2c/jupyterlab:latest
+FROM afcai2c/python38-eda:latest AS multi-stage
+FROM afcai2c/jlab:latest
 
 COPY --from=multi-stage /opt/python /opt/python
 
@@ -55,8 +55,8 @@ RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json   && \
 
 WORKDIR /home/jovyan
 
-COPY ./files/kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
-COPY ./files/README.md .
+#COPY ./files/kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
+#COPY ./files/README.md .
 
 USER 1001
 

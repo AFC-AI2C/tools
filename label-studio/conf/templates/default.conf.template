@@ -1,2 +1,0 @@
-include /etc/nginx/conf.d/shared_upstreams.conf;
-include /etc/nginx/conf.d/tls_${TLS_CONFIG}.conf;

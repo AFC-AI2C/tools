@@ -1,0 +1,8 @@
+nltk
+gensim
+corenlp
+spacy
+textblob
+patterns
+yake
+dateparser

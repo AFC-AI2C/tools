@@ -1,0 +1,6 @@
+decorator
+python-igraph
+networkx
+scikit-network
+texttable
+scapy
