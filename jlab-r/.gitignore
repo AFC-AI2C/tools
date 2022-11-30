@@ -1,0 +1,9 @@
+*.whl
+*.rpm
+*.tar.gz
+*.ps1
+packages.txt
+repo/**
+test_commands.txt
+anchore-reports/**
+report.txt

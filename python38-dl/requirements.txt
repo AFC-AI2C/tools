@@ -1,7 +1,0 @@
-pbr
-ds2
-torch
-keras
-fastai
-cudnnenv
-gluoncv
