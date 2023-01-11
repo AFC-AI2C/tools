@@ -45,15 +45,15 @@ HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1
 
 # Setup and run as the default user
 RUN ./fix-permissions ${HOME} -P                        && \
-    chmod -R 0750 /opt/R/${R_VERSION}/lib/R/             && \
-    useradd -u 1001 -r -g 0 -d ${HOME} -s /bin/bash        \
+    useradd -u 10001 -r -g 0 -d ${HOME} -s /bin/bash        \
     -c "Default Application User" default               && \
-    chown -R 1001:0 ${HOME}                             && \
+    chown -R 10001:0 ${HOME}                            && \
     chmod 0750 ${HOME}					&& \
-    chown -R 1001 /opt/R/${R_VERSION}/lib/R/
+    chown -R 10001 /opt/R/${R_VERSION}/lib/R/		&& \
+    chmod 0750 /opt/R/${R_VERSION}/lib/R/
 
 ENV USER=default
 
-USER 1001
+USER 10001
 
 WORKDIR ${HOME}
