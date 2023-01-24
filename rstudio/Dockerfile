@@ -43,8 +43,11 @@ RUN echo "auth-none=1" >> /etc/rstudio/disable_auth_rserver.conf                
     rm -rf /usr/bin/write /var/cache/dnf /tmp/* /local/libs/*                               && \
     update-crypto-policies --set
 
-RUN chmod -R 0750 /var/lib/rstudio-server                                          && \
+RUN chown -R 10001 /var/lib/rstudio-server                                         && \
+    chmod -R 0750 /var/lib/rstudio-server                                          && \
+    chown -R 10001 /etc/rstudio                                                    && \
     chmod -R 0750 /etc/rstudio                                                     && \
+    chown -R 10001 /var/run/rstudio-server                                         && \
     chmod -R 0750 /var/run/rstudio-server
 
 # Clean up test keys and temporary files
@@ -55,12 +58,6 @@ RUN rm -rf /opt/r-packages-download/packrat/lib/x86_64-pc-linux-gnu/4.2.2/openss
            /usr/share/doc/perl-IO-Socket-SSL/example/                                             \
            /tmp/packrat/ /tmp/r-packages/ /tmp/rstudio/                                        && \
     rm -f  /usr/libexec/openssh/ssh-keysign
-
-# Upgrade Go package and remove sample secret
-COPY go.tar.gz /tmp/
-RUN rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/go.tar.gz
-ENV PATH="/usr/local/go/bin:$PATH"
-RUN rm -f /usr/local/go/src/crypto/tls/testdata/example-key.pem
 
 # NOTE: find command produces no results which leads to empty argument for "chmod a+t" portion
 # RUN df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null | xargs chmod a+t
