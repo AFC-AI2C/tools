@@ -4,7 +4,7 @@ ARG STAGE_TAG=latest
 
 ARG BASE_REGISTRY=afcai2c
 ARG BASE_IMAGE=rstudio
-ARG BASE_TAG=rebuild
+ARG BASE_TAG=20230126il5
 
 FROM ${STAGE_REGISTRY}/${STAGE_IMAGE}:${STAGE_TAG} AS base
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
@@ -21,7 +21,7 @@ ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-RUN chown -R 10001 /var/lib/rstudio-server /var/run/rstudio-server /opt/R/ && \
+RUN chown -R 1001 /var/lib/rstudio-server /var/run/rstudio-server /opt/R/ && \
     chmod -R g=u /var/lib/rstudio-server /var/run/rstudio-server /opt/R/   && \
     chmod -R g=u /etc/rstudio                                              && \
     chmod +x /var/run/rstudio-server
@@ -32,10 +32,9 @@ RUN echo 'LANG=en_US.UTF-8' >> /etc/locale.conf
 ENV LC_ALL="en_US.utf8"
 ENV LANGUAGE="en_US.utf8"
 
-RUN chown -R 10001 /home/default/
-RUN chmod -R 777 /home/default/
+RUN chown -R 1001 /home/default/
 
-USER 10001
+USER 1001
 HEALTHCHECK --start-period=60s CMD rstudio-server status | grep -e "running"
 EXPOSE 8787
 ENTRYPOINT ["/tini", "-g", "--"]

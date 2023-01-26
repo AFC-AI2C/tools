@@ -31,7 +31,7 @@ RUN dnf upgrade -y --nodocs                                                     
     rm -rf /var/cache/dnf
 
 RUN mkdir -p /local/libs                                                            && \
-    chown -R 10001 /var/lib/rstudio-server /var/run/rstudio-server /etc/rstudio     && \
+    chown -R 1001 /var/lib/rstudio-server /var/run/rstudio-server /etc/rstudio      && \
     ln -s /usr/lib/rstudio-server/bin/rstudio-server /usr/local/bin/rstudio-server  && \
     chkconfig rstudio-server off
 
@@ -43,11 +43,11 @@ RUN echo "auth-none=1" >> /etc/rstudio/disable_auth_rserver.conf                
     rm -rf /usr/bin/write /var/cache/dnf /tmp/* /local/libs/*                               && \
     update-crypto-policies --set
 
-RUN chown -R 10001 /var/lib/rstudio-server                                         && \
-    chmod -R 0750 /var/lib/rstudio-server                                          && \
-    chown -R 10001 /etc/rstudio                                                    && \
-    chmod -R 0750 /etc/rstudio                                                     && \
-    chown -R 10001 /var/run/rstudio-server                                         && \
+RUN chown -R 1001 /var/lib/rstudio-server && \
+    chmod -R 0750 /var/lib/rstudio-server && \
+    chown -R 1001 /etc/rstudio            && \
+    chmod -R 0750 /etc/rstudio            && \
+    chown -R 1001 /var/run/rstudio-server && \
     chmod -R 0750 /var/run/rstudio-server
 
 # Clean up test keys and temporary files
@@ -64,7 +64,8 @@ RUN rm -rf /opt/r-packages-download/packrat/lib/x86_64-pc-linux-gnu/4.2.2/openss
 
 ENV LC_ALL="en_US.utf8"
 ENV LANGUAGE="en_US.utf8"
-USER 10001
+ENV PATH="/usr/lib/rstudio-server/bin/rstudio-server:/usr/local/bin/rstudio-server:$PATH"
+USER 1001
 HEALTHCHECK --start-period=60s CMD rstudio-server status | grep -e "running"
 EXPOSE 8787
 CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-user", "default"]

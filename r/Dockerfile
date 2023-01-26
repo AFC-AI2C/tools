@@ -22,11 +22,6 @@ COPY config/key.gpg ./
 RUN rpm --import key.gpg
 RUN rm -f ./*.gpg
 
-# Install R and create simlinks to default system PATH for Rscripting and R repl
-# using recommended approach as follows:  David Freeman 2021-10-15
-#5:19 PM
-#The short term fix is to use flags to ignore the signature or failing checksum. This pipeline succeeded and the Dockerfile can be copied in order #for build to succeed. The longer term solutions are to flag --nodigest type commands and require justifications, and to open tickets with the #upstream provider, to get them to change how they're signing the image.  https://repo1.dso.mil/dsop/opensource/r/r-base/-/blob/#77f7402073b1bcf7dd5039d6114a2adb5bc6631a/Dockerfile
-
 RUN dnf upgrade -y --nodocs                                                                      && \
     dnf install -y less tk gcc bzip2-devel gcc-c++ gcc-gfortran libSM libXmu libXt                  \
                    libcurl-devel libicu-devel libtiff make openblas-threads pango pcre2-devel       \
@@ -45,15 +40,15 @@ HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1
 
 # Setup and run as the default user
 RUN ./fix-permissions ${HOME} -P                        && \
-    useradd -u 10001 -r -g 0 -d ${HOME} -s /bin/bash        \
+    useradd -u 1001 -r -g 0 -d ${HOME} -s /bin/bash        \
     -c "Default Application User" default               && \
-    chown -R 10001:0 ${HOME}                            && \
+    chown -R 1001:0 ${HOME}                            && \
     chmod 0750 ${HOME}					&& \
-    chown -R 10001 /opt/R/${R_VERSION}/lib/R/		&& \
+    chown -R 1001 /opt/R/${R_VERSION}/lib/R/		&& \
     chmod 0750 /opt/R/${R_VERSION}/lib/R/
 
 ENV USER=default
 
-USER 10001
+USER 1001
 
 WORKDIR ${HOME}
