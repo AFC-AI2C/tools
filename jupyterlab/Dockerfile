@@ -150,8 +150,9 @@ RUN rm -rf                                                                  \
 	/usr/share/doc/perl-Net-SSLeay/examples		                            \
 	/opt/jupyter/venv/lib/python3.8/site-packages/tornado/test/test.key
 
-# Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
+
+COPY kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 
 HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1
 
