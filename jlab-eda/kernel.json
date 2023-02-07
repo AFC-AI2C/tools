@@ -1,5 +1,6 @@
 {
  "argv": [
+  "/opt/jupyter/venv/bin/python3.8",
   "-m",
   "ipykernel_launcher",
   "-f",
