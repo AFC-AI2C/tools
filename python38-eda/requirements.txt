@@ -1,7 +1,3 @@
-pip
-setuptools
-wheel
-tensorflow
 plotly
 pandas
 matplot
@@ -25,4 +21,3 @@ alibi
 alibi_detect
 mlflow
 jupyterlab-tabular-data-editor
-ipykernel

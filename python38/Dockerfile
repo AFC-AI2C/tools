@@ -1,6 +1,6 @@
 ARG BASE_REGISTRY=redhat
 ARG BASE_IMAGE=ubi8
-ARG BASE_TAG=8.6
+ARG BASE_TAG=latest
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as build
 
@@ -39,11 +39,7 @@ RUN find /usr/local -depth \
     echo '/usr/local/lib' >> /etc/ld.so.conf && \
     ldconfig
 
-COPY requirements.txt .
-
-RUN python3.8 -m pip install --upgrade pip
-
-RUN pip3.8 install -r requirements.txt
+RUN python3.8 -m pip install --upgrade pip wheel setuptools
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
@@ -75,10 +71,10 @@ RUN cd /usr/local/bin 			     && \
     echo '/usr/local/lib' >> /etc/ld.so.conf && \
     ldconfig
 
-RUN groupadd -g 1001 python && \
-    useradd -r -u 1001 -m -s /sbin/nologin -g python python
+RUN groupadd -g 1002 python && \
+    useradd -r -u 1002 -m -s /sbin/nologin -g python python
 
-USER 1001
+USER 1002
 
 CMD ["python3"]
 

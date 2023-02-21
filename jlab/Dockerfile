@@ -30,7 +30,7 @@ RUN dnf upgrade -y --nodocs                        && \
 
 ### installs yarn
 RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && \
-    dnf install -yq yarn
+    dnf install -yq yarn curl
 
 ### installs tini
 ENV TINI_VERSION v0.19.0

@@ -1,25 +1,26 @@
 ARG BASE_REGISTRY=afcai2c
 ARG BASE_IMAGE=python38
-ARG BASE_TAG=latest
+ARG BASE_TAG=20230209il5
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as build
 
 USER root
 
 RUN dnf upgrade -y --nodocs    && \
-    dnf clean all               &&  \
+    dnf install -y gcc gcc-c++ && \
+    dnf clean all              && \
     rm -rf /var/cache/dnf/
 
-COPY requirements.txt /opt/python/
-
-USER 1001
-
 ENV VIRTUAL_ENV=/opt/python/venv
-RUN python3.8 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN pip install -r /opt/python/requirements.txt
 
-USER 1001
+COPY requirements.txt /opt/python/
+RUN chown -R 1002 /opt/python/
+
+USER 1002
+
+RUN python3.8 -m venv $VIRTUAL_ENV
+RUN pip install -r /opt/python/requirements.txt
 
 CMD ["python3"]
 

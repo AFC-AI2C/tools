@@ -1,3 +1,4 @@
+tensorflow==2.11.0
 pbr
 ds2
 torch
@@ -5,3 +6,10 @@ keras
 fastai
 cudnnenv
 gluoncv
+ai-benchmark
+lifelines
+Theano
+basemap
+geomap
+emcee
+patsy
