@@ -1,8 +1,8 @@
 ARG BASE_REGISTRY=afcai2c
 ARG BASE_IMAGE=python38
-ARG BASE_TAG=20230209il5
+ARG BASE_TAG=20230301il5
 
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as build
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
 USER root
 
@@ -23,5 +23,3 @@ RUN python3.8 -m venv $VIRTUAL_ENV
 RUN pip install -r /opt/python/requirements.txt
 
 CMD ["python3"]
-
-

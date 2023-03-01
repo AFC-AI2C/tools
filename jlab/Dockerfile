@@ -1,7 +1,7 @@
 ### set base image
 ARG BASE_REGISTRY=afcai2c
 ARG BASE_IMAGE=python38
-ARG BASE_TAG=20230209il5
+ARG BASE_TAG=20230301il5
 
 #### use base image
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
@@ -21,10 +21,13 @@ COPY config/*.gpg ./
 RUN rpm --import ./NODESOURCE-GPG-SIGNING-KEY-EL.gpg && \
     rm -f ./*.gpg
 
+### sets workdir to home
+WORKDIR /home/jovyan/
+
 ### upgrades base packages and installs some more base packages
 RUN dnf upgrade -y --nodocs                        && \
     dnf install -y gcc git procps ca-certificates  && \
-    dnf module install -y nodejs:16                && \
+    dnf module install -y nodejs:18		   && \
     dnf clean all                                  && \
     rm -rf /var/cache/dnf
 
@@ -58,8 +61,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV VIRTUAL_ENV=/opt/jupyter/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN python3.8 -m venv $VIRTUAL_ENV
-RUN . $VIRTUAL_ENV/bin/activate && 	          \
-    pip install --upgrade pip wheel setuptools && \
+RUN . $VIRTUAL_ENV/bin/activate 	       && \
     pip install jupyterlab         	          \
                 jupyterlab-git    	          \
                 jupyterhub                        \
@@ -123,6 +125,23 @@ RUN chown -R jovyan /etc/jupyter/              && \
 ### renames jlab extensions to include AI_PACKAGES
 RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 COPY kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
+
+### Removes unnecessary and vulnerable packages
+RUN dnf remove -y kernel-headers \
+                        binutils \
+                        delegate \
+                        word     \
+                        crypto   \
+                        rc       \
+                        cookie   \
+                        docker   \
+                        opener   \
+                        urllib3  \
+                        nth-check \
+                        loader-utils
+
+RUN npm update -g npm minimatch minimist delegate prismjs nth-check qs d3-color loader-utils word crypto rc cookie
+#RUN npm uninstall -y minimatch minimist delegate prismjs nth-check qs d3-color loader-utils word crypto rc cookie
 
 ### switches back to jovyan to avoid container runs as root
 USER 1001

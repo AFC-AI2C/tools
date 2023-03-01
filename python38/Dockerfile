@@ -16,7 +16,7 @@ RUN dnf upgrade -y --nodocs    && \
        		   xz-devel    && \
     dnf clean all
 
-COPY v3.8.15.tar.gz /python.tar.gz
+COPY v3.8.16.tar.gz /python.tar.gz
 
 RUN mkdir -p /usr/local/src/python 					 && \
     tar -zxf python.tar.gz -C /usr/local/src/python --strip-components=1 && \
