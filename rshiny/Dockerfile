@@ -1,4 +1,4 @@
-FROM afcai2c/rbase:rebuild
+FROM afcai2c/rbase:20230301il5
 
 USER root
 
@@ -15,7 +15,7 @@ RUN dnf upgrade -y --nodocs	  && \
 USER 1001
 
 # Requested packages
-RUN R -e 'chooseCRANmirror(graphics = FALSE, ind = 72); install.packages(destdir = "/opt/R/4.2.2/lib/R/library/", c("tidyverse", "shiny", "plotly", "shinydashboard", "DT", "rmarkdown", "flexdashboard"))'
+RUN R -e 'chooseCRANmirror(graphics = FALSE, ind = 91); install.packages(destdir = "/opt/R/4.2.2/lib/R/library/", c("tidyverse", "shiny", "plotly", "shinydashboard", "DT", "rmarkdown", "flexdashboard"))'
 
 USER root
 
