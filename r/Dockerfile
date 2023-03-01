@@ -32,9 +32,6 @@ RUN ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R                            
     dnf clean all                                                                                && \
     rm -rf /var/cache/dnf
 
-# remove vulnerable packages installed by the RPM
-# libcurl-7.61.1-14.el8_3.1.x86_64 is not removed as it is the same version as what is included in the base ubi8 image.
-
 # every 10 seconds execute the R command specified to show 'healthy'
 HEALTHCHECK --interval=10s --timeout=1s CMD Rscript -e 'print("up")' || exit 1
 
