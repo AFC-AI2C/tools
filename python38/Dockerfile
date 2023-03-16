@@ -39,8 +39,6 @@ RUN find /usr/local -depth \
     echo '/usr/local/lib' >> /etc/ld.so.conf && \
     ldconfig
 
-RUN python3.8 -m pip install --upgrade pip wheel setuptools
-
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
 RUN dnf upgrade -y --nodocs && \

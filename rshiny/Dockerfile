@@ -1,4 +1,4 @@
-FROM afcai2c/rbase:20230301il5
+FROM illuminasaurus/rbase:20230315
 
 USER root
 
@@ -10,14 +10,9 @@ RUN dnf upgrade -y --nodocs	  && \
         	   kernel-headers && \
     dnf clean all 	    	  && \
     rm -rf /var/cache/dnf
-#RUN chown -R 1001 /opt/R/4.2.2/lib/R/library/
-
-USER 1001
 
 # Requested packages
 RUN R -e 'chooseCRANmirror(graphics = FALSE, ind = 91); install.packages(destdir = "/opt/R/4.2.2/lib/R/library/", c("tidyverse", "shiny", "plotly", "shinydashboard", "DT", "rmarkdown", "flexdashboard"))'
-
-USER root
 
 RUN curl -O https://download3.rstudio.org/centos7/x86_64/shiny-server-1.5.20.1002-x86_64.rpm && \
     dnf	install -y --nogpgcheck shiny-server-1.5.20.1002-x86_64.rpm   			     && \

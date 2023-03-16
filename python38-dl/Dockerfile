@@ -1,6 +1,6 @@
-ARG BASE_REGISTRY=afcai2c
+ARG BASE_REGISTRY=illuminasaurus
 ARG BASE_IMAGE=python38-eda
-ARG BASE_TAG=20230209il5
+ARG BASE_TAG=20230315
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
@@ -16,6 +16,7 @@ USER 1002
 
 ENV VIRTUAL_ENV=/opt/python/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 RUN python3.8 -m venv $VIRTUAL_ENV
 RUN pip install -r /opt/python/requirements.txt
 

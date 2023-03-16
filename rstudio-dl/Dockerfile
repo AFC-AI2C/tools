@@ -1,21 +1,18 @@
-FROM afcai2c/python38-dl:latest as multi-stage
-FROM afcai2c/rstudio-eda:rebuild
+FROM illuminasaurus/python38-dl:20230315 as stage
 
-COPY --from=multi-stage /opt/python/ /opt/python/
+FROM illuminasaurus/rstudio-eda:20230315
+
+COPY --from=stage /opt/python/ /opt/python/
 
 USER root
 
-RUN dnf upgrade -y --nodocs       && \
-    dnf install -y curl              \
-                   binutils          \
-                   glibc-devel       \
-                   glibc-headers     \
-                   kernel-headers && \
-    dnf clean all                 && \
-    rm -rf /var/cache/dnf/
+RUN dnf upgrade -y --nodocs	       && \
+    dnf install -y libpng libpng-devel && \
+    dnf clean all 	    	       && \
+    rm -rf /var/cache/dnf
 
 ###################################################################################
-# START ASE UPDDATE
+# START CUDA UPDDATE
 ###################################################################################
 # install cuda
 ENV NVARCH x86_64
@@ -67,23 +64,12 @@ RUN dnf install -yq --nogpgcheck libcudnn8-${NV_CUDNN_VERSION}.cuda11.6 && \
 ENV LD_LIBRARY_PATH /usr/local/cuda-11.6/targets/x86_64-linux/lib
 RUN cp /usr/local/cuda-11.6/compat/libcuda.so.1 /usr/local/cuda-11.6/targets/x86_64-linux/lib/
 ########################################
-# END ASE UPDDATE
+# END CUDA UPDDATE
 ########################################
 
-ENV VIRTUAL_ENV=/opt/python/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN R -e 'chooseCRANmirror(graphics = FALSE, ind = 92); install.packages(c("DMwR", "plyr", "reshape2", "GGally", "ggpubr", "ggridges", "RColorBrewer", "CausalImpact", "LogicReg", "prophet"), destdir = "/opt/R/4.2.2/lib/R/library/")'
 
-RUN chown -R 10001 /opt/R/4.2.2/lib/R/
-RUN chmod -R 0750 /opt/R/4.2.2/lib/R/
-RUN R -e 'chooseCRANmirror(graphics = FALSE, ind = 72); install.packages(c("DMwR", "plyr", "reshape2", "GGally", "ggpubr", "ggridges", "RColorBrewer", "CausalImpact", "LogicReg", "prophet"), destdir = "/opt/R/4.2.2/lib/R/library/")'
-# Required for R tensorflow
-RUN dnf install -y libpng libpng-devel
-
-RUN echo 'PATH="/opt/rstudio/":$PATH' >> .Renviron
-RUN echo 'LANG=en_US.UTF-8' >> /etc/locale.conf
-RUN echo 'PATH="/opt/python/venv/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:/opt/python/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin":$PATH' >> .Renviron
-
-USER 10001
+USER 1001
 EXPOSE 8787
 ENTRYPOINT ["/tini", "-g", "--"]
 CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-user", "default"]

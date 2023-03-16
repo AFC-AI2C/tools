@@ -1,7 +1,7 @@
 ### set base image
-ARG BASE_REGISTRY=afcai2c
+ARG BASE_REGISTRY=illuminasaurus
 ARG BASE_IMAGE=python38
-ARG BASE_TAG=20230301il5
+ARG BASE_TAG=20230315
 
 #### use base image
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
@@ -128,28 +128,19 @@ COPY kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 
 ### Removes unnecessary and vulnerable packages
 RUN dnf remove -y kernel-headers \
-                        binutils \
-                        delegate \
-                        word     \
-                        crypto   \
-                        rc       \
-                        cookie   \
-                        docker   \
-                        opener   \
-                        urllib3  \
-                        nth-check \
-                        loader-utils
+                        binutils
 
-RUN npm update -g npm minimatch minimist delegate prismjs nth-check qs d3-color loader-utils word crypto rc cookie
-#RUN npm uninstall -y minimatch minimist delegate prismjs nth-check qs d3-color loader-utils word crypto rc cookie
+RUN mkdir -p /usr/lib/node_modules/npm/scripts
+RUN cd /usr/lib/node_modules/npm/scripts && touch dependency-graph.js && touch bundle-and-gitignore-deps.js
+RUN cd /usr/lib/node_modules/npm/ && npm i spawk nock tap licensee @npmcli/eslint-config @npmcli/template-oss && npm update && npm audit fix
 
 ### switches back to jovyan to avoid container runs as root
 USER 1001
 
+WORKDIR ~
 ENTRYPOINT ["/tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1
-WORKDIR ~
 EXPOSE 8888
 
 

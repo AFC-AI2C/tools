@@ -1,6 +1,6 @@
-FROM afcai2c/python38-eda:20230301il5 AS py
+FROM illuminasaurus/python38-eda:20230315 AS py
 
-FROM afcai2c/jlab:20230301il5
+FROM illuminasaurus/jlab:20230315
 
 COPY --from=py /opt/python/venv/lib/python3.8/site-packages/ /opt/jupyter/venv/lib/python3.8/site-packages/
 

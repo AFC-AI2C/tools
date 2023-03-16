@@ -1,6 +1,6 @@
-ARG BASE_REGISTRY=afcai2c
+ARG BASE_REGISTRY=illuminasaurus
 ARG BASE_IMAGE=python38
-ARG BASE_TAG=20230301il5
+ARG BASE_TAG=20230315
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
@@ -20,6 +20,7 @@ RUN chown -R 1002 /opt/python/
 USER 1002
 
 RUN python3.8 -m venv $VIRTUAL_ENV
+RUN pip install --upgrade pip wheel setuptools
 RUN pip install -r /opt/python/requirements.txt
 
 CMD ["python3"]
