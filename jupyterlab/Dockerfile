@@ -124,15 +124,10 @@ RUN jupyter labextension install \
 ### END - Currently not supported
 
 
-# Setup work directory for backward-compatibility
-RUN mkdir /home/$NB_USER/work
-
 # critical env variable to enable jupyter lab GUI (default is the old interface)
 ENV JUPYTER_ENABLE_LAB=1
 
-ENTRYPOINT ["tini", "-g", "--"]
-CMD ["start-notebook.sh"]
-
+COPY ./kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 COPY ./scripts/start.sh ./scripts/start-notebook.sh ./scripts/start-singleuser.sh /usr/local/bin/
 COPY ./scripts/jupyter_server_config.py /etc/jupyter/
 
@@ -152,10 +147,12 @@ RUN rm -rf                                                                  \
 
 USER $NB_UID
 
-COPY kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
+WORKDIR /home/$NB_USER
 
-HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1
+ENTRYPOINT ["tini", "-g", "--"]
 
-WORKDIR ~
+CMD ["start-notebook.sh"]
+
+HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1 
 
 EXPOSE 8888
