@@ -3,3 +3,13 @@ imutils
 pytesseract
 pytorchcv
 scikit-image
+roslibpy
+py3rosmsgs
+pycryptodomex
+rospkg
+matplotlib
+Pillow
+numpy
+keras
+dart
+pybotics

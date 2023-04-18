@@ -17,7 +17,7 @@ numpydoc
 h5py
 xmltodict
 tqdm
-pillow
+Pillow
 sphinx_rtd_theme
 open-cv-plus
 twine
@@ -29,3 +29,4 @@ bumpversion
 sphinx-markdown-tables
 imagecodecs
 albumentations
+pyrosm

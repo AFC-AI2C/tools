@@ -6,3 +6,4 @@ textblob
 patterns
 yake
 dateparser
+openai

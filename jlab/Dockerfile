@@ -1,7 +1,7 @@
 ### set base image
 ARG BASE_REGISTRY=illuminasaurus
 ARG BASE_IMAGE=python38
-ARG BASE_TAG=20230315
+ARG BASE_TAG=20230418
 
 #### use base image
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
@@ -21,19 +21,14 @@ COPY config/*.gpg ./
 RUN rpm --import ./NODESOURCE-GPG-SIGNING-KEY-EL.gpg && \
     rm -f ./*.gpg
 
-### sets workdir to home
-WORKDIR /home/jovyan/
-
 ### upgrades base packages and installs some more base packages
-RUN dnf upgrade -y --nodocs                        && \
-    dnf install -y gcc git procps ca-certificates  && \
-    dnf module install -y nodejs:18		   && \
-    dnf clean all                                  && \
-    rm -rf /var/cache/dnf
-
-### installs yarn
 RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && \
-    dnf install -yq yarn curl
+    dnf upgrade -y --nodocs                        	   && \
+    dnf install -y gcc gcc-c++ git procps ca-certificates  && \
+    dnf module install -y nodejs:18		   	   && \
+    dnf install -y yarn					   && \
+    dnf clean all                                  	   && \
+    rm -rf /var/cache/dnf
 
 ### installs tini
 ENV TINI_VERSION v0.19.0
@@ -66,38 +61,37 @@ RUN . $VIRTUAL_ENV/bin/activate 	       && \
                 jupyterlab-git    	          \
                 jupyterhub                        \
                 ipykernel                         \
-                nbdime                            \
-		jupyterlab-lsp 			  \
-        	lckr-jupyterlab-variableinspector \
-        	neptune-notebooks 		  \
-		jupyterlab-system-monitor 	  \
-        	nbdime	 			  \
-        	ipywidgets 			  \
-        	jupyter_bokeh 			  \
-        	jupyter-dash 			  \
-        	jupyterlab-templates 		  \
-        	ipympl 				  \
-        	jupytext 			  \
-        	jupyterlab_tabnine 		  \
-        	jupyterlab-drawio 		  \
-      		jupyterlab-tabular-data-editor 	  \
-        	jupyterlab-snippets 		  \
-        	jupyterlab-tensorboard-pro
+                nbdime
+#		jupyterlab-lsp 			  \
+#        	lckr-jupyterlab-variableinspector \
+#        	neptune-notebooks 		  \
+#		jupyterlab-system-monitor 	  \
+#        	ipywidgets 			  \
+#        	jupyter_bokeh 			  \
+#        	jupyter-dash 			  \
+#        	jupyterlab-templates 		  \
+#        	ipympl 				  \
+#        	jupytext 			  \
+#        	jupyterlab_tabnine 		  \
+#        	jupyterlab-drawio 		  \
+#      		jupyterlab-tabular-data-editor 	  \
+#        	jupyterlab-snippets 		  \
+#        	jupyterlab-tensorboard-pro
                 
 ### installs jupyetlab_sql server extension
-RUN pip install jupyterlab_sql 					    && \
-    jupyter serverextension enable jupyterlab_sql --py --sys-prefix && \
-    jupyter lab build
+#RUN pip install jupyterlab_sql 					    && \
+#    jupyter serverextension enable jupyterlab_sql --py --sys-prefix && \
+#    jupyter lab build
 
 ### for downstream accessibility surrounding jupyterhub and prevents git extension error
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
 RUN jupyter serverextension enable --user jupyterlab_git --sys-prefix
 
 ### installs more extensions
-RUN jupyter labextension install \
-    @jupyterlab/toc 		 \
-    @jupyterlab/celltags 	 \
-    jupyterlab-spreadsheet
+#RUN jupyter labextension install \
+#    @jupyterlab/toc 		 \
+#    @jupyterlab/celltags 	 \
+#    jupyterlab-spreadsheet
 
 ### Setup work directory for backward-compatibility
 RUN mkdir /home/${NB_USER}/work
@@ -126,13 +120,14 @@ RUN chown -R jovyan /etc/jupyter/              && \
 RUN rm -f /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 COPY kernel.json /opt/jupyter/venv/share/jupyter/kernels/python3/kernel.json
 
+### installs latest version of go
+COPY go1.20.3.linux-amd64.tar.gz ./go.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf ./go.tar.gz
+ENV PATH="${PATH:+${PATH}:}/opt/python/venv/bin:/opt/jupyter/:/usr/local/go/bin"
+
 ### Removes unnecessary and vulnerable packages
 RUN dnf remove -y kernel-headers \
                         binutils
-
-RUN mkdir -p /usr/lib/node_modules/npm/scripts
-RUN cd /usr/lib/node_modules/npm/scripts && touch dependency-graph.js && touch bundle-and-gitignore-deps.js
-RUN cd /usr/lib/node_modules/npm/ && npm i spawk nock tap licensee @npmcli/eslint-config @npmcli/template-oss && npm update && npm audit fix
 
 ### switches back to jovyan to avoid container runs as root
 USER 1001
@@ -142,7 +137,6 @@ ENTRYPOINT ["/tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 HEALTHCHECK CMD pgrep "jupyter" > /dev/null || exit 1
 EXPOSE 8888
-
 
 #########
 # Usage #
