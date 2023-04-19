@@ -1,35 +1,30 @@
-FROM afcai2c/python38-eda AS multi-stage
+ARG STAGE_REGISTRY=illuminasaurus
+ARG STAGE_IMAGE=python38-eda
+ARG STAGE_TAG=20230418
 
-FROM redhat/ubi8:latest
+ARG BASE_REGISTRY=illuminasaurus
+ARG BASE_IMAGE=vs
+ARG BASE_TAG=20230418
 
-ENV PATH="/usr/lib/python3.8/site-packages:$PATH"
+FROM ${STAGE_REGISTRY}/${STAGE_IMAGE}:${STAGE_TAG} AS py
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
 USER root
 
-ARG NB_USER="lumi"
-ARG NB_UID="1001"
-ARG NB_GID="100"
-
 RUN dnf upgrade -y --nodocs          && \
-    dnf install -y curl vim python38 && \
     dnf clean all                    && \
     rm -rf /var/cache/dnf
 
-RUN mkdir -p /.config/
-RUN cd ~
-RUN curl -fsSL https://code-server.dev/install.sh | sh
+COPY --from=py /opt/python/venv/lib/python3.8/site-packages/ /usr/lib/python3.8/site-packages/
 
-RUN useradd -m -s /bin/bash -N -u $NB_UID -g $NB_GID $NB_USER && \
-    chown -R lumi:users /.config/
+ENV PATH="${PATH:+${PATH}:}/opt/python/venv/:/usr/lib/python3.8/site-packages/"
 
-COPY --from=multi-stage /opt/python/venv/lib/python3.8/site-packages/ /usr/lib/python3.8/site-packages/
-
-RUN chmod -R 0750 /usr/lib/ && \
-    chmod -R 0750 /usr/local/bin/ && \
-    chmod -R 0750 /usr/local/lib/ && \
+RUN chmod -R 0750 /usr/lib/ 	    && \
+    chmod -R 0750 /usr/local/bin/   && \
+    chmod -R 0750 /usr/local/lib/   && \
     chmod -R 0750 /usr/local/lib64/ && \
-    chown -R lumi /usr/lib/ && \
-    chown -R lumi /usr/local/lib/ && \
+    chown -R lumi /usr/lib/ 	    && \
+    chown -R lumi /usr/local/lib/   && \
     chown -R lumi /usr/local/lib64/ && \
     chown -R lumi /usr/local/bin/
 

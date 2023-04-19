@@ -1,12 +1,12 @@
 ARG BASE_REGISTRY=illuminasaurus
 ARG BASE_IMAGE=rbase
-ARG BASE_TAG=20230315
+ARG BASE_TAG=20230418
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
 USER root
 
-ENV RSTUDIO_VERSION=2022.12.0-353
+ENV RSTUDIO_VERSION=2023.03.0-386
 
 RUN mkdir -p /tmp/rstudio/
 COPY rstudio-server-rhel-${RSTUDIO_VERSION}-x86_64.rpm /tmp/rstudio/
@@ -59,12 +59,18 @@ RUN rm -rf /opt/r-packages-download/packrat/lib/x86_64-pc-linux-gnu/4.2.2/openss
            /tmp/packrat/ /tmp/r-packages/ /tmp/rstudio/                                        && \
     rm -f  /usr/libexec/openssh/ssh-keysign
 
+### installs latest version of go
+COPY go1.20.3.linux-amd64.tar.gz ./go.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf ./go.tar.gz
+ENV PATH="${PATH:+${PATH}:}/opt/python/venv/bin:/opt/jupyter/:/usr/local/go/bin"
+
 # NOTE: find command produces no results which leads to empty argument for "chmod a+t" portion
 # RUN df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null | xargs chmod a+t
 
 ENV LC_ALL="en_US.utf8"
 ENV LANGUAGE="en_US.utf8"
 ENV PATH="/usr/lib/rstudio-server/bin/rstudio-server:/usr/local/bin/rstudio-server:$PATH"
+
 USER 1001
 HEALTHCHECK --start-period=60s CMD rstudio-server status | grep -e "running"
 EXPOSE 8787

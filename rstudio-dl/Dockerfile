@@ -1,6 +1,13 @@
-FROM illuminasaurus/python38-dl:20230315 as stage
+ARG STAGE_REGISTRY=illuminasaurus
+ARG STAGE_IMAGE=python38-dl
+ARG STAGE_TAG=20230418
 
-FROM illuminasaurus/rstudio-eda:20230315
+ARG BASE_REGISTRY=illuminasaurus
+ARG BASE_IMAGE=rstudio-eda
+ARG BASE_TAG=20230418
+
+FROM ${STAGE_REGISTRY}/${STAGE_IMAGE}:${STAGE_TAG} AS stage
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
 COPY --from=stage /opt/python/ /opt/python/
 
@@ -48,13 +55,13 @@ ARG NV_CUDA_LIB_VERSION=11.6.2-1
 ARG NV_NVTX_VERSION=11.6.124-1
 ARG NV_LIBNPP_VERSION=11.6.3.124-1
 ARG NV_LIBCUBLAS_VERSION=11.9.2.110-1
-ARG NV_LIBNCCL_PACKAGE_VERSION=2.12.12-1
-RUN dnf install -y --nogpgcheck cuda-libraries-11-6-${NV_CUDA_LIB_VERSION}        \
-                                cuda-nvtx-11-6-${NV_NVTX_VERSION}                 \
-                                libnpp-11-6-${NV_LIBNPP_VERSION}                  \
-                                libcublas-11-6-${NV_LIBCUBLAS_VERSION}            \
-                                libnccl-${NV_LIBNCCL_PACKAGE_VERSION}+cuda11.6 && \
-    dnf clean all                                                              && \
+ARG NV_LIBNCCL_VERSION=2.12.12-1
+RUN dnf install -y --nogpgcheck cuda-libraries-11-6-${NV_CUDA_LIB_VERSION}    \
+                                cuda-nvtx-11-6-${NV_NVTX_VERSION}             \
+                                libnpp-11-6-${NV_LIBNPP_VERSION}              \
+                                libcublas-11-6-${NV_LIBCUBLAS_VERSION}        \
+                                libnccl-${NV_LIBNCCL_VERSION}+cuda11.6 	   && \
+    dnf clean all                                                          && \
     rm -rf /var/cache/dnf/
 ARG NV_CUDNN_VERSION=8.4.1.50-1
 RUN dnf install -yq --nogpgcheck libcudnn8-${NV_CUDNN_VERSION}.cuda11.6 && \
@@ -67,7 +74,7 @@ RUN cp /usr/local/cuda-11.6/compat/libcuda.so.1 /usr/local/cuda-11.6/targets/x86
 # END CUDA UPDDATE
 ########################################
 
-RUN R -e 'chooseCRANmirror(graphics = FALSE, ind = 92); install.packages(c("DMwR", "plyr", "reshape2", "GGally", "ggpubr", "ggridges", "RColorBrewer", "CausalImpact", "LogicReg", "prophet"), destdir = "/opt/R/4.2.2/lib/R/library/")'
+RUN R -e 'chooseCRANmirror(graphics = FALSE, ind = 92); install.packages(c("DMwR", "plyr", "reshape2", "GGally", "ggpubr", "ggridges", "RColorBrewer", "CausalImpact", "LogicReg", "prophet"), destdir = "/opt/R/4.2.3/lib/R/library/")'
 
 USER 1001
 EXPOSE 8787
