@@ -22,3 +22,4 @@ alibi_detect
 mlflow
 jupyterlab-tabular-data-editor
 cryptography
+pycrypto
