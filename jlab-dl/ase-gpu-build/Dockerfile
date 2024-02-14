@@ -45,7 +45,7 @@ RUN rpm --install --noplugins --nodigest --nosignature \
         /tmp/repo/epel-release-latest-8.noarch.rpm
 # Enables Code Ready Builder
 RUN /usr/bin/crb enable
-RUN subscription-manager register --username='komnick' --password='muKZ!uNcw3CBaA7' --auto-attach --force
+RUN subscription-manager register --username='USERNAME' --password='PASSWORD' --auto-attach --force
 RUN subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms
 RUN subscription-manager repos --enable=rhel-8-for-x86_64-appstream-rpms
 RUN subscription-manager repos --enable=rhel-8-for-x86_64-baseos-rpms
